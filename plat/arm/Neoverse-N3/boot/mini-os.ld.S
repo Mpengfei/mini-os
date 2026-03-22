@@ -39,6 +39,13 @@ SECTIONS
 		__stack_top = .;
 	} :data
 
+	. = ALIGN(64);
+	.heap (NOLOAD) : {
+		__heap_start = .;
+		. = . + PLAT_EARLY_HEAP_SIZE;
+		__heap_end = .;
+	} :data
+	
 	__image_end = .;
 
 	/DISCARD/ : {

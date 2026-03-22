@@ -26,8 +26,14 @@ SECTIONS
  } :data
  . = ALIGN(16);
  .stack (NOLOAD) : {
-  . = . + 0x1000;
+  . = . + 0x4000;
   __stack_top = .;
+ } :data
+ . = ALIGN(64);
+ .heap (NOLOAD) : {
+  __heap_start = .;
+  . = . + 0x20000;
+  __heap_end = .;
  } :data
  __image_end = .;
  /DISCARD/ : {

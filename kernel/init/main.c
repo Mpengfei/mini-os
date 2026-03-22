@@ -2,6 +2,7 @@
 
 #include <common/debug/debug.h>
 #include <drivers/interrupt/gic.h>
+#include <kernel/early_mm.h>
 #include <kernel/scheduler.h>
 #include <kernel/shell.h>
 #include <kernel/smp.h>
@@ -36,6 +37,7 @@ static void print_mini_os_banner(void)
 
 static void initialize_phase0_modules(void)
 {
+    early_mm_init();
     debug_console_init();
 	topology_init();
 	scheduler_init();

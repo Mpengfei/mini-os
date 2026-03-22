@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include <common/debug/debug.h>
+#include <kernel/early_mm.h>
 #include <kernel/scheduler.h>
 #include <kernel/shell.h>
 #include <kernel/smp.h>
@@ -284,7 +285,21 @@ static void shell_print_info(void)
 		       (unsigned long long)PLAT_LOAD_ADDR);
 	mini_os_printf("Boot magic    : 0x%llx\n",
 		       (unsigned long long)boot_magic);
+	struct early_allocator_stats mm_stats;
+	early_mm_get_stats(&mm_stats);
 	mini_os_printf("Runnable CPUs : %u\n", scheduler_runnable_cpu_count());
+	mini_os_printf("Early heap    : %s 0x%llx-0x%llx (%u/%u bytes used, peak=%u)\n",
+		       mm_stats.name,
+		       (unsigned long long)mm_stats.start,
+		       (unsigned long long)mm_stats.end,
+		       (unsigned int)mm_stats.used_bytes,
+		       (unsigned int)mm_stats.total_bytes,
+		       (unsigned int)mm_stats.peak_used_bytes);
+	mini_os_printf("Early allocs  : %u (page size=%u)\n",
+		       (unsigned int)mm_stats.allocation_count,
+		       (unsigned int)mm_stats.page_size);
+	mini_os_printf("Sched objects : %u\n",
+		       (unsigned int)scheduler_bootstrap_object_count());
 }
 
 static void shell_print_current_cpu(void)
