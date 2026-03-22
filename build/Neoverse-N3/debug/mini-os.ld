@@ -6,7 +6,7 @@ PHDRS
 }
 SECTIONS
 {
- . = 0x88000000;
+ . = 0xC0000000;
  __image_start = .;
  .text : ALIGN(16) {
   KEEP(*(.text.boot))

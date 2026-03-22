@@ -1,0 +1,1 @@
+C_SRCS += $(ROOT_DIR)/kernel/scheduler/scheduler.c
