@@ -19,10 +19,13 @@ enum smp_start_result {
 	SMP_START_INVALID_CPU = -1,
 	SMP_START_UNSUPPORTED = -2,
 	SMP_START_DENIED = -3,
+	SMP_START_TIMEOUT = -4,
+	SMP_START_FAILED = -5,
 };
 
 void smp_init(void);
-int smp_start_cpu(uint64_t mpidr, unsigned int *logical_id);
+int smp_start_cpu(uint64_t mpidr, unsigned int *logical_id, int32_t *smc_ret);
+const char *smp_start_result_name(int result);
 const struct smp_cpu_state *smp_cpu_state(unsigned int logical_id);
 unsigned int smp_online_cpu_count(void);
 void smp_secondary_cpu_online(unsigned int logical_id);

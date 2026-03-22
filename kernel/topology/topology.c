@@ -139,3 +139,32 @@ void topology_register_cpu(unsigned int logical_id, uint64_t mpidr, bool boot_cp
 	cpu_descs[logical_id].present = true;
 	cpu_descs[logical_id].online = false;
 }
+
+void topology_unregister_cpu(unsigned int logical_id)
+{
+	if (logical_id >= PLAT_MAX_CPUS) {
+		return;
+	}
+
+	if (cpu_descs[logical_id].online) {
+		cpu_descs[logical_id].online = false;
+		if (online_cpu_count > 0U) {
+			online_cpu_count--;
+		}
+	}
+
+	if (cpu_descs[logical_id].present) {
+		cpu_descs[logical_id].present = false;
+		if (present_cpu_count > 0U) {
+			present_cpu_count--;
+		}
+	}
+
+	cpu_descs[logical_id].logical_id = logical_id;
+	cpu_descs[logical_id].boot_cpu = false;
+	cpu_descs[logical_id].mpidr = 0U;
+	cpu_descs[logical_id].chip_id = 0U;
+	cpu_descs[logical_id].die_id = 0U;
+	cpu_descs[logical_id].cluster_id = 0U;
+	cpu_descs[logical_id].core_id = 0U;
+}

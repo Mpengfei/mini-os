@@ -25,5 +25,6 @@ unsigned int topology_present_cpu_count(void);
 unsigned int topology_online_cpu_count(void);
 void topology_mark_cpu_online(unsigned int logical_id, bool online);
 void topology_register_cpu(unsigned int logical_id, uint64_t mpidr, bool boot_cpu);
+void topology_unregister_cpu(unsigned int logical_id);
 
 #endif /* KERNEL_TOPOLOGY_H */

@@ -11,7 +11,7 @@ Disassembly of section .text:
     c000000c:	d503205f 	wfe
     c0000010:	17ffffff 	b	c000000c <_start+0xc>
     c0000014:	00000000 	udf	#0
-    c0000018:	c000ed80 	.word	0xc000ed80
+    c0000018:	c000f8f0 	.word	0xc000f8f0
     c000001c:	00000000 	.word	0x00000000
 
 00000000c0000020 <secondary_cpu_entrypoint>:
@@ -20,10 +20,10 @@ Disassembly of section .text:
     c0000028:	9b020401 	madd	x1, x0, x2, x1
     c000002c:	8b020021 	add	x1, x1, x2
     c0000030:	9100003f 	mov	sp, x1
-    c0000034:	940010f5 	bl	c0004408 <smp_secondary_entry>
+    c0000034:	940012db 	bl	c0004ba0 <smp_secondary_entry>
     c0000038:	d503205f 	wfe
     c000003c:	17ffffff 	b	c0000038 <secondary_cpu_entrypoint+0x18>
-    c0000040:	c0005bb0 	.word	0xc0005bb0
+    c0000040:	c0006720 	.word	0xc0006720
     c0000044:	00000000 	.word	0x00000000
     c0000048:	00001000 	.word	0x00001000
     c000004c:	00000000 	.word	0x00000000
@@ -741,11 +741,11 @@ static size_t u64_to_str(uint64_t value, unsigned int base, bool upper,
     c00009ec:	12000000 	and	w0, w0, #0x1
     c00009f0:	7100001f 	cmp	w0, #0x0
     c00009f4:	54000080 	b.eq	c0000a04 <u64_to_str+0x30>  // b.none
-    c00009f8:	90000020 	adrp	x0, c0004000 <smp_init+0x184>
-    c00009fc:	91282000 	add	x0, x0, #0xa08
+    c00009f8:	b0000020 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00009fc:	910d2000 	add	x0, x0, #0x348
     c0000a00:	14000003 	b	c0000a0c <u64_to_str+0x38>
-    c0000a04:	90000020 	adrp	x0, c0004000 <smp_init+0x184>
-    c0000a08:	91288000 	add	x0, x0, #0xa20
+    c0000a04:	b0000020 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0000a08:	910d8000 	add	x0, x0, #0x360
     c0000a0c:	f90013e0 	str	x0, [sp, #32]
 	size_t len = 0U;
     c0000a10:	f90017ff 	str	xzr, [sp, #40]
@@ -1154,8 +1154,8 @@ static void format_string(struct print_ctx *ctx, struct format_spec *spec,
     c0000ec4:	f100001f 	cmp	x0, #0x0
     c0000ec8:	54000081 	b.ne	c0000ed8 <format_string+0x2c>  // b.any
 		str = "(null)";
-    c0000ecc:	90000020 	adrp	x0, c0004000 <smp_init+0x184>
-    c0000ed0:	91280000 	add	x0, x0, #0xa00
+    c0000ecc:	b0000020 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0000ed0:	910d0000 	add	x0, x0, #0x340
     c0000ed4:	f9000fe0 	str	x0, [sp, #24]
 	}
 
@@ -2604,21 +2604,21 @@ static void pl011_calc_baud(uint32_t uartclk_hz, uint32_t baud,
 bool uart_is_configured(void)
 {
 	return (plat_uart.base != 0UL) &&
-    c0001f68:	90000020 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0001f6c:	912e0000 	add	x0, x0, #0xb80
+    c0001f68:	b0000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0001f6c:	911bc000 	add	x0, x0, #0x6f0
     c0001f70:	f9400000 	ldr	x0, [x0]
 	       (plat_uart.clock_hz != 0U) &&
     c0001f74:	f100001f 	cmp	x0, #0x0
     c0001f78:	540001a0 	b.eq	c0001fac <uart_is_configured+0x44>  // b.none
-    c0001f7c:	90000020 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0001f80:	912e0000 	add	x0, x0, #0xb80
+    c0001f7c:	b0000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0001f80:	911bc000 	add	x0, x0, #0x6f0
     c0001f84:	b9400800 	ldr	w0, [x0, #8]
 	return (plat_uart.base != 0UL) &&
     c0001f88:	7100001f 	cmp	w0, #0x0
     c0001f8c:	54000100 	b.eq	c0001fac <uart_is_configured+0x44>  // b.none
 	       (plat_uart.baudrate != 0U);
-    c0001f90:	90000020 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0001f94:	912e0000 	add	x0, x0, #0xb80
+    c0001f90:	b0000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0001f94:	911bc000 	add	x0, x0, #0x6f0
     c0001f98:	b9400c00 	ldr	w0, [x0, #12]
 	       (plat_uart.clock_hz != 0U) &&
     c0001f9c:	7100001f 	cmp	w0, #0x0
@@ -2651,8 +2651,8 @@ bool uart_tx_ready(void)
 	}
 
 	return (mmio_read_32(plat_uart.base + PL011_FR) & FR_TXFF) == 0U;
-    c0001fe8:	90000020 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0001fec:	912e0000 	add	x0, x0, #0xb80
+    c0001fe8:	b0000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0001fec:	911bc000 	add	x0, x0, #0x6f0
     c0001ff0:	f9400000 	ldr	x0, [x0]
     c0001ff4:	91006000 	add	x0, x0, #0x18
     c0001ff8:	97ffff95 	bl	c0001e4c <mmio_read_32>
@@ -2684,8 +2684,8 @@ bool uart_rx_ready(void)
 	}
 
 	return (mmio_read_32(plat_uart.base + PL011_FR) & FR_RXFE) == 0U;
-    c0002040:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0002044:	912e0000 	add	x0, x0, #0xb80
+    c0002040:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0002044:	911bc000 	add	x0, x0, #0x6f0
     c0002048:	f9400000 	ldr	x0, [x0]
     c000204c:	91006000 	add	x0, x0, #0x18
     c0002050:	97ffff7f 	bl	c0001e4c <mmio_read_32>
@@ -2718,8 +2718,8 @@ void uart_init(void)
 	}
 
 	mmio_write_32(plat_uart.base + PL011_CR, 0U);
-    c0002090:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0002094:	912e0000 	add	x0, x0, #0xb80
+    c0002090:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0002094:	911bc000 	add	x0, x0, #0x6f0
     c0002098:	f9400000 	ldr	x0, [x0]
     c000209c:	9100c000 	add	x0, x0, #0x30
     c00020a0:	52800001 	mov	w1, #0x0                   	// #0
@@ -2731,8 +2731,8 @@ void uart_init(void)
 
 	while ((mmio_read_32(plat_uart.base + PL011_FR) & FR_BUSY) != 0U) {
     c00020b0:	d503201f 	nop
-    c00020b4:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00020b8:	912e0000 	add	x0, x0, #0xb80
+    c00020b4:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00020b8:	911bc000 	add	x0, x0, #0x6f0
     c00020bc:	f9400000 	ldr	x0, [x0]
     c00020c0:	91006000 	add	x0, x0, #0x18
     c00020c4:	97ffff62 	bl	c0001e4c <mmio_read_32>
@@ -2742,26 +2742,26 @@ void uart_init(void)
 	}
 
 	mmio_write_32(plat_uart.base + PL011_ICR, PL011_ICR_ALL);
-    c00020d4:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00020d8:	912e0000 	add	x0, x0, #0xb80
+    c00020d4:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00020d8:	911bc000 	add	x0, x0, #0x6f0
     c00020dc:	f9400000 	ldr	x0, [x0]
     c00020e0:	91011000 	add	x0, x0, #0x44
     c00020e4:	5280ffe1 	mov	w1, #0x7ff                 	// #2047
     c00020e8:	97ffff50 	bl	c0001e28 <mmio_write_32>
 	mmio_write_32(plat_uart.base + PL011_IMSC, 0U);
-    c00020ec:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00020f0:	912e0000 	add	x0, x0, #0xb80
+    c00020ec:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00020f0:	911bc000 	add	x0, x0, #0x6f0
     c00020f4:	f9400000 	ldr	x0, [x0]
     c00020f8:	9100e000 	add	x0, x0, #0x38
     c00020fc:	52800001 	mov	w1, #0x0                   	// #0
     c0002100:	97ffff4a 	bl	c0001e28 <mmio_write_32>
 
 	pl011_calc_baud(plat_uart.clock_hz, plat_uart.baudrate, &ibrd, &fbrd);
-    c0002104:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0002108:	912e0000 	add	x0, x0, #0xb80
+    c0002104:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0002108:	911bc000 	add	x0, x0, #0x6f0
     c000210c:	b9400804 	ldr	w4, [x0, #8]
-    c0002110:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0002114:	912e0000 	add	x0, x0, #0xb80
+    c0002110:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0002114:	911bc000 	add	x0, x0, #0x6f0
     c0002118:	b9400c00 	ldr	w0, [x0, #12]
     c000211c:	910063e2 	add	x2, sp, #0x18
     c0002120:	910073e1 	add	x1, sp, #0x1c
@@ -2771,29 +2771,29 @@ void uart_init(void)
     c0002130:	2a0403e0 	mov	w0, w4
     c0002134:	97ffff52 	bl	c0001e7c <pl011_calc_baud>
 	mmio_write_32(plat_uart.base + PL011_IBRD, ibrd);
-    c0002138:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000213c:	912e0000 	add	x0, x0, #0xb80
+    c0002138:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c000213c:	911bc000 	add	x0, x0, #0x6f0
     c0002140:	f9400000 	ldr	x0, [x0]
     c0002144:	91009000 	add	x0, x0, #0x24
     c0002148:	b9401fe1 	ldr	w1, [sp, #28]
     c000214c:	97ffff37 	bl	c0001e28 <mmio_write_32>
 	mmio_write_32(plat_uart.base + PL011_FBRD, fbrd);
-    c0002150:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0002154:	912e0000 	add	x0, x0, #0xb80
+    c0002150:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0002154:	911bc000 	add	x0, x0, #0x6f0
     c0002158:	f9400000 	ldr	x0, [x0]
     c000215c:	9100a000 	add	x0, x0, #0x28
     c0002160:	b9401be1 	ldr	w1, [sp, #24]
     c0002164:	97ffff31 	bl	c0001e28 <mmio_write_32>
 	mmio_write_32(plat_uart.base + PL011_LCRH, LCRH_WLEN_8 | LCRH_FEN);
-    c0002168:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000216c:	912e0000 	add	x0, x0, #0xb80
+    c0002168:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c000216c:	911bc000 	add	x0, x0, #0x6f0
     c0002170:	f9400000 	ldr	x0, [x0]
     c0002174:	9100b000 	add	x0, x0, #0x2c
     c0002178:	52800e01 	mov	w1, #0x70                  	// #112
     c000217c:	97ffff2b 	bl	c0001e28 <mmio_write_32>
 	mmio_write_32(plat_uart.base + PL011_CR, CR_UARTEN | CR_TXE | CR_RXE);
-    c0002180:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0002184:	912e0000 	add	x0, x0, #0xb80
+    c0002180:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0002184:	911bc000 	add	x0, x0, #0x6f0
     c0002188:	f9400000 	ldr	x0, [x0]
     c000218c:	9100c000 	add	x0, x0, #0x30
     c0002190:	52806021 	mov	w1, #0x301                 	// #769
@@ -2839,8 +2839,8 @@ void uart_putc(int ch)
 	}
 
 	mmio_write_32(plat_uart.base + PL011_DR, (uint32_t)ch);
-    c00021f8:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00021fc:	912e0000 	add	x0, x0, #0xb80
+    c00021f8:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00021fc:	911bc000 	add	x0, x0, #0x6f0
     c0002200:	f9400000 	ldr	x0, [x0]
     c0002204:	b9401fe1 	ldr	w1, [sp, #28]
     c0002208:	97ffff08 	bl	c0001e28 <mmio_write_32>
@@ -2958,8 +2958,8 @@ int uart_try_getc(void)
 	}
 
 	return (int)(mmio_read_32(plat_uart.base + PL011_DR) & 0xFFU);
-    c0002314:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0002318:	912e0000 	add	x0, x0, #0xb80
+    c0002314:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0002318:	911bc000 	add	x0, x0, #0x6f0
     c000231c:	f9400000 	ldr	x0, [x0]
     c0002320:	97fffecb 	bl	c0001e4c <mmio_read_32>
     c0002324:	12001c00 	and	w0, w0, #0xff
@@ -3022,8 +3022,8 @@ void uart_put_hex64(uint64_t value)
     c0002398:	f9400fe1 	ldr	x1, [sp, #24]
     c000239c:	9ac02420 	lsr	x0, x1, x0
     c00023a0:	92400c00 	and	x0, x0, #0xf
-    c00023a4:	d0000001 	adrp	x1, c0004000 <smp_init+0x184>
-    c00023a8:	9128e021 	add	x1, x1, #0xa38
+    c00023a4:	f0000001 	adrp	x1, c0005000 <topology_mark_cpu_online+0xcc>
+    c00023a8:	910de021 	add	x1, x1, #0x378
     c00023ac:	38606820 	ldrb	w0, [x1, x0]
     c00023b0:	97ffff80 	bl	c00021b0 <uart_putc>
 	for (shift = 60; shift >= 0; shift -= 4) {
@@ -3059,8 +3059,8 @@ void uart_flush(void)
 
 	while ((mmio_read_32(plat_uart.base + PL011_FR) & FR_BUSY) != 0U) {
     c0002400:	d503201f 	nop
-    c0002404:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0002408:	912e0000 	add	x0, x0, #0xb80
+    c0002404:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0002408:	911bc000 	add	x0, x0, #0x6f0
     c000240c:	f9400000 	ldr	x0, [x0]
     c0002410:	91006000 	add	x0, x0, #0x18
     c0002414:	97fffe8e 	bl	c0001e4c <mmio_read_32>
@@ -3092,58 +3092,58 @@ static void print_mini_os_banner(void)
     c000243c:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
     c0002440:	910003fd 	mov	x29, sp
     debug_puts("\n");
-    c0002444:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002448:	91294000 	add	x0, x0, #0xa50
+    c0002444:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002448:	910e4000 	add	x0, x0, #0x390
     c000244c:	97fffe4d 	bl	c0001d80 <debug_puts>
     debug_puts("============================================================\n");
-    c0002450:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002454:	91296000 	add	x0, x0, #0xa58
+    c0002450:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002454:	910e6000 	add	x0, x0, #0x398
     c0002458:	97fffe4a 	bl	c0001d80 <debug_puts>
     debug_puts("            __  __   ___   _   _   ___    ___    ____      \n");
-    c000245c:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002460:	912a6000 	add	x0, x0, #0xa98
+    c000245c:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002460:	910f6000 	add	x0, x0, #0x3d8
     c0002464:	97fffe47 	bl	c0001d80 <debug_puts>
     debug_puts("           |  \\/  | |_ _| | \\ | | |_ _|  / _ \\  / ___|     \n");
-    c0002468:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c000246c:	912b6000 	add	x0, x0, #0xad8
+    c0002468:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c000246c:	91106000 	add	x0, x0, #0x418
     c0002470:	97fffe44 	bl	c0001d80 <debug_puts>
     debug_puts("           | |\\/| |  | |  |  \\| |  | |  | | | | \\___ \\     \n");
-    c0002474:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002478:	912c6000 	add	x0, x0, #0xb18
+    c0002474:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002478:	91116000 	add	x0, x0, #0x458
     c000247c:	97fffe41 	bl	c0001d80 <debug_puts>
     debug_puts("           | |  | |  | |  | |\\  |  | |  | |_| |  ___) |    \n");
-    c0002480:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002484:	912d6000 	add	x0, x0, #0xb58
+    c0002480:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002484:	91126000 	add	x0, x0, #0x498
     c0002488:	97fffe3e 	bl	c0001d80 <debug_puts>
     debug_puts("           |_|  |_| |___| |_| \\_| |___|  \\___/  |____/     \n");
-    c000248c:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002490:	912e6000 	add	x0, x0, #0xb98
+    c000248c:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002490:	91136000 	add	x0, x0, #0x4d8
     c0002494:	97fffe3b 	bl	c0001d80 <debug_puts>
     debug_puts("============================================================\n");
-    c0002498:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c000249c:	91296000 	add	x0, x0, #0xa58
+    c0002498:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c000249c:	910e6000 	add	x0, x0, #0x398
     c00024a0:	97fffe38 	bl	c0001d80 <debug_puts>
     debug_puts("                     2026  Mini-OS  V0.1                    \n");
-    c00024a4:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c00024a8:	912f6000 	add	x0, x0, #0xbd8
+    c00024a4:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00024a8:	91146000 	add	x0, x0, #0x518
     c00024ac:	97fffe35 	bl	c0001d80 <debug_puts>
     debug_puts("============================================================\n");
-    c00024b0:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c00024b4:	91296000 	add	x0, x0, #0xa58
+    c00024b0:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00024b4:	910e6000 	add	x0, x0, #0x398
     c00024b8:	97fffe32 	bl	c0001d80 <debug_puts>
     debug_puts("\n");
-    c00024bc:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c00024c0:	91294000 	add	x0, x0, #0xa50
+    c00024bc:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00024c0:	910e4000 	add	x0, x0, #0x390
     c00024c4:	97fffe2f 	bl	c0001d80 <debug_puts>
 
     mini_os_printf("UART ready @ 0x%llx, boot magic: 0x%llx\n\n",
-    c00024c8:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00024cc:	912e4000 	add	x0, x0, #0xb90
+    c00024c8:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00024cc:	911c0000 	add	x0, x0, #0x700
     c00024d0:	f9400000 	ldr	x0, [x0]
     c00024d4:	aa0003e2 	mov	x2, x0
     c00024d8:	d2a34801 	mov	x1, #0x1a400000            	// #440401920
-    c00024dc:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c00024e0:	91306000 	add	x0, x0, #0xc18
+    c00024dc:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00024e0:	91156000 	add	x0, x0, #0x558
     c00024e4:	97fffdf6 	bl	c0001cbc <mini_os_printf>
 		       (unsigned long long)PLAT_UART0_BASE,
 		       (unsigned long long)boot_magic);
@@ -3159,18 +3159,18 @@ static void initialize_phase0_modules(void)
     c00024f4:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
     c00024f8:	910003fd 	mov	x29, sp
 	topology_init();
-    c00024fc:	9400080c 	bl	c000452c <topology_init>
+    c00024fc:	940009f2 	bl	c0004cc4 <topology_init>
 	scheduler_init();
     c0002500:	940000f0 	bl	c00028c0 <scheduler_init>
 	scheduler_join_cpu(0U);
     c0002504:	52800000 	mov	w0, #0x0                   	// #0
     c0002508:	94000101 	bl	c000290c <scheduler_join_cpu>
 	smp_init();
-    c000250c:	9400065c 	bl	c0003e7c <smp_init>
+    c000250c:	940007c8 	bl	c000442c <smp_init>
 	gic_init();
     c0002510:	97ffffc9 	bl	c0002434 <gic_init>
 	test_framework_init();
-    c0002514:	940007da 	bl	c000447c <test_framework_init>
+    c0002514:	940009c0 	bl	c0004c14 <test_framework_init>
 }
     c0002518:	d503201f 	nop
     c000251c:	a8c17bfd 	ldp	x29, x30, [sp], #16
@@ -3187,7 +3187,7 @@ void kernel_main(void)
     initialize_phase0_modules();
     c0002530:	97fffff1 	bl	c00024f4 <initialize_phase0_modules>
 	shell_run();
-    c0002534:	940005e4 	bl	c0003cc4 <shell_run>
+    c0002534:	9400065b 	bl	c0003ea0 <shell_run>
     c0002538:	d503201f 	nop
     c000253c:	a8c17bfd 	ldp	x29, x30, [sp], #16
     c0002540:	d65f03c0 	ret
@@ -3536,8 +3536,8 @@ void scheduler_init(void)
     c00028c4:	b9000fff 	str	wzr, [sp, #12]
     c00028c8:	14000008 	b	c00028e8 <scheduler_init+0x28>
 		runnable_cpus[i] = 0UL;
-    c00028cc:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00028d0:	912e8000 	add	x0, x0, #0xba0
+    c00028cc:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00028d0:	911c4000 	add	x0, x0, #0x710
     c00028d4:	b9400fe1 	ldr	w1, [sp, #12]
     c00028d8:	f821781f 	str	xzr, [x0, x1, lsl #3]
 	for (i = 0U; i < (unsigned int)(sizeof(runnable_cpus) / sizeof(runnable_cpus[0])); ++i) {
@@ -3549,8 +3549,8 @@ void scheduler_init(void)
     c00028f0:	54fffee0 	b.eq	c00028cc <scheduler_init+0xc>  // b.none
 	}
 	runnable_cpu_count = 0U;
-    c00028f4:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00028f8:	912ea000 	add	x0, x0, #0xba8
+    c00028f4:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00028f8:	911c6000 	add	x0, x0, #0x718
     c00028fc:	b900001f 	str	wzr, [x0]
 }
     c0002900:	d503201f 	nop
@@ -3567,8 +3567,8 @@ void scheduler_join_cpu(unsigned int logical_id)
 	if (!bitmap_test_bit(runnable_cpus, logical_id)) {
     c0002918:	b9401fe0 	ldr	w0, [sp, #28]
     c000291c:	aa0003e1 	mov	x1, x0
-    c0002920:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0002924:	912e8000 	add	x0, x0, #0xba0
+    c0002920:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0002924:	911c4000 	add	x0, x0, #0x710
     c0002928:	97ffff32 	bl	c00025f0 <bitmap_test_bit>
     c000292c:	12001c00 	and	w0, w0, #0xff
     c0002930:	52000000 	eor	w0, w0, #0x1
@@ -3579,16 +3579,16 @@ void scheduler_join_cpu(unsigned int logical_id)
 		bitmap_set_bit(runnable_cpus, logical_id);
     c0002944:	b9401fe0 	ldr	w0, [sp, #28]
     c0002948:	aa0003e1 	mov	x1, x0
-    c000294c:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0002950:	912e8000 	add	x0, x0, #0xba0
+    c000294c:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0002950:	911c4000 	add	x0, x0, #0x710
     c0002954:	97fffefc 	bl	c0002544 <bitmap_set_bit>
 		runnable_cpu_count++;
-    c0002958:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000295c:	912ea000 	add	x0, x0, #0xba8
+    c0002958:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c000295c:	911c6000 	add	x0, x0, #0x718
     c0002960:	b9400000 	ldr	w0, [x0]
     c0002964:	11000401 	add	w1, w0, #0x1
-    c0002968:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000296c:	912ea000 	add	x0, x0, #0xba8
+    c0002968:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c000296c:	911c6000 	add	x0, x0, #0x718
     c0002970:	b9000001 	str	w1, [x0]
 	}
 }
@@ -3606,8 +3606,8 @@ bool scheduler_cpu_is_runnable(unsigned int logical_id)
 	return bitmap_test_bit(runnable_cpus, logical_id);
     c000298c:	b9401fe0 	ldr	w0, [sp, #28]
     c0002990:	aa0003e1 	mov	x1, x0
-    c0002994:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0002998:	912e8000 	add	x0, x0, #0xba0
+    c0002994:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0002998:	911c4000 	add	x0, x0, #0x710
     c000299c:	97ffff15 	bl	c00025f0 <bitmap_test_bit>
     c00029a0:	12001c00 	and	w0, w0, #0xff
 }
@@ -3619,8 +3619,8 @@ bool scheduler_cpu_is_runnable(unsigned int logical_id)
 unsigned int scheduler_runnable_cpu_count(void)
 {
 	return runnable_cpu_count;
-    c00029ac:	f0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00029b0:	912ea000 	add	x0, x0, #0xba8
+    c00029ac:	90000020 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00029b0:	911c6000 	add	x0, x0, #0x718
     c00029b4:	b9400000 	ldr	w0, [x0]
     c00029b8:	d65f03c0 	ret
 
@@ -4006,11 +4006,11 @@ static void shell_print_cpu_entry(unsigned int logical_id)
     c0002dc4:	b9003fe0 	str	w0, [sp, #60]
 	const struct cpu_topology_descriptor *cpu = topology_cpu(logical_id);
     c0002dc8:	b9403fe0 	ldr	w0, [sp, #60]
-    c0002dcc:	94000637 	bl	c00046a8 <topology_cpu>
+    c0002dcc:	9400081d 	bl	c0004e40 <topology_cpu>
     c0002dd0:	f90027e0 	str	x0, [sp, #72]
 	const struct smp_cpu_state *state = smp_cpu_state(logical_id);
     c0002dd4:	b9403fe0 	ldr	w0, [sp, #60]
-    c0002dd8:	94000538 	bl	c00042b8 <smp_cpu_state>
+    c0002dd8:	9400071e 	bl	c0004a50 <smp_cpu_state>
     c0002ddc:	f90023e0 	str	x0, [sp, #64]
 
 	if ((cpu == (const struct cpu_topology_descriptor *)0) ||
@@ -4059,11 +4059,11 @@ static void shell_print_cpu_entry(unsigned int logical_id)
     c0002e4c:	12000000 	and	w0, w0, #0x1
     c0002e50:	7100001f 	cmp	w0, #0x0
     c0002e54:	54000080 	b.eq	c0002e64 <shell_print_cpu_entry+0xac>  // b.none
-    c0002e58:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002e5c:	91312003 	add	x3, x0, #0xc48
+    c0002e58:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002e5c:	91162003 	add	x3, x0, #0x588
     c0002e60:	14000003 	b	c0002e6c <shell_print_cpu_entry+0xb4>
-    c0002e64:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002e68:	91314003 	add	x3, x0, #0xc50
+    c0002e64:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002e68:	91164003 	add	x3, x0, #0x590
 		       state->scheduled ? "yes" : "no",
     c0002e6c:	f94023e0 	ldr	x0, [sp, #64]
     c0002e70:	39404400 	ldrb	w0, [x0, #17]
@@ -4071,11 +4071,11 @@ static void shell_print_cpu_entry(unsigned int logical_id)
     c0002e74:	12000000 	and	w0, w0, #0x1
     c0002e78:	7100001f 	cmp	w0, #0x0
     c0002e7c:	54000080 	b.eq	c0002e8c <shell_print_cpu_entry+0xd4>  // b.none
-    c0002e80:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002e84:	91312000 	add	x0, x0, #0xc48
+    c0002e80:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002e84:	91162000 	add	x0, x0, #0x588
     c0002e88:	14000003 	b	c0002e94 <shell_print_cpu_entry+0xdc>
-    c0002e8c:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002e90:	91314000 	add	x0, x0, #0xc50
+    c0002e8c:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002e90:	91164000 	add	x0, x0, #0x590
 		       state->pending ? "yes" : "no",
     c0002e94:	f94023e1 	ldr	x1, [sp, #64]
     c0002e98:	39404821 	ldrb	w1, [x1, #18]
@@ -4083,11 +4083,11 @@ static void shell_print_cpu_entry(unsigned int logical_id)
     c0002e9c:	12000021 	and	w1, w1, #0x1
     c0002ea0:	7100003f 	cmp	w1, #0x0
     c0002ea4:	54000080 	b.eq	c0002eb4 <shell_print_cpu_entry+0xfc>  // b.none
-    c0002ea8:	d0000001 	adrp	x1, c0004000 <smp_init+0x184>
-    c0002eac:	91312021 	add	x1, x1, #0xc48
+    c0002ea8:	f0000001 	adrp	x1, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002eac:	91162021 	add	x1, x1, #0x588
     c0002eb0:	14000003 	b	c0002ebc <shell_print_cpu_entry+0x104>
-    c0002eb4:	d0000001 	adrp	x1, c0004000 <smp_init+0x184>
-    c0002eb8:	91314021 	add	x1, x1, #0xc50
+    c0002eb4:	f0000001 	adrp	x1, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002eb8:	91164021 	add	x1, x1, #0x590
 		       cpu->boot_cpu ? "yes" : "no");
     c0002ebc:	f94027e2 	ldr	x2, [sp, #72]
     c0002ec0:	39407042 	ldrb	w2, [x2, #28]
@@ -4095,11 +4095,11 @@ static void shell_print_cpu_entry(unsigned int logical_id)
     c0002ec4:	12000042 	and	w2, w2, #0x1
     c0002ec8:	7100005f 	cmp	w2, #0x0
     c0002ecc:	54000080 	b.eq	c0002edc <shell_print_cpu_entry+0x124>  // b.none
-    c0002ed0:	d0000002 	adrp	x2, c0004000 <smp_init+0x184>
-    c0002ed4:	91312042 	add	x2, x2, #0xc48
+    c0002ed0:	f0000002 	adrp	x2, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002ed4:	91162042 	add	x2, x2, #0x588
     c0002ed8:	14000003 	b	c0002ee4 <shell_print_cpu_entry+0x12c>
-    c0002edc:	d0000002 	adrp	x2, c0004000 <smp_init+0x184>
-    c0002ee0:	91314042 	add	x2, x2, #0xc50
+    c0002edc:	f0000002 	adrp	x2, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002ee0:	91164042 	add	x2, x2, #0x590
     c0002ee4:	f9000be2 	str	x2, [sp, #16]
     c0002ee8:	f90007e1 	str	x1, [sp, #8]
     c0002eec:	f90003e0 	str	x0, [sp]
@@ -4107,8 +4107,8 @@ static void shell_print_cpu_entry(unsigned int logical_id)
     c0002ef4:	2a0a03e3 	mov	w3, w10
     c0002ef8:	aa0903e2 	mov	x2, x9
     c0002efc:	2a0803e1 	mov	w1, w8
-    c0002f00:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002f04:	91316000 	add	x0, x0, #0xc58
+    c0002f00:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002f04:	91166000 	add	x0, x0, #0x598
     c0002f08:	97fffb6d 	bl	c0001cbc <mini_os_printf>
     c0002f0c:	14000002 	b	c0002f14 <shell_print_cpu_entry+0x15c>
 		return;
@@ -4125,60 +4125,60 @@ static void shell_print_help_overview(void)
     c0002f20:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
     c0002f24:	910003fd 	mov	x29, sp
 	mini_os_printf("Built-in commands:\n");
-    c0002f28:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002f2c:	91330000 	add	x0, x0, #0xcc0
+    c0002f28:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002f2c:	91180000 	add	x0, x0, #0x600
     c0002f30:	97fffb63 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  help [--topic]    Show command help or detailed help for one topic\n");
-    c0002f34:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002f38:	91336000 	add	x0, x0, #0xcd8
+    c0002f34:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002f38:	91186000 	add	x0, x0, #0x618
     c0002f3c:	97fffb60 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  version           Show OS version information\n");
-    c0002f40:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002f44:	91348000 	add	x0, x0, #0xd20
+    c0002f40:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002f44:	91198000 	add	x0, x0, #0x660
     c0002f48:	97fffb5d 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  info              Show current platform/runtime info\n");
-    c0002f4c:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002f50:	91356000 	add	x0, x0, #0xd58
+    c0002f4c:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002f50:	911a6000 	add	x0, x0, #0x698
     c0002f54:	97fffb5a 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  cpu [id]          Show CPU information\n");
-    c0002f58:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002f5c:	91364000 	add	x0, x0, #0xd90
+    c0002f58:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002f5c:	911b4000 	add	x0, x0, #0x6d0
     c0002f60:	97fffb57 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  cpus              List known CPUs\n");
-    c0002f64:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002f68:	91370000 	add	x0, x0, #0xdc0
+    c0002f64:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002f68:	911c0000 	add	x0, x0, #0x700
     c0002f6c:	97fffb54 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  topo              Show topology summary\n");
-    c0002f70:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002f74:	9137a000 	add	x0, x0, #0xde8
+    c0002f70:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002f74:	911ca000 	add	x0, x0, #0x728
     c0002f78:	97fffb51 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  smp status        Show SMP status\n");
-    c0002f7c:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002f80:	91386000 	add	x0, x0, #0xe18
+    c0002f7c:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002f80:	911d6000 	add	x0, x0, #0x758
     c0002f84:	97fffb4e 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  smp start <mpidr> Ask TF-A via SMC/PSCI to start a secondary CPU\n");
-    c0002f88:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002f8c:	91390000 	add	x0, x0, #0xe40
+    c0002f88:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002f8c:	911e0000 	add	x0, x0, #0x780
     c0002f90:	97fffb4b 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  echo ...          Print arguments back to the console\n");
-    c0002f94:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002f98:	913a2000 	add	x0, x0, #0xe88
+    c0002f94:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002f98:	911f2000 	add	x0, x0, #0x7c8
     c0002f9c:	97fffb48 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  clear             Clear the terminal screen\n");
-    c0002fa0:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002fa4:	913b2000 	add	x0, x0, #0xec8
+    c0002fa0:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002fa4:	91202000 	add	x0, x0, #0x808
     c0002fa8:	97fffb45 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  uname             Print the OS name\n");
-    c0002fac:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002fb0:	913be000 	add	x0, x0, #0xef8
+    c0002fac:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002fb0:	9120e000 	add	x0, x0, #0x838
     c0002fb4:	97fffb42 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  halt              Stop the CPU in a low-power wait loop\n");
-    c0002fb8:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002fbc:	913c8000 	add	x0, x0, #0xf20
+    c0002fb8:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002fbc:	91218000 	add	x0, x0, #0x860
     c0002fc0:	97fffb3f 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("Examples: help --cpus, help --smp, help --topo\n");
-    c0002fc4:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002fc8:	913d8000 	add	x0, x0, #0xf60
+    c0002fc4:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002fc8:	91228000 	add	x0, x0, #0x8a0
     c0002fcc:	97fffb3c 	bl	c0001cbc <mini_os_printf>
 }
     c0002fd0:	d503201f 	nop
@@ -4196,8 +4196,8 @@ static void shell_print_help_topic(const char *topic)
     c0002fe8:	f9400fe0 	ldr	x0, [sp, #24]
     c0002fec:	f100001f 	cmp	x0, #0x0
     c0002ff0:	54000120 	b.eq	c0003014 <shell_print_help_topic+0x38>  // b.none
-    c0002ff4:	d0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0002ff8:	913e4001 	add	x1, x0, #0xf90
+    c0002ff4:	f0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0002ff8:	91234001 	add	x1, x0, #0x8d0
     c0002ffc:	f9400fe0 	ldr	x0, [sp, #24]
     c0003000:	97fffe84 	bl	c0002a10 <strings_equal>
     c0003004:	12001c00 	and	w0, w0, #0xff
@@ -4205,36 +4205,36 @@ static void shell_print_help_topic(const char *topic)
     c000300c:	7100001f 	cmp	w0, #0x0
     c0003010:	54000280 	b.eq	c0003060 <shell_print_help_topic+0x84>  // b.none
 		mini_os_printf("help [--topic]\n");
-    c0003014:	b0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0003018:	913e6000 	add	x0, x0, #0xf98
+    c0003014:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003018:	91236000 	add	x0, x0, #0x8d8
     c000301c:	97fffb28 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Show the command list or detailed help for a single topic.\n");
-    c0003020:	b0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0003024:	913ea000 	add	x0, x0, #0xfa8
+    c0003020:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003024:	9123a000 	add	x0, x0, #0x8e8
     c0003028:	97fffb25 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Examples:\n");
-    c000302c:	b0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0003030:	913fa000 	add	x0, x0, #0xfe8
+    c000302c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003030:	9124a000 	add	x0, x0, #0x928
     c0003034:	97fffb22 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  help\n");
-    c0003038:	b0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c000303c:	913fe000 	add	x0, x0, #0xff8
+    c0003038:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c000303c:	9124e000 	add	x0, x0, #0x938
     c0003040:	97fffb1f 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  help --cpus\n");
-    c0003044:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003048:	91000000 	add	x0, x0, #0x0
+    c0003044:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003048:	91250000 	add	x0, x0, #0x940
     c000304c:	97fffb1c 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  help --smp\n");
-    c0003050:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003054:	91004000 	add	x0, x0, #0x10
+    c0003050:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003054:	91254000 	add	x0, x0, #0x950
     c0003058:	97fffb19 	bl	c0001cbc <mini_os_printf>
 		return;
     c000305c:	140000fb 	b	c0003448 <shell_print_help_topic+0x46c>
 	}
 
 	if (strings_equal(topic, "cpu")) {
-    c0003060:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003064:	91008001 	add	x1, x0, #0x20
+    c0003060:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003064:	91258001 	add	x1, x0, #0x960
     c0003068:	f9400fe0 	ldr	x0, [sp, #24]
     c000306c:	97fffe69 	bl	c0002a10 <strings_equal>
     c0003070:	12001c00 	and	w0, w0, #0xff
@@ -4242,40 +4242,40 @@ static void shell_print_help_topic(const char *topic)
     c0003078:	7100001f 	cmp	w0, #0x0
     c000307c:	540002e0 	b.eq	c00030d8 <shell_print_help_topic+0xfc>  // b.none
 		mini_os_printf("cpu [id]\n");
-    c0003080:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003084:	9100a000 	add	x0, x0, #0x28
+    c0003080:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003084:	9125a000 	add	x0, x0, #0x968
     c0003088:	97fffb0d 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Show one logical CPU entry from the topology/SMP tables.\n");
-    c000308c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003090:	9100e000 	add	x0, x0, #0x38
+    c000308c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003090:	9125e000 	add	x0, x0, #0x978
     c0003094:	97fffb0a 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  If no id is given, it prints the current boot CPU entry.\n");
-    c0003098:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000309c:	9101e000 	add	x0, x0, #0x78
+    c0003098:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c000309c:	9126e000 	add	x0, x0, #0x9b8
     c00030a0:	97fffb07 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Examples:\n");
-    c00030a4:	b0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c00030a8:	913fa000 	add	x0, x0, #0xfe8
+    c00030a4:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00030a8:	9124a000 	add	x0, x0, #0x928
     c00030ac:	97fffb04 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  cpu\n");
-    c00030b0:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00030b4:	9102e000 	add	x0, x0, #0xb8
+    c00030b0:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00030b4:	9127e000 	add	x0, x0, #0x9f8
     c00030b8:	97fffb01 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  cpu 0\n");
-    c00030bc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00030c0:	91030000 	add	x0, x0, #0xc0
+    c00030bc:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00030c0:	91280000 	add	x0, x0, #0xa00
     c00030c4:	97fffafe 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  cpu 1\n");
-    c00030c8:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00030cc:	91034000 	add	x0, x0, #0xd0
+    c00030c8:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00030cc:	91284000 	add	x0, x0, #0xa10
     c00030d0:	97fffafb 	bl	c0001cbc <mini_os_printf>
 		return;
     c00030d4:	140000dd 	b	c0003448 <shell_print_help_topic+0x46c>
 	}
 
 	if (strings_equal(topic, "cpus")) {
-    c00030d8:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00030dc:	91038001 	add	x1, x0, #0xe0
+    c00030d8:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00030dc:	91288001 	add	x1, x0, #0xa20
     c00030e0:	f9400fe0 	ldr	x0, [sp, #24]
     c00030e4:	97fffe4b 	bl	c0002a10 <strings_equal>
     c00030e8:	12001c00 	and	w0, w0, #0xff
@@ -4283,36 +4283,36 @@ static void shell_print_help_topic(const char *topic)
     c00030f0:	7100001f 	cmp	w0, #0x0
     c00030f4:	54000280 	b.eq	c0003144 <shell_print_help_topic+0x168>  // b.none
 		mini_os_printf("cpus\n");
-    c00030f8:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00030fc:	9103a000 	add	x0, x0, #0xe8
+    c00030f8:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00030fc:	9128a000 	add	x0, x0, #0xa28
     c0003100:	97fffaef 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  List all CPUs that are currently registered in the topology table.\n");
-    c0003104:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003108:	9103c000 	add	x0, x0, #0xf0
+    c0003104:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003108:	9128c000 	add	x0, x0, #0xa30
     c000310c:	97fffaec 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  The line shows mpidr/chip/die/cluster/core plus online, scheduled, pending and boot flags.\n");
-    c0003110:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003114:	9104e000 	add	x0, x0, #0x138
+    c0003110:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003114:	9129e000 	add	x0, x0, #0xa78
     c0003118:	97fffae9 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Examples:\n");
-    c000311c:	b0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0003120:	913fa000 	add	x0, x0, #0xfe8
+    c000311c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003120:	9124a000 	add	x0, x0, #0x928
     c0003124:	97fffae6 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  cpus\n");
-    c0003128:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000312c:	91066000 	add	x0, x0, #0x198
+    c0003128:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c000312c:	912b6000 	add	x0, x0, #0xad8
     c0003130:	97fffae3 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  help --cpu\n");
-    c0003134:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003138:	91068000 	add	x0, x0, #0x1a0
+    c0003134:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003138:	912b8000 	add	x0, x0, #0xae0
     c000313c:	97fffae0 	bl	c0001cbc <mini_os_printf>
 		return;
     c0003140:	140000c2 	b	c0003448 <shell_print_help_topic+0x46c>
 	}
 
 	if (strings_equal(topic, "topo")) {
-    c0003144:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003148:	9106c001 	add	x1, x0, #0x1b0
+    c0003144:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003148:	912bc001 	add	x1, x0, #0xaf0
     c000314c:	f9400fe0 	ldr	x0, [sp, #24]
     c0003150:	97fffe30 	bl	c0002a10 <strings_equal>
     c0003154:	12001c00 	and	w0, w0, #0xff
@@ -4320,32 +4320,32 @@ static void shell_print_help_topic(const char *topic)
     c000315c:	7100001f 	cmp	w0, #0x0
     c0003160:	54000220 	b.eq	c00031a4 <shell_print_help_topic+0x1c8>  // b.none
 		mini_os_printf("topo\n");
-    c0003164:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003168:	9106e000 	add	x0, x0, #0x1b8
+    c0003164:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003168:	912be000 	add	x0, x0, #0xaf8
     c000316c:	97fffad4 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Print a compact topology summary for the boot CPU and current CPU counts.\n");
-    c0003170:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003174:	91070000 	add	x0, x0, #0x1c0
+    c0003170:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003174:	912c0000 	add	x0, x0, #0xb00
     c0003178:	97fffad1 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Useful for checking the boot MPIDR and the decoded chip/die/cluster/core affinity.\n");
-    c000317c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003180:	91084000 	add	x0, x0, #0x210
+    c000317c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003180:	912d4000 	add	x0, x0, #0xb50
     c0003184:	97ffface 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Examples:\n");
-    c0003188:	b0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c000318c:	913fa000 	add	x0, x0, #0xfe8
+    c0003188:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c000318c:	9124a000 	add	x0, x0, #0x928
     c0003190:	97fffacb 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  topo\n");
-    c0003194:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003198:	9109a000 	add	x0, x0, #0x268
+    c0003194:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003198:	912ea000 	add	x0, x0, #0xba8
     c000319c:	97fffac8 	bl	c0001cbc <mini_os_printf>
 		return;
     c00031a0:	140000aa 	b	c0003448 <shell_print_help_topic+0x46c>
 	}
 
 	if (strings_equal(topic, "smp")) {
-    c00031a4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00031a8:	9109c001 	add	x1, x0, #0x270
+    c00031a4:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00031a8:	912ec001 	add	x1, x0, #0xbb0
     c00031ac:	f9400fe0 	ldr	x0, [sp, #24]
     c00031b0:	97fffe18 	bl	c0002a10 <strings_equal>
     c00031b4:	12001c00 	and	w0, w0, #0xff
@@ -4353,48 +4353,48 @@ static void shell_print_help_topic(const char *topic)
     c00031bc:	7100001f 	cmp	w0, #0x0
     c00031c0:	540003a0 	b.eq	c0003234 <shell_print_help_topic+0x258>  // b.none
 		mini_os_printf("smp status\n");
-    c00031c4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00031c8:	9109e000 	add	x0, x0, #0x278
+    c00031c4:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00031c8:	912ee000 	add	x0, x0, #0xbb8
     c00031cc:	97fffabc 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Show the same per-CPU runtime table as 'cpus'.\n");
-    c00031d0:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00031d4:	910a2000 	add	x0, x0, #0x288
+    c00031d0:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00031d4:	912f2000 	add	x0, x0, #0xbc8
     c00031d8:	97fffab9 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("smp start <mpidr>\n");
-    c00031dc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00031e0:	910b0000 	add	x0, x0, #0x2c0
+    c00031dc:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00031e0:	91300000 	add	x0, x0, #0xc00
     c00031e4:	97fffab6 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Ask TF-A/BL31 through SMC/PSCI CPU_ON to start the target CPU identified by MPIDR.\n");
-    c00031e8:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00031ec:	910b6000 	add	x0, x0, #0x2d8
+    c00031e8:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00031ec:	91306000 	add	x0, x0, #0xc18
     c00031f0:	97fffab3 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  The shell passes TF-A the target MPIDR and the mini-OS secondary entry address.\n");
-    c00031f4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00031f8:	910cc000 	add	x0, x0, #0x330
+    c00031f4:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00031f8:	9131c000 	add	x0, x0, #0xc70
     c00031fc:	97fffab0 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Examples:\n");
-    c0003200:	b0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0003204:	913fa000 	add	x0, x0, #0xfe8
+    c0003200:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003204:	9124a000 	add	x0, x0, #0x928
     c0003208:	97fffaad 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  smp status\n");
-    c000320c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003210:	910e2000 	add	x0, x0, #0x388
+    c000320c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003210:	91332000 	add	x0, x0, #0xcc8
     c0003214:	97fffaaa 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  smp start 0x80000001\n");
-    c0003218:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000321c:	910e6000 	add	x0, x0, #0x398
+    c0003218:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c000321c:	91336000 	add	x0, x0, #0xcd8
     c0003220:	97fffaa7 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  smp start 2147483649\n");
-    c0003224:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003228:	910ec000 	add	x0, x0, #0x3b0
+    c0003224:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003228:	9133c000 	add	x0, x0, #0xcf0
     c000322c:	97fffaa4 	bl	c0001cbc <mini_os_printf>
 		return;
     c0003230:	14000086 	b	c0003448 <shell_print_help_topic+0x46c>
 	}
 
 	if (strings_equal(topic, "info")) {
-    c0003234:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003238:	910f2001 	add	x1, x0, #0x3c8
+    c0003234:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003238:	91342001 	add	x1, x0, #0xd08
     c000323c:	f9400fe0 	ldr	x0, [sp, #24]
     c0003240:	97fffdf4 	bl	c0002a10 <strings_equal>
     c0003244:	12001c00 	and	w0, w0, #0xff
@@ -4402,28 +4402,28 @@ static void shell_print_help_topic(const char *topic)
     c000324c:	7100001f 	cmp	w0, #0x0
     c0003250:	540001c0 	b.eq	c0003288 <shell_print_help_topic+0x2ac>  // b.none
 		mini_os_printf("info\n");
-    c0003254:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003258:	910f4000 	add	x0, x0, #0x3d0
+    c0003254:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003258:	91344000 	add	x0, x0, #0xd10
     c000325c:	97fffa98 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Show platform-level runtime information such as UART base, load address, boot magic and runnable CPU count.\n");
-    c0003260:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003264:	910f6000 	add	x0, x0, #0x3d8
+    c0003260:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003264:	91346000 	add	x0, x0, #0xd18
     c0003268:	97fffa95 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Example:\n");
-    c000326c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003270:	91112000 	add	x0, x0, #0x448
+    c000326c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003270:	91362000 	add	x0, x0, #0xd88
     c0003274:	97fffa92 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  info\n");
-    c0003278:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000327c:	91116000 	add	x0, x0, #0x458
+    c0003278:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c000327c:	91366000 	add	x0, x0, #0xd98
     c0003280:	97fffa8f 	bl	c0001cbc <mini_os_printf>
 		return;
     c0003284:	14000071 	b	c0003448 <shell_print_help_topic+0x46c>
 	}
 
 	if (strings_equal(topic, "version")) {
-    c0003288:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000328c:	91118001 	add	x1, x0, #0x460
+    c0003288:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c000328c:	91368001 	add	x1, x0, #0xda0
     c0003290:	f9400fe0 	ldr	x0, [sp, #24]
     c0003294:	97fffddf 	bl	c0002a10 <strings_equal>
     c0003298:	12001c00 	and	w0, w0, #0xff
@@ -4431,28 +4431,28 @@ static void shell_print_help_topic(const char *topic)
     c00032a0:	7100001f 	cmp	w0, #0x0
     c00032a4:	540001c0 	b.eq	c00032dc <shell_print_help_topic+0x300>  // b.none
 		mini_os_printf("version\n");
-    c00032a8:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00032ac:	9111a000 	add	x0, x0, #0x468
+    c00032a8:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00032ac:	9136a000 	add	x0, x0, #0xda8
     c00032b0:	97fffa83 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Show the Mini-OS name, version string and build year.\n");
-    c00032b4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00032b8:	9111e000 	add	x0, x0, #0x478
+    c00032b4:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00032b8:	9136e000 	add	x0, x0, #0xdb8
     c00032bc:	97fffa80 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Example:\n");
-    c00032c0:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00032c4:	91112000 	add	x0, x0, #0x448
+    c00032c0:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00032c4:	91362000 	add	x0, x0, #0xd88
     c00032c8:	97fffa7d 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  version\n");
-    c00032cc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00032d0:	9112e000 	add	x0, x0, #0x4b8
+    c00032cc:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00032d0:	9137e000 	add	x0, x0, #0xdf8
     c00032d4:	97fffa7a 	bl	c0001cbc <mini_os_printf>
 		return;
     c00032d8:	1400005c 	b	c0003448 <shell_print_help_topic+0x46c>
 	}
 
 	if (strings_equal(topic, "echo")) {
-    c00032dc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00032e0:	91132001 	add	x1, x0, #0x4c8
+    c00032dc:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00032e0:	91382001 	add	x1, x0, #0xe08
     c00032e4:	f9400fe0 	ldr	x0, [sp, #24]
     c00032e8:	97fffdca 	bl	c0002a10 <strings_equal>
     c00032ec:	12001c00 	and	w0, w0, #0xff
@@ -4460,28 +4460,28 @@ static void shell_print_help_topic(const char *topic)
     c00032f4:	7100001f 	cmp	w0, #0x0
     c00032f8:	540001c0 	b.eq	c0003330 <shell_print_help_topic+0x354>  // b.none
 		mini_os_printf("echo <text...>\n");
-    c00032fc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003300:	91134000 	add	x0, x0, #0x4d0
+    c00032fc:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003300:	91384000 	add	x0, x0, #0xe10
     c0003304:	97fffa6e 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Print the provided arguments back to the serial console.\n");
-    c0003308:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000330c:	91138000 	add	x0, x0, #0x4e0
+    c0003308:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c000330c:	91388000 	add	x0, x0, #0xe20
     c0003310:	97fffa6b 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Example:\n");
-    c0003314:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003318:	91112000 	add	x0, x0, #0x448
+    c0003314:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003318:	91362000 	add	x0, x0, #0xd88
     c000331c:	97fffa68 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  echo hello mini-os\n");
-    c0003320:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003324:	91148000 	add	x0, x0, #0x520
+    c0003320:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003324:	91398000 	add	x0, x0, #0xe60
     c0003328:	97fffa65 	bl	c0001cbc <mini_os_printf>
 		return;
     c000332c:	14000047 	b	c0003448 <shell_print_help_topic+0x46c>
 	}
 
 	if (strings_equal(topic, "clear")) {
-    c0003330:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003334:	9114e001 	add	x1, x0, #0x538
+    c0003330:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003334:	9139e001 	add	x1, x0, #0xe78
     c0003338:	f9400fe0 	ldr	x0, [sp, #24]
     c000333c:	97fffdb5 	bl	c0002a10 <strings_equal>
     c0003340:	12001c00 	and	w0, w0, #0xff
@@ -4489,28 +4489,28 @@ static void shell_print_help_topic(const char *topic)
     c0003348:	7100001f 	cmp	w0, #0x0
     c000334c:	540001c0 	b.eq	c0003384 <shell_print_help_topic+0x3a8>  // b.none
 		mini_os_printf("clear\n");
-    c0003350:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003354:	91150000 	add	x0, x0, #0x540
+    c0003350:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003354:	913a0000 	add	x0, x0, #0xe80
     c0003358:	97fffa59 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Send ANSI escape sequences to clear the serial terminal and move the cursor to the top-left corner.\n");
-    c000335c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003360:	91152000 	add	x0, x0, #0x548
+    c000335c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003360:	913a2000 	add	x0, x0, #0xe88
     c0003364:	97fffa56 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Example:\n");
-    c0003368:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000336c:	91112000 	add	x0, x0, #0x448
+    c0003368:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c000336c:	91362000 	add	x0, x0, #0xd88
     c0003370:	97fffa53 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  clear\n");
-    c0003374:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003378:	9116c000 	add	x0, x0, #0x5b0
+    c0003374:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003378:	913bc000 	add	x0, x0, #0xef0
     c000337c:	97fffa50 	bl	c0001cbc <mini_os_printf>
 		return;
     c0003380:	14000032 	b	c0003448 <shell_print_help_topic+0x46c>
 	}
 
 	if (strings_equal(topic, "uname")) {
-    c0003384:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003388:	91170001 	add	x1, x0, #0x5c0
+    c0003384:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003388:	913c0001 	add	x1, x0, #0xf00
     c000338c:	f9400fe0 	ldr	x0, [sp, #24]
     c0003390:	97fffda0 	bl	c0002a10 <strings_equal>
     c0003394:	12001c00 	and	w0, w0, #0xff
@@ -4518,28 +4518,28 @@ static void shell_print_help_topic(const char *topic)
     c000339c:	7100001f 	cmp	w0, #0x0
     c00033a0:	540001c0 	b.eq	c00033d8 <shell_print_help_topic+0x3fc>  // b.none
 		mini_os_printf("uname\n");
-    c00033a4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00033a8:	91172000 	add	x0, x0, #0x5c8
+    c00033a4:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00033a8:	913c2000 	add	x0, x0, #0xf08
     c00033ac:	97fffa44 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Print the OS name only.\n");
-    c00033b0:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00033b4:	91174000 	add	x0, x0, #0x5d0
+    c00033b0:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00033b4:	913c4000 	add	x0, x0, #0xf10
     c00033b8:	97fffa41 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Example:\n");
-    c00033bc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00033c0:	91112000 	add	x0, x0, #0x448
+    c00033bc:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00033c0:	91362000 	add	x0, x0, #0xd88
     c00033c4:	97fffa3e 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  uname\n");
-    c00033c8:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00033cc:	9117c000 	add	x0, x0, #0x5f0
+    c00033c8:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00033cc:	913cc000 	add	x0, x0, #0xf30
     c00033d0:	97fffa3b 	bl	c0001cbc <mini_os_printf>
 		return;
     c00033d4:	1400001d 	b	c0003448 <shell_print_help_topic+0x46c>
 	}
 
 	if (strings_equal(topic, "halt")) {
-    c00033d8:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00033dc:	91180001 	add	x1, x0, #0x600
+    c00033d8:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00033dc:	913d0001 	add	x1, x0, #0xf40
     c00033e0:	f9400fe0 	ldr	x0, [sp, #24]
     c00033e4:	97fffd8b 	bl	c0002a10 <strings_equal>
     c00033e8:	12001c00 	and	w0, w0, #0xff
@@ -4547,20 +4547,20 @@ static void shell_print_help_topic(const char *topic)
     c00033f0:	7100001f 	cmp	w0, #0x0
     c00033f4:	540001c0 	b.eq	c000342c <shell_print_help_topic+0x450>  // b.none
 		mini_os_printf("halt\n");
-    c00033f8:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00033fc:	91182000 	add	x0, x0, #0x608
+    c00033f8:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c00033fc:	913d2000 	add	x0, x0, #0xf48
     c0003400:	97fffa2f 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  Stop the current CPU in a low-power wait loop.\n");
-    c0003404:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003408:	91184000 	add	x0, x0, #0x610
+    c0003404:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003408:	913d4000 	add	x0, x0, #0xf50
     c000340c:	97fffa2c 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Example:\n");
-    c0003410:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003414:	91112000 	add	x0, x0, #0x448
+    c0003410:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003414:	91362000 	add	x0, x0, #0xd88
     c0003418:	97fffa29 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("  halt\n");
-    c000341c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003420:	91192000 	add	x0, x0, #0x648
+    c000341c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003420:	913e2000 	add	x0, x0, #0xf88
     c0003424:	97fffa26 	bl	c0001cbc <mini_os_printf>
 		return;
     c0003428:	14000008 	b	c0003448 <shell_print_help_topic+0x46c>
@@ -4568,12 +4568,12 @@ static void shell_print_help_topic(const char *topic)
 
 	mini_os_printf("No detailed help for topic '%s'.\n", topic);
     c000342c:	f9400fe1 	ldr	x1, [sp, #24]
-    c0003430:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003434:	91194000 	add	x0, x0, #0x650
+    c0003430:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003434:	913e4000 	add	x0, x0, #0xf90
     c0003438:	97fffa21 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("Try one of: cpu, cpus, topo, smp, info, version, echo, clear, uname, halt\n");
-    c000343c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003440:	9119e000 	add	x0, x0, #0x678
+    c000343c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003440:	913ee000 	add	x0, x0, #0xfb8
     c0003444:	97fffa1e 	bl	c0001cbc <mini_os_printf>
 }
     c0003448:	a8c27bfd 	ldp	x29, x30, [sp], #32
@@ -4600,12 +4600,12 @@ static void shell_print_version(void)
     c000346c:	910003fd 	mov	x29, sp
 	mini_os_printf("%s %s (%d)\n", MINI_OS_NAME, MINI_OS_VERSION,
     c0003470:	5280fd43 	mov	w3, #0x7ea                 	// #2026
-    c0003474:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003478:	911b2002 	add	x2, x0, #0x6c8
-    c000347c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003480:	911b4001 	add	x1, x0, #0x6d0
-    c0003484:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003488:	911b6000 	add	x0, x0, #0x6d8
+    c0003474:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003478:	91002002 	add	x2, x0, #0x8
+    c000347c:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003480:	91004001 	add	x1, x0, #0x10
+    c0003484:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003488:	91006000 	add	x0, x0, #0x18
     c000348c:	97fffa0c 	bl	c0001cbc <mini_os_printf>
 		       MINI_OS_BUILD_YEAR);
 }
@@ -4620,37 +4620,37 @@ static void shell_print_info(void)
     c000349c:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
     c00034a0:	910003fd 	mov	x29, sp
 	mini_os_printf("Platform      : %s\n", "Neoverse-N3");
-    c00034a4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00034a8:	911ba001 	add	x1, x0, #0x6e8
-    c00034ac:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00034b0:	911be000 	add	x0, x0, #0x6f8
+    c00034a4:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00034a8:	9100a001 	add	x1, x0, #0x28
+    c00034ac:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00034b0:	9100e000 	add	x0, x0, #0x38
     c00034b4:	97fffa02 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("UART base     : 0x%llx\n",
     c00034b8:	d2a34801 	mov	x1, #0x1a400000            	// #440401920
-    c00034bc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00034c0:	911c4000 	add	x0, x0, #0x710
+    c00034bc:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00034c0:	91014000 	add	x0, x0, #0x50
     c00034c4:	97fff9fe 	bl	c0001cbc <mini_os_printf>
 		       (unsigned long long)PLAT_UART0_BASE);
 	mini_os_printf("Load address  : 0x%llx\n",
     c00034c8:	d2b80001 	mov	x1, #0xc0000000            	// #3221225472
-    c00034cc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00034d0:	911ca000 	add	x0, x0, #0x728
+    c00034cc:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00034d0:	9101a000 	add	x0, x0, #0x68
     c00034d4:	97fff9fa 	bl	c0001cbc <mini_os_printf>
 		       (unsigned long long)PLAT_LOAD_ADDR);
 	mini_os_printf("Boot magic    : 0x%llx\n",
-    c00034d8:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00034dc:	912e4000 	add	x0, x0, #0xb90
+    c00034d8:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00034dc:	911c0000 	add	x0, x0, #0x700
     c00034e0:	f9400000 	ldr	x0, [x0]
     c00034e4:	aa0003e1 	mov	x1, x0
-    c00034e8:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00034ec:	911d0000 	add	x0, x0, #0x740
+    c00034e8:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00034ec:	91020000 	add	x0, x0, #0x80
     c00034f0:	97fff9f3 	bl	c0001cbc <mini_os_printf>
 		       (unsigned long long)boot_magic);
 	mini_os_printf("Runnable CPUs : %u\n", scheduler_runnable_cpu_count());
     c00034f4:	97fffd2e 	bl	c00029ac <scheduler_runnable_cpu_count>
     c00034f8:	2a0003e1 	mov	w1, w0
-    c00034fc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003500:	911d6000 	add	x0, x0, #0x758
+    c00034fc:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003500:	91026000 	add	x0, x0, #0x98
     c0003504:	97fff9ee 	bl	c0001cbc <mini_os_printf>
 }
     c0003508:	d503201f 	nop
@@ -4694,8 +4694,8 @@ static void shell_print_cpu_id(const char *arg)
     c0003560:	540000c0 	b.eq	c0003578 <shell_print_cpu_id+0x48>  // b.none
 		mini_os_printf("error: invalid cpu id '%s'\n", arg);
     c0003564:	f9400fe1 	ldr	x1, [sp, #24]
-    c0003568:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000356c:	911dc000 	add	x0, x0, #0x770
+    c0003568:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c000356c:	9102c000 	add	x0, x0, #0xb0
     c0003570:	97fff9d3 	bl	c0001cbc <mini_os_printf>
 		return;
     c0003574:	14000016 	b	c00035cc <shell_print_cpu_id+0x9c>
@@ -4703,7 +4703,7 @@ static void shell_print_cpu_id(const char *arg)
 
 	cpu = topology_cpu((unsigned int)logical_id);
     c0003578:	f94013e0 	ldr	x0, [sp, #32]
-    c000357c:	9400044b 	bl	c00046a8 <topology_cpu>
+    c000357c:	94000631 	bl	c0004e40 <topology_cpu>
     c0003580:	f90017e0 	str	x0, [sp, #40]
 	if ((cpu == (const struct cpu_topology_descriptor *)0) || !cpu->present) {
     c0003584:	f94017e0 	ldr	x0, [sp, #40]
@@ -4719,8 +4719,8 @@ static void shell_print_cpu_id(const char *arg)
 		mini_os_printf("cpu%u is not present\n", (unsigned int)logical_id);
     c00035ac:	f94013e0 	ldr	x0, [sp, #32]
     c00035b0:	2a0003e1 	mov	w1, w0
-    c00035b4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00035b8:	911e4000 	add	x0, x0, #0x790
+    c00035b4:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00035b8:	91034000 	add	x0, x0, #0xd0
     c00035bc:	97fff9c0 	bl	c0001cbc <mini_os_printf>
 		return;
     c00035c0:	14000003 	b	c00035cc <shell_print_cpu_id+0x9c>
@@ -4747,7 +4747,7 @@ static void shell_print_cpus(void)
     c00035e4:	14000011 	b	c0003628 <shell_print_cpus+0x54>
 		const struct cpu_topology_descriptor *cpu = topology_cpu(i);
     c00035e8:	b9402fe0 	ldr	w0, [sp, #44]
-    c00035ec:	9400042f 	bl	c00046a8 <topology_cpu>
+    c00035ec:	94000615 	bl	c0004e40 <topology_cpu>
     c00035f0:	f90013e0 	str	x0, [sp, #32]
 
 		if ((cpu != (const struct cpu_topology_descriptor *)0) && cpu->present) {
@@ -4766,7 +4766,7 @@ static void shell_print_cpus(void)
     c000361c:	b9402fe0 	ldr	w0, [sp, #44]
     c0003620:	11000400 	add	w0, w0, #0x1
     c0003624:	b9002fe0 	str	w0, [sp, #44]
-    c0003628:	94000453 	bl	c0004774 <topology_cpu_capacity>
+    c0003628:	94000639 	bl	c0004f0c <topology_cpu_capacity>
     c000362c:	2a0003e1 	mov	w1, w0
     c0003630:	b9402fe0 	ldr	w0, [sp, #44]
     c0003634:	6b01001f 	cmp	w0, w1
@@ -4774,16 +4774,16 @@ static void shell_print_cpus(void)
 		}
 	}
 	mini_os_printf("online=%u runnable=%u capacity=%u\n",
-    c000363c:	94000454 	bl	c000478c <topology_online_cpu_count>
+    c000363c:	9400063a 	bl	c0004f24 <topology_online_cpu_count>
     c0003640:	2a0003f3 	mov	w19, w0
     c0003644:	97fffcda 	bl	c00029ac <scheduler_runnable_cpu_count>
     c0003648:	2a0003f4 	mov	w20, w0
-    c000364c:	9400044a 	bl	c0004774 <topology_cpu_capacity>
+    c000364c:	94000630 	bl	c0004f0c <topology_cpu_capacity>
     c0003650:	2a0003e3 	mov	w3, w0
     c0003654:	2a1403e2 	mov	w2, w20
     c0003658:	2a1303e1 	mov	w1, w19
-    c000365c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003660:	911ea000 	add	x0, x0, #0x7a8
+    c000365c:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003660:	9103a000 	add	x0, x0, #0xe8
     c0003664:	97fff996 	bl	c0001cbc <mini_os_printf>
 		       topology_online_cpu_count(),
 		       scheduler_runnable_cpu_count(),
@@ -4801,38 +4801,38 @@ static void shell_print_topology_summary(void)
     c0003678:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
     c000367c:	910003fd 	mov	x29, sp
 	const struct cpu_topology_descriptor *boot_cpu = topology_boot_cpu();
-    c0003680:	94000407 	bl	c000469c <topology_boot_cpu>
+    c0003680:	940005ed 	bl	c0004e34 <topology_boot_cpu>
     c0003684:	f9000fe0 	str	x0, [sp, #24]
 
 	mini_os_printf("Topology summary:\n");
-    c0003688:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000368c:	911f4000 	add	x0, x0, #0x7d0
+    c0003688:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c000368c:	91044000 	add	x0, x0, #0x110
     c0003690:	97fff98b 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  present cpus : %u\n", topology_present_cpu_count());
-    c0003694:	9400043a 	bl	c000477c <topology_present_cpu_count>
+    c0003694:	94000620 	bl	c0004f14 <topology_present_cpu_count>
     c0003698:	2a0003e1 	mov	w1, w0
-    c000369c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00036a0:	911fa000 	add	x0, x0, #0x7e8
+    c000369c:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00036a0:	9104a000 	add	x0, x0, #0x128
     c00036a4:	97fff986 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  online cpus  : %u\n", topology_online_cpu_count());
-    c00036a8:	94000439 	bl	c000478c <topology_online_cpu_count>
+    c00036a8:	9400061f 	bl	c0004f24 <topology_online_cpu_count>
     c00036ac:	2a0003e1 	mov	w1, w0
-    c00036b0:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00036b4:	91200000 	add	x0, x0, #0x800
+    c00036b0:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00036b4:	91050000 	add	x0, x0, #0x140
     c00036b8:	97fff981 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  boot cpu     : cpu%u\n", boot_cpu->logical_id);
     c00036bc:	f9400fe0 	ldr	x0, [sp, #24]
     c00036c0:	b9400800 	ldr	w0, [x0, #8]
     c00036c4:	2a0003e1 	mov	w1, w0
-    c00036c8:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00036cc:	91206000 	add	x0, x0, #0x818
+    c00036c8:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00036cc:	91056000 	add	x0, x0, #0x158
     c00036d0:	97fff97b 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  boot mpidr   : 0x%llx\n", (unsigned long long)boot_cpu->mpidr);
     c00036d4:	f9400fe0 	ldr	x0, [sp, #24]
     c00036d8:	f9400000 	ldr	x0, [x0]
     c00036dc:	aa0003e1 	mov	x1, x0
-    c00036e0:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00036e4:	9120c000 	add	x0, x0, #0x830
+    c00036e0:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00036e4:	9105c000 	add	x0, x0, #0x170
     c00036e8:	97fff975 	bl	c0001cbc <mini_os_printf>
 	mini_os_printf("  affinity     : chip=%u die=%u cluster=%u core=%u\n",
 		       boot_cpu->chip_id,
@@ -4849,8 +4849,8 @@ static void shell_print_topology_summary(void)
     c0003708:	b9401800 	ldr	w0, [x0, #24]
 	mini_os_printf("  affinity     : chip=%u die=%u cluster=%u core=%u\n",
     c000370c:	2a0003e4 	mov	w4, w0
-    c0003710:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003714:	91214000 	add	x0, x0, #0x850
+    c0003710:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003714:	91064000 	add	x0, x0, #0x190
     c0003718:	97fff969 	bl	c0001cbc <mini_os_printf>
 }
     c000371c:	d503201f 	nop
@@ -4878,8 +4878,8 @@ static void shell_echo_args(int argc, char *argv[])
     c0003750:	8b000020 	add	x0, x1, x0
     c0003754:	f9400000 	ldr	x0, [x0]
     c0003758:	aa0003e1 	mov	x1, x0
-    c000375c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003760:	91222000 	add	x0, x0, #0x888
+    c000375c:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003760:	91072000 	add	x0, x0, #0x1c8
     c0003764:	97fff956 	bl	c0001cbc <mini_os_printf>
 		if (i + 1 < argc) {
     c0003768:	b9402fe0 	ldr	w0, [sp, #44]
@@ -4888,8 +4888,8 @@ static void shell_echo_args(int argc, char *argv[])
     c0003774:	6b00003f 	cmp	w1, w0
     c0003778:	5400008d 	b.le	c0003788 <shell_echo_args+0x60>
 			mini_os_printf(" ");
-    c000377c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003780:	91224000 	add	x0, x0, #0x890
+    c000377c:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003780:	91074000 	add	x0, x0, #0x1d0
     c0003784:	97fff94e 	bl	c0001cbc <mini_os_printf>
 	for (i = 1; i < argc; ++i) {
     c0003788:	b9402fe0 	ldr	w0, [sp, #44]
@@ -4902,8 +4902,8 @@ static void shell_echo_args(int argc, char *argv[])
 		}
 	}
 	mini_os_printf("\n");
-    c00037a4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00037a8:	91226000 	add	x0, x0, #0x898
+    c00037a4:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00037a8:	91076000 	add	x0, x0, #0x1d8
     c00037ac:	97fff944 	bl	c0001cbc <mini_os_printf>
 }
     c00037b0:	d503201f 	nop
@@ -4917,8 +4917,8 @@ static void shell_clear_screen(void)
     c00037bc:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
     c00037c0:	910003fd 	mov	x29, sp
 	mini_os_printf("\033[2J\033[H");
-    c00037c4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00037c8:	91228000 	add	x0, x0, #0x8a0
+    c00037c4:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00037c8:	91078000 	add	x0, x0, #0x1e0
     c00037cc:	97fff93c 	bl	c0001cbc <mini_os_printf>
 }
     c00037d0:	d503201f 	nop
@@ -4932,1656 +4932,2497 @@ static void shell_halt(void)
     c00037dc:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
     c00037e0:	910003fd 	mov	x29, sp
 	mini_os_printf("Halting CPU. Use reset/restart in your emulator or board monitor.\n");
-    c00037e4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00037e8:	9122a000 	add	x0, x0, #0x8a8
+    c00037e4:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00037e8:	9107a000 	add	x0, x0, #0x1e8
     c00037ec:	97fff934 	bl	c0001cbc <mini_os_printf>
 	for (;;) {
 		__asm__ volatile ("wfe");
     c00037f0:	d503205f 	wfe
     c00037f4:	17ffffff 	b	c00037f0 <shell_halt+0x14>
 
-00000000c00037f8 <shell_handle_smp>:
-	}
+00000000c00037f8 <shell_print_smp_already_online>:
 }
+
+static void shell_print_smp_already_online(uint64_t mpidr,
+					   unsigned int logical_id,
+					   const struct smp_cpu_state *state)
+{
+    c00037f8:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    c00037fc:	910003fd 	mov	x29, sp
+    c0003800:	f90017e0 	str	x0, [sp, #40]
+    c0003804:	b90027e1 	str	w1, [sp, #36]
+    c0003808:	f9000fe2 	str	x2, [sp, #24]
+	if ((state != (const struct smp_cpu_state *)0) && state->boot_cpu) {
+    c000380c:	f9400fe0 	ldr	x0, [sp, #24]
+    c0003810:	f100001f 	cmp	x0, #0x0
+    c0003814:	54000180 	b.eq	c0003844 <shell_print_smp_already_online+0x4c>  // b.none
+    c0003818:	f9400fe0 	ldr	x0, [sp, #24]
+    c000381c:	39404c00 	ldrb	w0, [x0, #19]
+    c0003820:	12000000 	and	w0, w0, #0x1
+    c0003824:	7100001f 	cmp	w0, #0x0
+    c0003828:	540000e0 	b.eq	c0003844 <shell_print_smp_already_online+0x4c>  // b.none
+		mini_os_printf("cpu%u (mpidr=0x%llx) is the boot CPU, already online by default\n",
+    c000382c:	f94017e2 	ldr	x2, [sp, #40]
+    c0003830:	b94027e1 	ldr	w1, [sp, #36]
+    c0003834:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003838:	9108c000 	add	x0, x0, #0x230
+    c000383c:	97fff920 	bl	c0001cbc <mini_os_printf>
+			       logical_id,
+			       (unsigned long long)mpidr);
+		return;
+    c0003840:	14000013 	b	c000388c <shell_print_smp_already_online+0x94>
+	}
+
+	if ((state != (const struct smp_cpu_state *)0) && state->online) {
+    c0003844:	f9400fe0 	ldr	x0, [sp, #24]
+    c0003848:	f100001f 	cmp	x0, #0x0
+    c000384c:	54000180 	b.eq	c000387c <shell_print_smp_already_online+0x84>  // b.none
+    c0003850:	f9400fe0 	ldr	x0, [sp, #24]
+    c0003854:	39404000 	ldrb	w0, [x0, #16]
+    c0003858:	12000000 	and	w0, w0, #0x1
+    c000385c:	7100001f 	cmp	w0, #0x0
+    c0003860:	540000e0 	b.eq	c000387c <shell_print_smp_already_online+0x84>  // b.none
+		mini_os_printf("cpu%u (mpidr=0x%llx) is a secondary CPU that is already online and scheduled\n",
+    c0003864:	f94017e2 	ldr	x2, [sp, #40]
+    c0003868:	b94027e1 	ldr	w1, [sp, #36]
+    c000386c:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003870:	9109e000 	add	x0, x0, #0x278
+    c0003874:	97fff912 	bl	c0001cbc <mini_os_printf>
+			       logical_id,
+			       (unsigned long long)mpidr);
+		return;
+    c0003878:	14000005 	b	c000388c <shell_print_smp_already_online+0x94>
+	}
+
+	mini_os_printf("TF-A returned already-on for mpidr=0x%llx, but mini-os did not observe this secondary CPU actually boot\n",
+    c000387c:	f94017e1 	ldr	x1, [sp, #40]
+    c0003880:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003884:	910b2000 	add	x0, x0, #0x2c8
+    c0003888:	97fff90d 	bl	c0001cbc <mini_os_printf>
+		       (unsigned long long)mpidr);
+}
+    c000388c:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    c0003890:	d65f03c0 	ret
+
+00000000c0003894 <shell_handle_smp>:
 
 static void shell_handle_smp(int argc, char *argv[])
 {
-    c00037f8:	a9bb7bfd 	stp	x29, x30, [sp, #-80]!
-    c00037fc:	910003fd 	mov	x29, sp
-    c0003800:	a90153f3 	stp	x19, x20, [sp, #16]
-    c0003804:	b9002fe0 	str	w0, [sp, #44]
-    c0003808:	f90013e1 	str	x1, [sp, #32]
+    c0003894:	a9ba7bfd 	stp	x29, x30, [sp, #-96]!
+    c0003898:	910003fd 	mov	x29, sp
+    c000389c:	a90153f3 	stp	x19, x20, [sp, #16]
+    c00038a0:	a9025bf5 	stp	x21, x22, [sp, #32]
+    c00038a4:	b9003fe0 	str	w0, [sp, #60]
+    c00038a8:	f9001be1 	str	x1, [sp, #48]
 	uint64_t mpidr;
 	unsigned int logical_id = 0U;
-    c000380c:	b9003fff 	str	wzr, [sp, #60]
+    c00038ac:	b90047ff 	str	wzr, [sp, #68]
+	int32_t smc_ret = 0;
+    c00038b0:	b90043ff 	str	wzr, [sp, #64]
 	int ret;
+	const struct smp_cpu_state *state = (const struct smp_cpu_state *)0;
+    c00038b4:	f9002fff 	str	xzr, [sp, #88]
 
 	if (argc < 2) {
-    c0003810:	b9402fe0 	ldr	w0, [sp, #44]
-    c0003814:	7100041f 	cmp	w0, #0x1
-    c0003818:	540000ac 	b.gt	c000382c <shell_handle_smp+0x34>
+    c00038b8:	b9403fe0 	ldr	w0, [sp, #60]
+    c00038bc:	7100041f 	cmp	w0, #0x1
+    c00038c0:	540000ac 	b.gt	c00038d4 <shell_handle_smp+0x40>
 		mini_os_printf("usage: smp status | smp start <mpidr>\n");
-    c000381c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003820:	9123c000 	add	x0, x0, #0x8f0
-    c0003824:	97fff926 	bl	c0001cbc <mini_os_printf>
+    c00038c4:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00038c8:	910ce000 	add	x0, x0, #0x338
+    c00038cc:	97fff8fc 	bl	c0001cbc <mini_os_printf>
 		return;
-    c0003828:	14000070 	b	c00039e8 <shell_handle_smp+0x1f0>
+    c00038d0:	140000bc 	b	c0003bc0 <shell_handle_smp+0x32c>
 	}
 
 	if (strings_equal(argv[1], "status")) {
-    c000382c:	f94013e0 	ldr	x0, [sp, #32]
-    c0003830:	91002000 	add	x0, x0, #0x8
-    c0003834:	f9400002 	ldr	x2, [x0]
-    c0003838:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000383c:	91246001 	add	x1, x0, #0x918
-    c0003840:	aa0203e0 	mov	x0, x2
-    c0003844:	97fffc73 	bl	c0002a10 <strings_equal>
-    c0003848:	12001c00 	and	w0, w0, #0xff
-    c000384c:	12000000 	and	w0, w0, #0x1
-    c0003850:	7100001f 	cmp	w0, #0x0
-    c0003854:	54000060 	b.eq	c0003860 <shell_handle_smp+0x68>  // b.none
+    c00038d4:	f9401be0 	ldr	x0, [sp, #48]
+    c00038d8:	91002000 	add	x0, x0, #0x8
+    c00038dc:	f9400002 	ldr	x2, [x0]
+    c00038e0:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00038e4:	910d8001 	add	x1, x0, #0x360
+    c00038e8:	aa0203e0 	mov	x0, x2
+    c00038ec:	97fffc49 	bl	c0002a10 <strings_equal>
+    c00038f0:	12001c00 	and	w0, w0, #0xff
+    c00038f4:	12000000 	and	w0, w0, #0x1
+    c00038f8:	7100001f 	cmp	w0, #0x0
+    c00038fc:	54000060 	b.eq	c0003908 <shell_handle_smp+0x74>  // b.none
 		shell_print_cpus();
-    c0003858:	97ffff5f 	bl	c00035d4 <shell_print_cpus>
+    c0003900:	97ffff35 	bl	c00035d4 <shell_print_cpus>
 		return;
-    c000385c:	14000063 	b	c00039e8 <shell_handle_smp+0x1f0>
+    c0003904:	140000af 	b	c0003bc0 <shell_handle_smp+0x32c>
 	}
 
 	if (strings_equal(argv[1], "start")) {
-    c0003860:	f94013e0 	ldr	x0, [sp, #32]
-    c0003864:	91002000 	add	x0, x0, #0x8
-    c0003868:	f9400002 	ldr	x2, [x0]
-    c000386c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003870:	91248001 	add	x1, x0, #0x920
-    c0003874:	aa0203e0 	mov	x0, x2
-    c0003878:	97fffc66 	bl	c0002a10 <strings_equal>
-    c000387c:	12001c00 	and	w0, w0, #0xff
-    c0003880:	12000000 	and	w0, w0, #0x1
-    c0003884:	7100001f 	cmp	w0, #0x0
-    c0003888:	54000a20 	b.eq	c00039cc <shell_handle_smp+0x1d4>  // b.none
+    c0003908:	f9401be0 	ldr	x0, [sp, #48]
+    c000390c:	91002000 	add	x0, x0, #0x8
+    c0003910:	f9400002 	ldr	x2, [x0]
+    c0003914:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003918:	910da001 	add	x1, x0, #0x368
+    c000391c:	aa0203e0 	mov	x0, x2
+    c0003920:	97fffc3c 	bl	c0002a10 <strings_equal>
+    c0003924:	12001c00 	and	w0, w0, #0xff
+    c0003928:	12000000 	and	w0, w0, #0x1
+    c000392c:	7100001f 	cmp	w0, #0x0
+    c0003930:	540013a0 	b.eq	c0003ba4 <shell_handle_smp+0x310>  // b.none
 		if (argc < 3) {
-    c000388c:	b9402fe0 	ldr	w0, [sp, #44]
-    c0003890:	7100081f 	cmp	w0, #0x2
-    c0003894:	540000ac 	b.gt	c00038a8 <shell_handle_smp+0xb0>
+    c0003934:	b9403fe0 	ldr	w0, [sp, #60]
+    c0003938:	7100081f 	cmp	w0, #0x2
+    c000393c:	540000ac 	b.gt	c0003950 <shell_handle_smp+0xbc>
 			mini_os_printf("usage: smp start <mpidr>\n");
-    c0003898:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000389c:	9124a000 	add	x0, x0, #0x928
-    c00038a0:	97fff907 	bl	c0001cbc <mini_os_printf>
+    c0003940:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003944:	910dc000 	add	x0, x0, #0x370
+    c0003948:	97fff8dd 	bl	c0001cbc <mini_os_printf>
 			return;
-    c00038a4:	14000051 	b	c00039e8 <shell_handle_smp+0x1f0>
+    c000394c:	1400009d 	b	c0003bc0 <shell_handle_smp+0x32c>
 		}
 		if (!parse_u64(argv[2], &mpidr)) {
-    c00038a8:	f94013e0 	ldr	x0, [sp, #32]
-    c00038ac:	91004000 	add	x0, x0, #0x10
-    c00038b0:	f9400000 	ldr	x0, [x0]
-    c00038b4:	910103e1 	add	x1, sp, #0x40
-    c00038b8:	97fffc99 	bl	c0002b1c <parse_u64>
-    c00038bc:	12001c00 	and	w0, w0, #0xff
-    c00038c0:	52000000 	eor	w0, w0, #0x1
-    c00038c4:	12001c00 	and	w0, w0, #0xff
-    c00038c8:	12000000 	and	w0, w0, #0x1
-    c00038cc:	7100001f 	cmp	w0, #0x0
-    c00038d0:	54000120 	b.eq	c00038f4 <shell_handle_smp+0xfc>  // b.none
+    c0003950:	f9401be0 	ldr	x0, [sp, #48]
+    c0003954:	91004000 	add	x0, x0, #0x10
+    c0003958:	f9400000 	ldr	x0, [x0]
+    c000395c:	910123e1 	add	x1, sp, #0x48
+    c0003960:	97fffc6f 	bl	c0002b1c <parse_u64>
+    c0003964:	12001c00 	and	w0, w0, #0xff
+    c0003968:	52000000 	eor	w0, w0, #0x1
+    c000396c:	12001c00 	and	w0, w0, #0xff
+    c0003970:	12000000 	and	w0, w0, #0x1
+    c0003974:	7100001f 	cmp	w0, #0x0
+    c0003978:	54000120 	b.eq	c000399c <shell_handle_smp+0x108>  // b.none
 			mini_os_printf("error: invalid mpidr '%s'\n", argv[2]);
-    c00038d4:	f94013e0 	ldr	x0, [sp, #32]
-    c00038d8:	91004000 	add	x0, x0, #0x10
-    c00038dc:	f9400000 	ldr	x0, [x0]
-    c00038e0:	aa0003e1 	mov	x1, x0
-    c00038e4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00038e8:	91252000 	add	x0, x0, #0x948
-    c00038ec:	97fff8f4 	bl	c0001cbc <mini_os_printf>
+    c000397c:	f9401be0 	ldr	x0, [sp, #48]
+    c0003980:	91004000 	add	x0, x0, #0x10
+    c0003984:	f9400000 	ldr	x0, [x0]
+    c0003988:	aa0003e1 	mov	x1, x0
+    c000398c:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003990:	910e4000 	add	x0, x0, #0x390
+    c0003994:	97fff8ca 	bl	c0001cbc <mini_os_printf>
 			return;
-    c00038f0:	1400003e 	b	c00039e8 <shell_handle_smp+0x1f0>
+    c0003998:	1400008a 	b	c0003bc0 <shell_handle_smp+0x32c>
 		}
 
-		ret = smp_start_cpu(mpidr, &logical_id);
-    c00038f4:	f94023e0 	ldr	x0, [sp, #64]
-    c00038f8:	9100f3e1 	add	x1, sp, #0x3c
-    c00038fc:	940001c3 	bl	c0004008 <smp_start_cpu>
-    c0003900:	b9004fe0 	str	w0, [sp, #76]
+		ret = smp_start_cpu(mpidr, &logical_id, &smc_ret);
+    c000399c:	f94027e0 	ldr	x0, [sp, #72]
+    c00039a0:	910103e2 	add	x2, sp, #0x40
+    c00039a4:	910113e1 	add	x1, sp, #0x44
+    c00039a8:	940002ff 	bl	c00045a4 <smp_start_cpu>
+    c00039ac:	b90057e0 	str	w0, [sp, #84]
+		state = smp_cpu_state(logical_id);
+    c00039b0:	b94047e0 	ldr	w0, [sp, #68]
+    c00039b4:	94000427 	bl	c0004a50 <smp_cpu_state>
+    c00039b8:	f9002fe0 	str	x0, [sp, #88]
+
+		mini_os_printf("TF-A cpu_on(mpidr=0x%llx, entry=0x%llx, ctx=cpu%u) -> smc=%d (%s)\n",
+    c00039bc:	f94027f3 	ldr	x19, [sp, #72]
+			       (unsigned long long)mpidr,
+			       (unsigned long long)smp_secondary_entrypoint(),
+    c00039c0:	94000492 	bl	c0004c08 <smp_secondary_entrypoint>
+    c00039c4:	aa0003f6 	mov	x22, x0
+		mini_os_printf("TF-A cpu_on(mpidr=0x%llx, entry=0x%llx, ctx=cpu%u) -> smc=%d (%s)\n",
+    c00039c8:	b94047f4 	ldr	w20, [sp, #68]
+    c00039cc:	b94043f5 	ldr	w21, [sp, #64]
+    c00039d0:	b94057e0 	ldr	w0, [sp, #84]
+    c00039d4:	9400026c 	bl	c0004384 <smp_start_result_name>
+    c00039d8:	aa0003e5 	mov	x5, x0
+    c00039dc:	2a1503e4 	mov	w4, w21
+    c00039e0:	2a1403e3 	mov	w3, w20
+    c00039e4:	aa1603e2 	mov	x2, x22
+    c00039e8:	aa1303e1 	mov	x1, x19
+    c00039ec:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00039f0:	910ec000 	add	x0, x0, #0x3b0
+    c00039f4:	97fff8b2 	bl	c0001cbc <mini_os_printf>
+			       logical_id,
+			       smc_ret,
+			       smp_start_result_name(ret));
+
 		if (ret == SMP_START_OK) {
-    c0003904:	b9404fe0 	ldr	w0, [sp, #76]
-    c0003908:	7100001f 	cmp	w0, #0x0
-    c000390c:	54000161 	b.ne	c0003938 <shell_handle_smp+0x140>  // b.any
-			mini_os_printf("cpu%u start request sent to TF-A for mpidr=0x%llx, entry=0x%llx\n",
-    c0003910:	b9403ff3 	ldr	w19, [sp, #60]
-    c0003914:	f94023f4 	ldr	x20, [sp, #64]
+    c00039f8:	b94057e0 	ldr	w0, [sp, #84]
+    c00039fc:	7100001f 	cmp	w0, #0x0
+    c0003a00:	54000661 	b.ne	c0003acc <shell_handle_smp+0x238>  // b.any
+			mini_os_printf("cpu%u power-on confirmed: online=%s scheduled=%s pending=%s runnable=%u\n",
+    c0003a04:	b94047f6 	ldr	w22, [sp, #68]
+    c0003a08:	f9402fe0 	ldr	x0, [sp, #88]
+    c0003a0c:	f100001f 	cmp	x0, #0x0
+    c0003a10:	54000120 	b.eq	c0003a34 <shell_handle_smp+0x1a0>  // b.none
 				       logical_id,
-				       (unsigned long long)mpidr,
-				       (unsigned long long)smp_secondary_entrypoint());
-    c0003918:	940002d6 	bl	c0004470 <smp_secondary_entrypoint>
-			mini_os_printf("cpu%u start request sent to TF-A for mpidr=0x%llx, entry=0x%llx\n",
-    c000391c:	aa0003e3 	mov	x3, x0
-    c0003920:	aa1403e2 	mov	x2, x20
-    c0003924:	2a1303e1 	mov	w1, w19
-    c0003928:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c000392c:	9125a000 	add	x0, x0, #0x968
-    c0003930:	97fff8e3 	bl	c0001cbc <mini_os_printf>
-				       (unsigned long long)mpidr);
+				       ((state != (const struct smp_cpu_state *)0) && state->online) ? "yes" : "no",
+    c0003a14:	f9402fe0 	ldr	x0, [sp, #88]
+    c0003a18:	39404000 	ldrb	w0, [x0, #16]
+    c0003a1c:	12000000 	and	w0, w0, #0x1
+    c0003a20:	7100001f 	cmp	w0, #0x0
+    c0003a24:	54000080 	b.eq	c0003a34 <shell_handle_smp+0x1a0>  // b.none
+			mini_os_printf("cpu%u power-on confirmed: online=%s scheduled=%s pending=%s runnable=%u\n",
+    c0003a28:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003a2c:	91162013 	add	x19, x0, #0x588
+    c0003a30:	14000003 	b	c0003a3c <shell_handle_smp+0x1a8>
+    c0003a34:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003a38:	91164013 	add	x19, x0, #0x590
+    c0003a3c:	f9402fe0 	ldr	x0, [sp, #88]
+    c0003a40:	f100001f 	cmp	x0, #0x0
+    c0003a44:	54000120 	b.eq	c0003a68 <shell_handle_smp+0x1d4>  // b.none
+				       ((state != (const struct smp_cpu_state *)0) && state->scheduled) ? "yes" : "no",
+    c0003a48:	f9402fe0 	ldr	x0, [sp, #88]
+    c0003a4c:	39404400 	ldrb	w0, [x0, #17]
+    c0003a50:	12000000 	and	w0, w0, #0x1
+    c0003a54:	7100001f 	cmp	w0, #0x0
+    c0003a58:	54000080 	b.eq	c0003a68 <shell_handle_smp+0x1d4>  // b.none
+			mini_os_printf("cpu%u power-on confirmed: online=%s scheduled=%s pending=%s runnable=%u\n",
+    c0003a5c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003a60:	91162014 	add	x20, x0, #0x588
+    c0003a64:	14000003 	b	c0003a70 <shell_handle_smp+0x1dc>
+    c0003a68:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003a6c:	91164014 	add	x20, x0, #0x590
+    c0003a70:	f9402fe0 	ldr	x0, [sp, #88]
+    c0003a74:	f100001f 	cmp	x0, #0x0
+    c0003a78:	54000120 	b.eq	c0003a9c <shell_handle_smp+0x208>  // b.none
+				       ((state != (const struct smp_cpu_state *)0) && state->pending) ? "yes" : "no",
+    c0003a7c:	f9402fe0 	ldr	x0, [sp, #88]
+    c0003a80:	39404800 	ldrb	w0, [x0, #18]
+    c0003a84:	12000000 	and	w0, w0, #0x1
+    c0003a88:	7100001f 	cmp	w0, #0x0
+    c0003a8c:	54000080 	b.eq	c0003a9c <shell_handle_smp+0x208>  // b.none
+			mini_os_printf("cpu%u power-on confirmed: online=%s scheduled=%s pending=%s runnable=%u\n",
+    c0003a90:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003a94:	91162015 	add	x21, x0, #0x588
+    c0003a98:	14000003 	b	c0003aa4 <shell_handle_smp+0x210>
+    c0003a9c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003aa0:	91164015 	add	x21, x0, #0x590
+    c0003aa4:	97fffbc2 	bl	c00029ac <scheduler_runnable_cpu_count>
+    c0003aa8:	2a0003e5 	mov	w5, w0
+    c0003aac:	aa1503e4 	mov	x4, x21
+    c0003ab0:	aa1403e3 	mov	x3, x20
+    c0003ab4:	aa1303e2 	mov	x2, x19
+    c0003ab8:	2a1603e1 	mov	w1, w22
+    c0003abc:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003ac0:	910fe000 	add	x0, x0, #0x3f8
+    c0003ac4:	97fff87e 	bl	c0001cbc <mini_os_printf>
 		} else {
-			mini_os_printf("cpu-on failed or unsupported for mpidr=0x%llx\n",
-				       (unsigned long long)mpidr);
+			mini_os_printf("cpu-on failed for mpidr=0x%llx with unexpected smc result %d\n",
+				       (unsigned long long)mpidr,
+				       smc_ret);
 		}
 		return;
-    c0003934:	1400002d 	b	c00039e8 <shell_handle_smp+0x1f0>
+    c0003ac8:	1400003e 	b	c0003bc0 <shell_handle_smp+0x32c>
 		} else if (ret == SMP_START_ALREADY_ONLINE) {
-    c0003938:	b9404fe0 	ldr	w0, [sp, #76]
-    c000393c:	7100041f 	cmp	w0, #0x1
-    c0003940:	54000121 	b.ne	c0003964 <shell_handle_smp+0x16c>  // b.any
-			mini_os_printf("cpu%u (mpidr=0x%llx) is already online and scheduled\n",
-    c0003944:	b9403fe0 	ldr	w0, [sp, #60]
-    c0003948:	f94023e1 	ldr	x1, [sp, #64]
-    c000394c:	aa0103e2 	mov	x2, x1
-    c0003950:	2a0003e1 	mov	w1, w0
-    c0003954:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003958:	9126c000 	add	x0, x0, #0x9b0
-    c000395c:	97fff8d8 	bl	c0001cbc <mini_os_printf>
+    c0003acc:	b94057e0 	ldr	w0, [sp, #84]
+    c0003ad0:	7100041f 	cmp	w0, #0x1
+    c0003ad4:	540000c1 	b.ne	c0003aec <shell_handle_smp+0x258>  // b.any
+			shell_print_smp_already_online(mpidr, logical_id, state);
+    c0003ad8:	f94027e0 	ldr	x0, [sp, #72]
+    c0003adc:	b94047e1 	ldr	w1, [sp, #68]
+    c0003ae0:	f9402fe2 	ldr	x2, [sp, #88]
+    c0003ae4:	97ffff45 	bl	c00037f8 <shell_print_smp_already_online>
 		return;
-    c0003960:	14000022 	b	c00039e8 <shell_handle_smp+0x1f0>
+    c0003ae8:	14000036 	b	c0003bc0 <shell_handle_smp+0x32c>
 		} else if (ret == SMP_START_INVALID_CPU) {
-    c0003964:	b9404fe0 	ldr	w0, [sp, #76]
-    c0003968:	3100041f 	cmn	w0, #0x1
-    c000396c:	54000121 	b.ne	c0003990 <shell_handle_smp+0x198>  // b.any
-			mini_os_printf("no free logical cpu slot left for mpidr=0x%llx (capacity=%u)\n",
-    c0003970:	f94023f3 	ldr	x19, [sp, #64]
-    c0003974:	94000380 	bl	c0004774 <topology_cpu_capacity>
-    c0003978:	2a0003e2 	mov	w2, w0
-    c000397c:	aa1303e1 	mov	x1, x19
-    c0003980:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003984:	9127a000 	add	x0, x0, #0x9e8
-    c0003988:	97fff8cd 	bl	c0001cbc <mini_os_printf>
+    c0003aec:	b94057e0 	ldr	w0, [sp, #84]
+    c0003af0:	3100041f 	cmn	w0, #0x1
+    c0003af4:	54000121 	b.ne	c0003b18 <shell_handle_smp+0x284>  // b.any
+			mini_os_printf("TF-A reported invalid target or no logical slot left for mpidr=0x%llx (capacity=%u)\n",
+    c0003af8:	f94027f3 	ldr	x19, [sp, #72]
+    c0003afc:	94000504 	bl	c0004f0c <topology_cpu_capacity>
+    c0003b00:	2a0003e2 	mov	w2, w0
+    c0003b04:	aa1303e1 	mov	x1, x19
+    c0003b08:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003b0c:	91112000 	add	x0, x0, #0x448
+    c0003b10:	97fff86b 	bl	c0001cbc <mini_os_printf>
 		return;
-    c000398c:	14000017 	b	c00039e8 <shell_handle_smp+0x1f0>
+    c0003b14:	1400002b 	b	c0003bc0 <shell_handle_smp+0x32c>
 		} else if (ret == SMP_START_DENIED) {
-    c0003990:	b9404fe0 	ldr	w0, [sp, #76]
-    c0003994:	31000c1f 	cmn	w0, #0x3
-    c0003998:	540000e1 	b.ne	c00039b4 <shell_handle_smp+0x1bc>  // b.any
-			mini_os_printf("TF-A rejected cpu-on for mpidr=0x%llx\n",
-    c000399c:	f94023e0 	ldr	x0, [sp, #64]
-    c00039a0:	aa0003e1 	mov	x1, x0
-    c00039a4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00039a8:	9128a000 	add	x0, x0, #0xa28
-    c00039ac:	97fff8c4 	bl	c0001cbc <mini_os_printf>
+    c0003b18:	b94057e0 	ldr	w0, [sp, #84]
+    c0003b1c:	31000c1f 	cmn	w0, #0x3
+    c0003b20:	540000e1 	b.ne	c0003b3c <shell_handle_smp+0x2a8>  // b.any
+			mini_os_printf("TF-A denied cpu-on for mpidr=0x%llx\n",
+    c0003b24:	f94027e0 	ldr	x0, [sp, #72]
+    c0003b28:	aa0003e1 	mov	x1, x0
+    c0003b2c:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003b30:	91128000 	add	x0, x0, #0x4a0
+    c0003b34:	97fff862 	bl	c0001cbc <mini_os_printf>
 		return;
-    c00039b0:	1400000e 	b	c00039e8 <shell_handle_smp+0x1f0>
-			mini_os_printf("cpu-on failed or unsupported for mpidr=0x%llx\n",
-    c00039b4:	f94023e0 	ldr	x0, [sp, #64]
-    c00039b8:	aa0003e1 	mov	x1, x0
-    c00039bc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00039c0:	91294000 	add	x0, x0, #0xa50
-    c00039c4:	97fff8be 	bl	c0001cbc <mini_os_printf>
+    c0003b38:	14000022 	b	c0003bc0 <shell_handle_smp+0x32c>
+		} else if (ret == SMP_START_UNSUPPORTED) {
+    c0003b3c:	b94057e0 	ldr	w0, [sp, #84]
+    c0003b40:	3100081f 	cmn	w0, #0x2
+    c0003b44:	540000e1 	b.ne	c0003b60 <shell_handle_smp+0x2cc>  // b.any
+			mini_os_printf("TF-A/PSCI does not support cpu-on for mpidr=0x%llx\n",
+    c0003b48:	f94027e0 	ldr	x0, [sp, #72]
+    c0003b4c:	aa0003e1 	mov	x1, x0
+    c0003b50:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003b54:	91132000 	add	x0, x0, #0x4c8
+    c0003b58:	97fff859 	bl	c0001cbc <mini_os_printf>
 		return;
-    c00039c8:	14000008 	b	c00039e8 <shell_handle_smp+0x1f0>
+    c0003b5c:	14000019 	b	c0003bc0 <shell_handle_smp+0x32c>
+		} else if (ret == SMP_START_TIMEOUT) {
+    c0003b60:	b94057e0 	ldr	w0, [sp, #84]
+    c0003b64:	3100101f 	cmn	w0, #0x4
+    c0003b68:	540000e1 	b.ne	c0003b84 <shell_handle_smp+0x2f0>  // b.any
+			mini_os_printf("cpu%u did not report online before timeout; please inspect TF-A handoff or secondary entry path\n",
+    c0003b6c:	b94047e0 	ldr	w0, [sp, #68]
+    c0003b70:	2a0003e1 	mov	w1, w0
+    c0003b74:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003b78:	91140000 	add	x0, x0, #0x500
+    c0003b7c:	97fff850 	bl	c0001cbc <mini_os_printf>
+		return;
+    c0003b80:	14000010 	b	c0003bc0 <shell_handle_smp+0x32c>
+			mini_os_printf("cpu-on failed for mpidr=0x%llx with unexpected smc result %d\n",
+    c0003b84:	f94027e0 	ldr	x0, [sp, #72]
+    c0003b88:	b94043e1 	ldr	w1, [sp, #64]
+    c0003b8c:	2a0103e2 	mov	w2, w1
+    c0003b90:	aa0003e1 	mov	x1, x0
+    c0003b94:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003b98:	9115a000 	add	x0, x0, #0x568
+    c0003b9c:	97fff848 	bl	c0001cbc <mini_os_printf>
+		return;
+    c0003ba0:	14000008 	b	c0003bc0 <shell_handle_smp+0x32c>
 	}
 
 	mini_os_printf("unknown smp subcommand: %s\n", argv[1]);
-    c00039cc:	f94013e0 	ldr	x0, [sp, #32]
-    c00039d0:	91002000 	add	x0, x0, #0x8
-    c00039d4:	f9400000 	ldr	x0, [x0]
-    c00039d8:	aa0003e1 	mov	x1, x0
-    c00039dc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c00039e0:	912a0000 	add	x0, x0, #0xa80
-    c00039e4:	97fff8b6 	bl	c0001cbc <mini_os_printf>
+    c0003ba4:	f9401be0 	ldr	x0, [sp, #48]
+    c0003ba8:	91002000 	add	x0, x0, #0x8
+    c0003bac:	f9400000 	ldr	x0, [x0]
+    c0003bb0:	aa0003e1 	mov	x1, x0
+    c0003bb4:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003bb8:	9116a000 	add	x0, x0, #0x5a8
+    c0003bbc:	97fff840 	bl	c0001cbc <mini_os_printf>
 }
-    c00039e8:	a94153f3 	ldp	x19, x20, [sp, #16]
-    c00039ec:	a8c57bfd 	ldp	x29, x30, [sp], #80
-    c00039f0:	d65f03c0 	ret
+    c0003bc0:	a94153f3 	ldp	x19, x20, [sp, #16]
+    c0003bc4:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    c0003bc8:	a8c67bfd 	ldp	x29, x30, [sp], #96
+    c0003bcc:	d65f03c0 	ret
 
-00000000c00039f4 <shell_execute>:
+00000000c0003bd0 <shell_execute>:
 
 static void shell_execute(char *line)
 {
-    c00039f4:	a9b97bfd 	stp	x29, x30, [sp, #-112]!
-    c00039f8:	910003fd 	mov	x29, sp
-    c00039fc:	f9000fe0 	str	x0, [sp, #24]
+    c0003bd0:	a9b97bfd 	stp	x29, x30, [sp, #-112]!
+    c0003bd4:	910003fd 	mov	x29, sp
+    c0003bd8:	f9000fe0 	str	x0, [sp, #24]
 	char *argv[SHELL_MAX_ARGS];
 	int argc;
 	const char *topic;
 
 	argc = shell_tokenize(line, argv, SHELL_MAX_ARGS);
-    c0003a00:	910083e0 	add	x0, sp, #0x20
-    c0003a04:	52800102 	mov	w2, #0x8                   	// #8
-    c0003a08:	aa0003e1 	mov	x1, x0
-    c0003a0c:	f9400fe0 	ldr	x0, [sp, #24]
-    c0003a10:	97fffcab 	bl	c0002cbc <shell_tokenize>
-    c0003a14:	b9006fe0 	str	w0, [sp, #108]
+    c0003bdc:	910083e0 	add	x0, sp, #0x20
+    c0003be0:	52800102 	mov	w2, #0x8                   	// #8
+    c0003be4:	aa0003e1 	mov	x1, x0
+    c0003be8:	f9400fe0 	ldr	x0, [sp, #24]
+    c0003bec:	97fffc34 	bl	c0002cbc <shell_tokenize>
+    c0003bf0:	b9006fe0 	str	w0, [sp, #108]
 	if (argc == 0) {
-    c0003a18:	b9406fe0 	ldr	w0, [sp, #108]
-    c0003a1c:	7100001f 	cmp	w0, #0x0
-    c0003a20:	54001380 	b.eq	c0003c90 <shell_execute+0x29c>  // b.none
+    c0003bf4:	b9406fe0 	ldr	w0, [sp, #108]
+    c0003bf8:	7100001f 	cmp	w0, #0x0
+    c0003bfc:	54001380 	b.eq	c0003e6c <shell_execute+0x29c>  // b.none
 		return;
 	}
 
 	if (strings_equal(argv[0], "help")) {
-    c0003a24:	f94013e2 	ldr	x2, [sp, #32]
-    c0003a28:	b0000000 	adrp	x0, c0004000 <smp_init+0x184>
-    c0003a2c:	913e4001 	add	x1, x0, #0xf90
-    c0003a30:	aa0203e0 	mov	x0, x2
-    c0003a34:	97fffbf7 	bl	c0002a10 <strings_equal>
-    c0003a38:	12001c00 	and	w0, w0, #0xff
-    c0003a3c:	12000000 	and	w0, w0, #0x1
-    c0003a40:	7100001f 	cmp	w0, #0x0
-    c0003a44:	54000180 	b.eq	c0003a74 <shell_execute+0x80>  // b.none
+    c0003c00:	f94013e2 	ldr	x2, [sp, #32]
+    c0003c04:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003c08:	91234001 	add	x1, x0, #0x8d0
+    c0003c0c:	aa0203e0 	mov	x0, x2
+    c0003c10:	97fffb80 	bl	c0002a10 <strings_equal>
+    c0003c14:	12001c00 	and	w0, w0, #0xff
+    c0003c18:	12000000 	and	w0, w0, #0x1
+    c0003c1c:	7100001f 	cmp	w0, #0x0
+    c0003c20:	54000180 	b.eq	c0003c50 <shell_execute+0x80>  // b.none
 		if (argc >= 2) {
-    c0003a48:	b9406fe0 	ldr	w0, [sp, #108]
-    c0003a4c:	7100041f 	cmp	w0, #0x1
-    c0003a50:	540000ed 	b.le	c0003a6c <shell_execute+0x78>
+    c0003c24:	b9406fe0 	ldr	w0, [sp, #108]
+    c0003c28:	7100041f 	cmp	w0, #0x1
+    c0003c2c:	540000ed 	b.le	c0003c48 <shell_execute+0x78>
 			topic = shell_help_topic_name(argv[1]);
-    c0003a54:	f94017e0 	ldr	x0, [sp, #40]
-    c0003a58:	97fffc17 	bl	c0002ab4 <shell_help_topic_name>
-    c0003a5c:	f90033e0 	str	x0, [sp, #96]
+    c0003c30:	f94017e0 	ldr	x0, [sp, #40]
+    c0003c34:	97fffba0 	bl	c0002ab4 <shell_help_topic_name>
+    c0003c38:	f90033e0 	str	x0, [sp, #96]
 			shell_print_help_topic(topic);
-    c0003a60:	f94033e0 	ldr	x0, [sp, #96]
-    c0003a64:	97fffd5e 	bl	c0002fdc <shell_print_help_topic>
-    c0003a68:	1400008b 	b	c0003c94 <shell_execute+0x2a0>
+    c0003c3c:	f94033e0 	ldr	x0, [sp, #96]
+    c0003c40:	97fffce7 	bl	c0002fdc <shell_print_help_topic>
+    c0003c44:	1400008b 	b	c0003e70 <shell_execute+0x2a0>
 		} else {
 			shell_print_help();
-    c0003a6c:	97fffe79 	bl	c0003450 <shell_print_help>
-    c0003a70:	14000089 	b	c0003c94 <shell_execute+0x2a0>
+    c0003c48:	97fffe02 	bl	c0003450 <shell_print_help>
+    c0003c4c:	14000089 	b	c0003e70 <shell_execute+0x2a0>
 		}
 	} else if (strings_equal(argv[0], "version")) {
-    c0003a74:	f94013e2 	ldr	x2, [sp, #32]
-    c0003a78:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003a7c:	91118001 	add	x1, x0, #0x460
-    c0003a80:	aa0203e0 	mov	x0, x2
-    c0003a84:	97fffbe3 	bl	c0002a10 <strings_equal>
-    c0003a88:	12001c00 	and	w0, w0, #0xff
-    c0003a8c:	12000000 	and	w0, w0, #0x1
-    c0003a90:	7100001f 	cmp	w0, #0x0
-    c0003a94:	54000060 	b.eq	c0003aa0 <shell_execute+0xac>  // b.none
+    c0003c50:	f94013e2 	ldr	x2, [sp, #32]
+    c0003c54:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003c58:	91368001 	add	x1, x0, #0xda0
+    c0003c5c:	aa0203e0 	mov	x0, x2
+    c0003c60:	97fffb6c 	bl	c0002a10 <strings_equal>
+    c0003c64:	12001c00 	and	w0, w0, #0xff
+    c0003c68:	12000000 	and	w0, w0, #0x1
+    c0003c6c:	7100001f 	cmp	w0, #0x0
+    c0003c70:	54000060 	b.eq	c0003c7c <shell_execute+0xac>  // b.none
 		shell_print_version();
-    c0003a98:	97fffe74 	bl	c0003468 <shell_print_version>
-    c0003a9c:	1400007e 	b	c0003c94 <shell_execute+0x2a0>
+    c0003c74:	97fffdfd 	bl	c0003468 <shell_print_version>
+    c0003c78:	1400007e 	b	c0003e70 <shell_execute+0x2a0>
 	} else if (strings_equal(argv[0], "info")) {
-    c0003aa0:	f94013e2 	ldr	x2, [sp, #32]
-    c0003aa4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003aa8:	910f2001 	add	x1, x0, #0x3c8
-    c0003aac:	aa0203e0 	mov	x0, x2
-    c0003ab0:	97fffbd8 	bl	c0002a10 <strings_equal>
-    c0003ab4:	12001c00 	and	w0, w0, #0xff
-    c0003ab8:	12000000 	and	w0, w0, #0x1
-    c0003abc:	7100001f 	cmp	w0, #0x0
-    c0003ac0:	54000060 	b.eq	c0003acc <shell_execute+0xd8>  // b.none
+    c0003c7c:	f94013e2 	ldr	x2, [sp, #32]
+    c0003c80:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003c84:	91342001 	add	x1, x0, #0xd08
+    c0003c88:	aa0203e0 	mov	x0, x2
+    c0003c8c:	97fffb61 	bl	c0002a10 <strings_equal>
+    c0003c90:	12001c00 	and	w0, w0, #0xff
+    c0003c94:	12000000 	and	w0, w0, #0x1
+    c0003c98:	7100001f 	cmp	w0, #0x0
+    c0003c9c:	54000060 	b.eq	c0003ca8 <shell_execute+0xd8>  // b.none
 		shell_print_info();
-    c0003ac4:	97fffe76 	bl	c000349c <shell_print_info>
-    c0003ac8:	14000073 	b	c0003c94 <shell_execute+0x2a0>
+    c0003ca0:	97fffdff 	bl	c000349c <shell_print_info>
+    c0003ca4:	14000073 	b	c0003e70 <shell_execute+0x2a0>
 	} else if (strings_equal(argv[0], "cpu")) {
-    c0003acc:	f94013e2 	ldr	x2, [sp, #32]
-    c0003ad0:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003ad4:	91008001 	add	x1, x0, #0x20
-    c0003ad8:	aa0203e0 	mov	x0, x2
-    c0003adc:	97fffbcd 	bl	c0002a10 <strings_equal>
-    c0003ae0:	12001c00 	and	w0, w0, #0xff
-    c0003ae4:	12000000 	and	w0, w0, #0x1
-    c0003ae8:	7100001f 	cmp	w0, #0x0
-    c0003aec:	54000120 	b.eq	c0003b10 <shell_execute+0x11c>  // b.none
+    c0003ca8:	f94013e2 	ldr	x2, [sp, #32]
+    c0003cac:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003cb0:	91258001 	add	x1, x0, #0x960
+    c0003cb4:	aa0203e0 	mov	x0, x2
+    c0003cb8:	97fffb56 	bl	c0002a10 <strings_equal>
+    c0003cbc:	12001c00 	and	w0, w0, #0xff
+    c0003cc0:	12000000 	and	w0, w0, #0x1
+    c0003cc4:	7100001f 	cmp	w0, #0x0
+    c0003cc8:	54000120 	b.eq	c0003cec <shell_execute+0x11c>  // b.none
 		if (argc >= 2) {
-    c0003af0:	b9406fe0 	ldr	w0, [sp, #108]
-    c0003af4:	7100041f 	cmp	w0, #0x1
-    c0003af8:	5400008d 	b.le	c0003b08 <shell_execute+0x114>
+    c0003ccc:	b9406fe0 	ldr	w0, [sp, #108]
+    c0003cd0:	7100041f 	cmp	w0, #0x1
+    c0003cd4:	5400008d 	b.le	c0003ce4 <shell_execute+0x114>
 			shell_print_cpu_id(argv[1]);
-    c0003afc:	f94017e0 	ldr	x0, [sp, #40]
-    c0003b00:	97fffe8c 	bl	c0003530 <shell_print_cpu_id>
-    c0003b04:	14000064 	b	c0003c94 <shell_execute+0x2a0>
+    c0003cd8:	f94017e0 	ldr	x0, [sp, #40]
+    c0003cdc:	97fffe15 	bl	c0003530 <shell_print_cpu_id>
+    c0003ce0:	14000064 	b	c0003e70 <shell_execute+0x2a0>
 		} else {
 			shell_print_current_cpu();
-    c0003b08:	97fffe83 	bl	c0003514 <shell_print_current_cpu>
-    c0003b0c:	14000062 	b	c0003c94 <shell_execute+0x2a0>
+    c0003ce4:	97fffe0c 	bl	c0003514 <shell_print_current_cpu>
+    c0003ce8:	14000062 	b	c0003e70 <shell_execute+0x2a0>
 		}
 	} else if (strings_equal(argv[0], "cpus")) {
-    c0003b10:	f94013e2 	ldr	x2, [sp, #32]
-    c0003b14:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003b18:	91038001 	add	x1, x0, #0xe0
-    c0003b1c:	aa0203e0 	mov	x0, x2
-    c0003b20:	97fffbbc 	bl	c0002a10 <strings_equal>
-    c0003b24:	12001c00 	and	w0, w0, #0xff
-    c0003b28:	12000000 	and	w0, w0, #0x1
-    c0003b2c:	7100001f 	cmp	w0, #0x0
-    c0003b30:	54000060 	b.eq	c0003b3c <shell_execute+0x148>  // b.none
+    c0003cec:	f94013e2 	ldr	x2, [sp, #32]
+    c0003cf0:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003cf4:	91288001 	add	x1, x0, #0xa20
+    c0003cf8:	aa0203e0 	mov	x0, x2
+    c0003cfc:	97fffb45 	bl	c0002a10 <strings_equal>
+    c0003d00:	12001c00 	and	w0, w0, #0xff
+    c0003d04:	12000000 	and	w0, w0, #0x1
+    c0003d08:	7100001f 	cmp	w0, #0x0
+    c0003d0c:	54000060 	b.eq	c0003d18 <shell_execute+0x148>  // b.none
 		shell_print_cpus();
-    c0003b34:	97fffea8 	bl	c00035d4 <shell_print_cpus>
-    c0003b38:	14000057 	b	c0003c94 <shell_execute+0x2a0>
+    c0003d10:	97fffe31 	bl	c00035d4 <shell_print_cpus>
+    c0003d14:	14000057 	b	c0003e70 <shell_execute+0x2a0>
 	} else if (strings_equal(argv[0], "topo")) {
-    c0003b3c:	f94013e2 	ldr	x2, [sp, #32]
-    c0003b40:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003b44:	9106c001 	add	x1, x0, #0x1b0
-    c0003b48:	aa0203e0 	mov	x0, x2
-    c0003b4c:	97fffbb1 	bl	c0002a10 <strings_equal>
-    c0003b50:	12001c00 	and	w0, w0, #0xff
-    c0003b54:	12000000 	and	w0, w0, #0x1
-    c0003b58:	7100001f 	cmp	w0, #0x0
-    c0003b5c:	54000060 	b.eq	c0003b68 <shell_execute+0x174>  // b.none
+    c0003d18:	f94013e2 	ldr	x2, [sp, #32]
+    c0003d1c:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003d20:	912bc001 	add	x1, x0, #0xaf0
+    c0003d24:	aa0203e0 	mov	x0, x2
+    c0003d28:	97fffb3a 	bl	c0002a10 <strings_equal>
+    c0003d2c:	12001c00 	and	w0, w0, #0xff
+    c0003d30:	12000000 	and	w0, w0, #0x1
+    c0003d34:	7100001f 	cmp	w0, #0x0
+    c0003d38:	54000060 	b.eq	c0003d44 <shell_execute+0x174>  // b.none
 		shell_print_topology_summary();
-    c0003b60:	97fffec6 	bl	c0003678 <shell_print_topology_summary>
-    c0003b64:	1400004c 	b	c0003c94 <shell_execute+0x2a0>
+    c0003d3c:	97fffe4f 	bl	c0003678 <shell_print_topology_summary>
+    c0003d40:	1400004c 	b	c0003e70 <shell_execute+0x2a0>
 	} else if (strings_equal(argv[0], "smp")) {
-    c0003b68:	f94013e2 	ldr	x2, [sp, #32]
-    c0003b6c:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003b70:	9109c001 	add	x1, x0, #0x270
-    c0003b74:	aa0203e0 	mov	x0, x2
-    c0003b78:	97fffba6 	bl	c0002a10 <strings_equal>
-    c0003b7c:	12001c00 	and	w0, w0, #0xff
-    c0003b80:	12000000 	and	w0, w0, #0x1
-    c0003b84:	7100001f 	cmp	w0, #0x0
-    c0003b88:	540000c0 	b.eq	c0003ba0 <shell_execute+0x1ac>  // b.none
+    c0003d44:	f94013e2 	ldr	x2, [sp, #32]
+    c0003d48:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003d4c:	912ec001 	add	x1, x0, #0xbb0
+    c0003d50:	aa0203e0 	mov	x0, x2
+    c0003d54:	97fffb2f 	bl	c0002a10 <strings_equal>
+    c0003d58:	12001c00 	and	w0, w0, #0xff
+    c0003d5c:	12000000 	and	w0, w0, #0x1
+    c0003d60:	7100001f 	cmp	w0, #0x0
+    c0003d64:	540000c0 	b.eq	c0003d7c <shell_execute+0x1ac>  // b.none
 		shell_handle_smp(argc, argv);
-    c0003b8c:	910083e0 	add	x0, sp, #0x20
-    c0003b90:	aa0003e1 	mov	x1, x0
-    c0003b94:	b9406fe0 	ldr	w0, [sp, #108]
-    c0003b98:	97ffff18 	bl	c00037f8 <shell_handle_smp>
-    c0003b9c:	1400003e 	b	c0003c94 <shell_execute+0x2a0>
+    c0003d68:	910083e0 	add	x0, sp, #0x20
+    c0003d6c:	aa0003e1 	mov	x1, x0
+    c0003d70:	b9406fe0 	ldr	w0, [sp, #108]
+    c0003d74:	97fffec8 	bl	c0003894 <shell_handle_smp>
+    c0003d78:	1400003e 	b	c0003e70 <shell_execute+0x2a0>
 	} else if (strings_equal(argv[0], "echo")) {
-    c0003ba0:	f94013e2 	ldr	x2, [sp, #32]
-    c0003ba4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003ba8:	91132001 	add	x1, x0, #0x4c8
-    c0003bac:	aa0203e0 	mov	x0, x2
-    c0003bb0:	97fffb98 	bl	c0002a10 <strings_equal>
-    c0003bb4:	12001c00 	and	w0, w0, #0xff
-    c0003bb8:	12000000 	and	w0, w0, #0x1
-    c0003bbc:	7100001f 	cmp	w0, #0x0
-    c0003bc0:	540000c0 	b.eq	c0003bd8 <shell_execute+0x1e4>  // b.none
+    c0003d7c:	f94013e2 	ldr	x2, [sp, #32]
+    c0003d80:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003d84:	91382001 	add	x1, x0, #0xe08
+    c0003d88:	aa0203e0 	mov	x0, x2
+    c0003d8c:	97fffb21 	bl	c0002a10 <strings_equal>
+    c0003d90:	12001c00 	and	w0, w0, #0xff
+    c0003d94:	12000000 	and	w0, w0, #0x1
+    c0003d98:	7100001f 	cmp	w0, #0x0
+    c0003d9c:	540000c0 	b.eq	c0003db4 <shell_execute+0x1e4>  // b.none
 		shell_echo_args(argc, argv);
-    c0003bc4:	910083e0 	add	x0, sp, #0x20
-    c0003bc8:	aa0003e1 	mov	x1, x0
-    c0003bcc:	b9406fe0 	ldr	w0, [sp, #108]
-    c0003bd0:	97fffed6 	bl	c0003728 <shell_echo_args>
-    c0003bd4:	14000030 	b	c0003c94 <shell_execute+0x2a0>
+    c0003da0:	910083e0 	add	x0, sp, #0x20
+    c0003da4:	aa0003e1 	mov	x1, x0
+    c0003da8:	b9406fe0 	ldr	w0, [sp, #108]
+    c0003dac:	97fffe5f 	bl	c0003728 <shell_echo_args>
+    c0003db0:	14000030 	b	c0003e70 <shell_execute+0x2a0>
 	} else if (strings_equal(argv[0], "clear")) {
-    c0003bd8:	f94013e2 	ldr	x2, [sp, #32]
-    c0003bdc:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003be0:	9114e001 	add	x1, x0, #0x538
-    c0003be4:	aa0203e0 	mov	x0, x2
-    c0003be8:	97fffb8a 	bl	c0002a10 <strings_equal>
-    c0003bec:	12001c00 	and	w0, w0, #0xff
-    c0003bf0:	12000000 	and	w0, w0, #0x1
-    c0003bf4:	7100001f 	cmp	w0, #0x0
-    c0003bf8:	54000060 	b.eq	c0003c04 <shell_execute+0x210>  // b.none
+    c0003db4:	f94013e2 	ldr	x2, [sp, #32]
+    c0003db8:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003dbc:	9139e001 	add	x1, x0, #0xe78
+    c0003dc0:	aa0203e0 	mov	x0, x2
+    c0003dc4:	97fffb13 	bl	c0002a10 <strings_equal>
+    c0003dc8:	12001c00 	and	w0, w0, #0xff
+    c0003dcc:	12000000 	and	w0, w0, #0x1
+    c0003dd0:	7100001f 	cmp	w0, #0x0
+    c0003dd4:	54000060 	b.eq	c0003de0 <shell_execute+0x210>  // b.none
 		shell_clear_screen();
-    c0003bfc:	97fffef0 	bl	c00037bc <shell_clear_screen>
-    c0003c00:	14000025 	b	c0003c94 <shell_execute+0x2a0>
+    c0003dd8:	97fffe79 	bl	c00037bc <shell_clear_screen>
+    c0003ddc:	14000025 	b	c0003e70 <shell_execute+0x2a0>
 	} else if (strings_equal(argv[0], "uname")) {
-    c0003c04:	f94013e2 	ldr	x2, [sp, #32]
-    c0003c08:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003c0c:	91170001 	add	x1, x0, #0x5c0
-    c0003c10:	aa0203e0 	mov	x0, x2
-    c0003c14:	97fffb7f 	bl	c0002a10 <strings_equal>
-    c0003c18:	12001c00 	and	w0, w0, #0xff
-    c0003c1c:	12000000 	and	w0, w0, #0x1
-    c0003c20:	7100001f 	cmp	w0, #0x0
-    c0003c24:	540000e0 	b.eq	c0003c40 <shell_execute+0x24c>  // b.none
+    c0003de0:	f94013e2 	ldr	x2, [sp, #32]
+    c0003de4:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003de8:	913c0001 	add	x1, x0, #0xf00
+    c0003dec:	aa0203e0 	mov	x0, x2
+    c0003df0:	97fffb08 	bl	c0002a10 <strings_equal>
+    c0003df4:	12001c00 	and	w0, w0, #0xff
+    c0003df8:	12000000 	and	w0, w0, #0x1
+    c0003dfc:	7100001f 	cmp	w0, #0x0
+    c0003e00:	540000e0 	b.eq	c0003e1c <shell_execute+0x24c>  // b.none
 		mini_os_printf("%s\n", MINI_OS_NAME);
-    c0003c28:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003c2c:	911b4001 	add	x1, x0, #0x6d0
-    c0003c30:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003c34:	912a8000 	add	x0, x0, #0xaa0
-    c0003c38:	97fff821 	bl	c0001cbc <mini_os_printf>
-    c0003c3c:	14000016 	b	c0003c94 <shell_execute+0x2a0>
+    c0003e04:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003e08:	91004001 	add	x1, x0, #0x10
+    c0003e0c:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003e10:	91172000 	add	x0, x0, #0x5c8
+    c0003e14:	97fff7aa 	bl	c0001cbc <mini_os_printf>
+    c0003e18:	14000016 	b	c0003e70 <shell_execute+0x2a0>
 	} else if (strings_equal(argv[0], "halt")) {
-    c0003c40:	f94013e2 	ldr	x2, [sp, #32]
-    c0003c44:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003c48:	91180001 	add	x1, x0, #0x600
-    c0003c4c:	aa0203e0 	mov	x0, x2
-    c0003c50:	97fffb70 	bl	c0002a10 <strings_equal>
-    c0003c54:	12001c00 	and	w0, w0, #0xff
-    c0003c58:	12000000 	and	w0, w0, #0x1
-    c0003c5c:	7100001f 	cmp	w0, #0x0
-    c0003c60:	54000060 	b.eq	c0003c6c <shell_execute+0x278>  // b.none
+    c0003e1c:	f94013e2 	ldr	x2, [sp, #32]
+    c0003e20:	d0000000 	adrp	x0, c0005000 <topology_mark_cpu_online+0xcc>
+    c0003e24:	913d0001 	add	x1, x0, #0xf40
+    c0003e28:	aa0203e0 	mov	x0, x2
+    c0003e2c:	97fffaf9 	bl	c0002a10 <strings_equal>
+    c0003e30:	12001c00 	and	w0, w0, #0xff
+    c0003e34:	12000000 	and	w0, w0, #0x1
+    c0003e38:	7100001f 	cmp	w0, #0x0
+    c0003e3c:	54000060 	b.eq	c0003e48 <shell_execute+0x278>  // b.none
 		shell_halt();
-    c0003c64:	97fffede 	bl	c00037dc <shell_halt>
-    c0003c68:	1400000b 	b	c0003c94 <shell_execute+0x2a0>
+    c0003e40:	97fffe67 	bl	c00037dc <shell_halt>
+    c0003e44:	1400000b 	b	c0003e70 <shell_execute+0x2a0>
 	} else {
 		mini_os_printf("Unknown command: %s\n", argv[0]);
-    c0003c6c:	f94013e0 	ldr	x0, [sp, #32]
-    c0003c70:	aa0003e1 	mov	x1, x0
-    c0003c74:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003c78:	912aa000 	add	x0, x0, #0xaa8
-    c0003c7c:	97fff810 	bl	c0001cbc <mini_os_printf>
+    c0003e48:	f94013e0 	ldr	x0, [sp, #32]
+    c0003e4c:	aa0003e1 	mov	x1, x0
+    c0003e50:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003e54:	91174000 	add	x0, x0, #0x5d0
+    c0003e58:	97fff799 	bl	c0001cbc <mini_os_printf>
 		mini_os_printf("Type 'help' to list supported commands.\n");
-    c0003c80:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003c84:	912b0000 	add	x0, x0, #0xac0
-    c0003c88:	97fff80d 	bl	c0001cbc <mini_os_printf>
-    c0003c8c:	14000002 	b	c0003c94 <shell_execute+0x2a0>
+    c0003e5c:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003e60:	9117a000 	add	x0, x0, #0x5e8
+    c0003e64:	97fff796 	bl	c0001cbc <mini_os_printf>
+    c0003e68:	14000002 	b	c0003e70 <shell_execute+0x2a0>
 		return;
-    c0003c90:	d503201f 	nop
+    c0003e6c:	d503201f 	nop
 	}
 }
-    c0003c94:	a8c77bfd 	ldp	x29, x30, [sp], #112
-    c0003c98:	d65f03c0 	ret
+    c0003e70:	a8c77bfd 	ldp	x29, x30, [sp], #112
+    c0003e74:	d65f03c0 	ret
 
-00000000c0003c9c <shell_prompt>:
+00000000c0003e78 <shell_prompt>:
 
 static void shell_prompt(void)
 {
-    c0003c9c:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
-    c0003ca0:	910003fd 	mov	x29, sp
+    c0003e78:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+    c0003e7c:	910003fd 	mov	x29, sp
 	mini_os_printf("%s", SHELL_PROMPT);
-    c0003ca4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003ca8:	912bc001 	add	x1, x0, #0xaf0
-    c0003cac:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003cb0:	91222000 	add	x0, x0, #0x888
-    c0003cb4:	97fff802 	bl	c0001cbc <mini_os_printf>
+    c0003e80:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003e84:	91186001 	add	x1, x0, #0x618
+    c0003e88:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003e8c:	91072000 	add	x0, x0, #0x1c8
+    c0003e90:	97fff78b 	bl	c0001cbc <mini_os_printf>
 }
-    c0003cb8:	d503201f 	nop
-    c0003cbc:	a8c17bfd 	ldp	x29, x30, [sp], #16
-    c0003cc0:	d65f03c0 	ret
+    c0003e94:	d503201f 	nop
+    c0003e98:	a8c17bfd 	ldp	x29, x30, [sp], #16
+    c0003e9c:	d65f03c0 	ret
 
-00000000c0003cc4 <shell_run>:
+00000000c0003ea0 <shell_run>:
 
 void shell_run(void)
 {
-    c0003cc4:	a9b67bfd 	stp	x29, x30, [sp, #-160]!
-    c0003cc8:	910003fd 	mov	x29, sp
+    c0003ea0:	a9b67bfd 	stp	x29, x30, [sp, #-160]!
+    c0003ea4:	910003fd 	mov	x29, sp
 	char line[SHELL_MAX_LINE];
 	size_t len = 0U;
-    c0003ccc:	f9004fff 	str	xzr, [sp, #152]
+    c0003ea8:	f9004fff 	str	xzr, [sp, #152]
 
 	shell_prompt();
-    c0003cd0:	97fffff3 	bl	c0003c9c <shell_prompt>
+    c0003eac:	97fffff3 	bl	c0003e78 <shell_prompt>
 	for (;;) {
 		int ch = debug_getc();
-    c0003cd4:	97fff83d 	bl	c0001dc8 <debug_getc>
-    c0003cd8:	b90097e0 	str	w0, [sp, #148]
+    c0003eb0:	97fff7c6 	bl	c0001dc8 <debug_getc>
+    c0003eb4:	b90097e0 	str	w0, [sp, #148]
 
 		if ((ch == '\r') || (ch == '\n')) {
-    c0003cdc:	b94097e0 	ldr	w0, [sp, #148]
-    c0003ce0:	7100341f 	cmp	w0, #0xd
-    c0003ce4:	54000080 	b.eq	c0003cf4 <shell_run+0x30>  // b.none
-    c0003ce8:	b94097e0 	ldr	w0, [sp, #148]
-    c0003cec:	7100281f 	cmp	w0, #0xa
-    c0003cf0:	54000181 	b.ne	c0003d20 <shell_run+0x5c>  // b.any
+    c0003eb8:	b94097e0 	ldr	w0, [sp, #148]
+    c0003ebc:	7100341f 	cmp	w0, #0xd
+    c0003ec0:	54000080 	b.eq	c0003ed0 <shell_run+0x30>  // b.none
+    c0003ec4:	b94097e0 	ldr	w0, [sp, #148]
+    c0003ec8:	7100281f 	cmp	w0, #0xa
+    c0003ecc:	54000181 	b.ne	c0003efc <shell_run+0x5c>  // b.any
 			mini_os_printf("\n");
-    c0003cf4:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003cf8:	91226000 	add	x0, x0, #0x898
-    c0003cfc:	97fff7f0 	bl	c0001cbc <mini_os_printf>
+    c0003ed0:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003ed4:	91076000 	add	x0, x0, #0x1d8
+    c0003ed8:	97fff779 	bl	c0001cbc <mini_os_printf>
 			line[len] = '\0';
-    c0003d00:	f9404fe0 	ldr	x0, [sp, #152]
-    c0003d04:	910043e1 	add	x1, sp, #0x10
-    c0003d08:	3820683f 	strb	wzr, [x1, x0]
+    c0003edc:	f9404fe0 	ldr	x0, [sp, #152]
+    c0003ee0:	910043e1 	add	x1, sp, #0x10
+    c0003ee4:	3820683f 	strb	wzr, [x1, x0]
 			shell_execute(line);
-    c0003d0c:	910043e0 	add	x0, sp, #0x10
-    c0003d10:	97ffff39 	bl	c00039f4 <shell_execute>
+    c0003ee8:	910043e0 	add	x0, sp, #0x10
+    c0003eec:	97ffff39 	bl	c0003bd0 <shell_execute>
 			len = 0U;
-    c0003d14:	f9004fff 	str	xzr, [sp, #152]
+    c0003ef0:	f9004fff 	str	xzr, [sp, #152]
 			shell_prompt();
-    c0003d18:	97ffffe1 	bl	c0003c9c <shell_prompt>
+    c0003ef4:	97ffffe1 	bl	c0003e78 <shell_prompt>
 			continue;
-    c0003d1c:	14000034 	b	c0003dec <shell_run+0x128>
+    c0003ef8:	14000034 	b	c0003fc8 <shell_run+0x128>
 		}
 
 		if ((ch == '\b') || (ch == 127)) {
-    c0003d20:	b94097e0 	ldr	w0, [sp, #148]
-    c0003d24:	7100201f 	cmp	w0, #0x8
-    c0003d28:	54000080 	b.eq	c0003d38 <shell_run+0x74>  // b.none
-    c0003d2c:	b94097e0 	ldr	w0, [sp, #148]
-    c0003d30:	7101fc1f 	cmp	w0, #0x7f
-    c0003d34:	54000161 	b.ne	c0003d60 <shell_run+0x9c>  // b.any
+    c0003efc:	b94097e0 	ldr	w0, [sp, #148]
+    c0003f00:	7100201f 	cmp	w0, #0x8
+    c0003f04:	54000080 	b.eq	c0003f14 <shell_run+0x74>  // b.none
+    c0003f08:	b94097e0 	ldr	w0, [sp, #148]
+    c0003f0c:	7101fc1f 	cmp	w0, #0x7f
+    c0003f10:	54000161 	b.ne	c0003f3c <shell_run+0x9c>  // b.any
 			if (len > 0U) {
-    c0003d38:	f9404fe0 	ldr	x0, [sp, #152]
-    c0003d3c:	f100001f 	cmp	x0, #0x0
-    c0003d40:	540004c0 	b.eq	c0003dd8 <shell_run+0x114>  // b.none
+    c0003f14:	f9404fe0 	ldr	x0, [sp, #152]
+    c0003f18:	f100001f 	cmp	x0, #0x0
+    c0003f1c:	540004c0 	b.eq	c0003fb4 <shell_run+0x114>  // b.none
 				len--;
-    c0003d44:	f9404fe0 	ldr	x0, [sp, #152]
-    c0003d48:	d1000400 	sub	x0, x0, #0x1
-    c0003d4c:	f9004fe0 	str	x0, [sp, #152]
+    c0003f20:	f9404fe0 	ldr	x0, [sp, #152]
+    c0003f24:	d1000400 	sub	x0, x0, #0x1
+    c0003f28:	f9004fe0 	str	x0, [sp, #152]
 				mini_os_printf("\b \b");
-    c0003d50:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003d54:	912c0000 	add	x0, x0, #0xb00
-    c0003d58:	97fff7d9 	bl	c0001cbc <mini_os_printf>
+    c0003f2c:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003f30:	9118a000 	add	x0, x0, #0x628
+    c0003f34:	97fff762 	bl	c0001cbc <mini_os_printf>
 			}
 			continue;
-    c0003d5c:	1400001f 	b	c0003dd8 <shell_run+0x114>
+    c0003f38:	1400001f 	b	c0003fb4 <shell_run+0x114>
 		}
 
 		if (ch == '\t') {
-    c0003d60:	b94097e0 	ldr	w0, [sp, #148]
-    c0003d64:	7100241f 	cmp	w0, #0x9
-    c0003d68:	540003c0 	b.eq	c0003de0 <shell_run+0x11c>  // b.none
+    c0003f3c:	b94097e0 	ldr	w0, [sp, #148]
+    c0003f40:	7100241f 	cmp	w0, #0x9
+    c0003f44:	540003c0 	b.eq	c0003fbc <shell_run+0x11c>  // b.none
 			continue;
 		}
 
 		if ((ch < 32) || (ch > 126)) {
-    c0003d6c:	b94097e0 	ldr	w0, [sp, #148]
-    c0003d70:	71007c1f 	cmp	w0, #0x1f
-    c0003d74:	540003ad 	b.le	c0003de8 <shell_run+0x124>
-    c0003d78:	b94097e0 	ldr	w0, [sp, #148]
-    c0003d7c:	7101f81f 	cmp	w0, #0x7e
-    c0003d80:	5400034c 	b.gt	c0003de8 <shell_run+0x124>
+    c0003f48:	b94097e0 	ldr	w0, [sp, #148]
+    c0003f4c:	71007c1f 	cmp	w0, #0x1f
+    c0003f50:	540003ad 	b.le	c0003fc4 <shell_run+0x124>
+    c0003f54:	b94097e0 	ldr	w0, [sp, #148]
+    c0003f58:	7101f81f 	cmp	w0, #0x7e
+    c0003f5c:	5400034c 	b.gt	c0003fc4 <shell_run+0x124>
 			continue;
 		}
 
 		if (len + 1U >= SHELL_MAX_LINE) {
-    c0003d84:	f9404fe0 	ldr	x0, [sp, #152]
-    c0003d88:	91000400 	add	x0, x0, #0x1
-    c0003d8c:	f101fc1f 	cmp	x0, #0x7f
-    c0003d90:	54000109 	b.ls	c0003db0 <shell_run+0xec>  // b.plast
+    c0003f60:	f9404fe0 	ldr	x0, [sp, #152]
+    c0003f64:	91000400 	add	x0, x0, #0x1
+    c0003f68:	f101fc1f 	cmp	x0, #0x7f
+    c0003f6c:	54000109 	b.ls	c0003f8c <shell_run+0xec>  // b.plast
 			mini_os_printf("\nerror: command too long (max %d chars)\n",
-    c0003d94:	52800fe1 	mov	w1, #0x7f                  	// #127
-    c0003d98:	d0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0003d9c:	912c2000 	add	x0, x0, #0xb08
-    c0003da0:	97fff7c7 	bl	c0001cbc <mini_os_printf>
+    c0003f70:	52800fe1 	mov	w1, #0x7f                  	// #127
+    c0003f74:	f0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0003f78:	9118c000 	add	x0, x0, #0x630
+    c0003f7c:	97fff750 	bl	c0001cbc <mini_os_printf>
 				       SHELL_MAX_LINE - 1);
 			len = 0U;
-    c0003da4:	f9004fff 	str	xzr, [sp, #152]
+    c0003f80:	f9004fff 	str	xzr, [sp, #152]
 			shell_prompt();
-    c0003da8:	97ffffbd 	bl	c0003c9c <shell_prompt>
+    c0003f84:	97ffffbd 	bl	c0003e78 <shell_prompt>
 			continue;
-    c0003dac:	14000010 	b	c0003dec <shell_run+0x128>
+    c0003f88:	14000010 	b	c0003fc8 <shell_run+0x128>
 		}
 
 		line[len++] = (char)ch;
-    c0003db0:	f9404fe0 	ldr	x0, [sp, #152]
-    c0003db4:	91000401 	add	x1, x0, #0x1
-    c0003db8:	f9004fe1 	str	x1, [sp, #152]
-    c0003dbc:	b94097e1 	ldr	w1, [sp, #148]
-    c0003dc0:	12001c22 	and	w2, w1, #0xff
-    c0003dc4:	910043e1 	add	x1, sp, #0x10
-    c0003dc8:	38206822 	strb	w2, [x1, x0]
+    c0003f8c:	f9404fe0 	ldr	x0, [sp, #152]
+    c0003f90:	91000401 	add	x1, x0, #0x1
+    c0003f94:	f9004fe1 	str	x1, [sp, #152]
+    c0003f98:	b94097e1 	ldr	w1, [sp, #148]
+    c0003f9c:	12001c22 	and	w2, w1, #0xff
+    c0003fa0:	910043e1 	add	x1, sp, #0x10
+    c0003fa4:	38206822 	strb	w2, [x1, x0]
 		debug_putc(ch);
-    c0003dcc:	b94097e0 	ldr	w0, [sp, #148]
-    c0003dd0:	97fff7e4 	bl	c0001d60 <debug_putc>
-    c0003dd4:	17ffffc0 	b	c0003cd4 <shell_run+0x10>
+    c0003fa8:	b94097e0 	ldr	w0, [sp, #148]
+    c0003fac:	97fff76d 	bl	c0001d60 <debug_putc>
+    c0003fb0:	17ffffc0 	b	c0003eb0 <shell_run+0x10>
 			continue;
-    c0003dd8:	d503201f 	nop
-    c0003ddc:	17ffffbe 	b	c0003cd4 <shell_run+0x10>
+    c0003fb4:	d503201f 	nop
+    c0003fb8:	17ffffbe 	b	c0003eb0 <shell_run+0x10>
 			continue;
-    c0003de0:	d503201f 	nop
-    c0003de4:	17ffffbc 	b	c0003cd4 <shell_run+0x10>
+    c0003fbc:	d503201f 	nop
+    c0003fc0:	17ffffbc 	b	c0003eb0 <shell_run+0x10>
 			continue;
-    c0003de8:	d503201f 	nop
+    c0003fc4:	d503201f 	nop
 	for (;;) {
-    c0003dec:	17ffffba 	b	c0003cd4 <shell_run+0x10>
+    c0003fc8:	17ffffba 	b	c0003eb0 <shell_run+0x10>
 
-00000000c0003df0 <smp_smc_call>:
+00000000c0003fcc <smp_read_cntfrq>:
 unsigned char secondary_stacks[PLAT_MAX_CPUS][PLAT_STACK_SIZE] __attribute__((aligned(16)));
 
 extern void secondary_cpu_entrypoint(void);
 
+static inline uint64_t smp_read_cntfrq(void)
+{
+    c0003fcc:	d10043ff 	sub	sp, sp, #0x10
+	uint64_t value;
+
+	__asm__ volatile ("mrs %0, cntfrq_el0" : "=r" (value));
+    c0003fd0:	d53be000 	mrs	x0, cntfrq_el0
+    c0003fd4:	f90007e0 	str	x0, [sp, #8]
+	return value;
+    c0003fd8:	f94007e0 	ldr	x0, [sp, #8]
+}
+    c0003fdc:	910043ff 	add	sp, sp, #0x10
+    c0003fe0:	d65f03c0 	ret
+
+00000000c0003fe4 <smp_read_cntpct>:
+
+static inline uint64_t smp_read_cntpct(void)
+{
+    c0003fe4:	d10043ff 	sub	sp, sp, #0x10
+	uint64_t value;
+
+	__asm__ volatile ("mrs %0, cntpct_el0" : "=r" (value));
+    c0003fe8:	d53be020 	mrs	x0, cntpct_el0
+    c0003fec:	f90007e0 	str	x0, [sp, #8]
+	return value;
+    c0003ff0:	f94007e0 	ldr	x0, [sp, #8]
+}
+    c0003ff4:	910043ff 	add	sp, sp, #0x10
+    c0003ff8:	d65f03c0 	ret
+
+00000000c0003ffc <smp_relax>:
+
+static inline void smp_relax(void)
+{
+	__asm__ volatile ("nop");
+    c0003ffc:	d503201f 	nop
+}
+    c0004000:	d503201f 	nop
+    c0004004:	d65f03c0 	ret
+
+00000000c0004008 <smp_smc_call>:
+
 static int32_t smp_smc_call(uint64_t x0, uint64_t x1, uint64_t x2, uint64_t x3)
 {
-    c0003df0:	d10083ff 	sub	sp, sp, #0x20
-    c0003df4:	f9000fe0 	str	x0, [sp, #24]
-    c0003df8:	f9000be1 	str	x1, [sp, #16]
-    c0003dfc:	f90007e2 	str	x2, [sp, #8]
-    c0003e00:	f90003e3 	str	x3, [sp]
+    c0004008:	d10083ff 	sub	sp, sp, #0x20
+    c000400c:	f9000fe0 	str	x0, [sp, #24]
+    c0004010:	f9000be1 	str	x1, [sp, #16]
+    c0004014:	f90007e2 	str	x2, [sp, #8]
+    c0004018:	f90003e3 	str	x3, [sp]
 	register uint64_t r0 __asm__("x0") = x0;
-    c0003e04:	f9400fe0 	ldr	x0, [sp, #24]
+    c000401c:	f9400fe0 	ldr	x0, [sp, #24]
 	register uint64_t r1 __asm__("x1") = x1;
-    c0003e08:	f9400be1 	ldr	x1, [sp, #16]
+    c0004020:	f9400be1 	ldr	x1, [sp, #16]
 	register uint64_t r2 __asm__("x2") = x2;
-    c0003e0c:	f94007e2 	ldr	x2, [sp, #8]
+    c0004024:	f94007e2 	ldr	x2, [sp, #8]
 	register uint64_t r3 __asm__("x3") = x3;
-    c0003e10:	f94003e3 	ldr	x3, [sp]
+    c0004028:	f94003e3 	ldr	x3, [sp]
 
 	__asm__ volatile ("smc #0"
-    c0003e14:	d4000003 	smc	#0x0
+    c000402c:	d4000003 	smc	#0x0
 		: "r" (r1), "r" (r2), "r" (r3)
 		: "x4", "x5", "x6", "x7", "x8", "x9", "x10", "x11", "x12",
 		  "x13", "x14", "x15", "x16", "x17", "memory");
 
 	return (int32_t)r0;
 }
-    c0003e18:	910083ff 	add	sp, sp, #0x20
-    c0003e1c:	d65f03c0 	ret
+    c0004030:	910083ff 	add	sp, sp, #0x20
+    c0004034:	d65f03c0 	ret
 
-00000000c0003e20 <smp_find_free_logical_slot>:
+00000000c0004038 <smp_find_free_logical_slot>:
 
 static int smp_find_free_logical_slot(void)
 {
-    c0003e20:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
-    c0003e24:	910003fd 	mov	x29, sp
+    c0004038:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    c000403c:	910003fd 	mov	x29, sp
 	unsigned int i;
 
 	for (i = 0U; i < PLAT_MAX_CPUS; ++i) {
-    c0003e28:	b9001fff 	str	wzr, [sp, #28]
-    c0003e2c:	1400000e 	b	c0003e64 <smp_find_free_logical_slot+0x44>
+    c0004040:	b9001fff 	str	wzr, [sp, #28]
+    c0004044:	1400000e 	b	c000407c <smp_find_free_logical_slot+0x44>
 		if (!topology_cpu(i)->present) {
-    c0003e30:	b9401fe0 	ldr	w0, [sp, #28]
-    c0003e34:	9400021d 	bl	c00046a8 <topology_cpu>
-    c0003e38:	39407400 	ldrb	w0, [x0, #29]
-    c0003e3c:	52000000 	eor	w0, w0, #0x1
-    c0003e40:	12001c00 	and	w0, w0, #0xff
-    c0003e44:	12000000 	and	w0, w0, #0x1
-    c0003e48:	7100001f 	cmp	w0, #0x0
-    c0003e4c:	54000060 	b.eq	c0003e58 <smp_find_free_logical_slot+0x38>  // b.none
+    c0004048:	b9401fe0 	ldr	w0, [sp, #28]
+    c000404c:	9400037d 	bl	c0004e40 <topology_cpu>
+    c0004050:	39407400 	ldrb	w0, [x0, #29]
+    c0004054:	52000000 	eor	w0, w0, #0x1
+    c0004058:	12001c00 	and	w0, w0, #0xff
+    c000405c:	12000000 	and	w0, w0, #0x1
+    c0004060:	7100001f 	cmp	w0, #0x0
+    c0004064:	54000060 	b.eq	c0004070 <smp_find_free_logical_slot+0x38>  // b.none
 			return (int)i;
-    c0003e50:	b9401fe0 	ldr	w0, [sp, #28]
-    c0003e54:	14000008 	b	c0003e74 <smp_find_free_logical_slot+0x54>
+    c0004068:	b9401fe0 	ldr	w0, [sp, #28]
+    c000406c:	14000008 	b	c000408c <smp_find_free_logical_slot+0x54>
 	for (i = 0U; i < PLAT_MAX_CPUS; ++i) {
-    c0003e58:	b9401fe0 	ldr	w0, [sp, #28]
-    c0003e5c:	11000400 	add	w0, w0, #0x1
-    c0003e60:	b9001fe0 	str	w0, [sp, #28]
-    c0003e64:	b9401fe0 	ldr	w0, [sp, #28]
-    c0003e68:	71001c1f 	cmp	w0, #0x7
-    c0003e6c:	54fffe29 	b.ls	c0003e30 <smp_find_free_logical_slot+0x10>  // b.plast
+    c0004070:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004074:	11000400 	add	w0, w0, #0x1
+    c0004078:	b9001fe0 	str	w0, [sp, #28]
+    c000407c:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004080:	71001c1f 	cmp	w0, #0x7
+    c0004084:	54fffe29 	b.ls	c0004048 <smp_find_free_logical_slot+0x10>  // b.plast
 		}
 	}
 
 	return -1;
-    c0003e70:	12800000 	mov	w0, #0xffffffff            	// #-1
+    c0004088:	12800000 	mov	w0, #0xffffffff            	// #-1
 }
-    c0003e74:	a8c27bfd 	ldp	x29, x30, [sp], #32
-    c0003e78:	d65f03c0 	ret
+    c000408c:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    c0004090:	d65f03c0 	ret
 
-00000000c0003e7c <smp_init>:
+00000000c0004094 <smp_reset_cpu_state>:
 
-void smp_init(void)
+static void smp_reset_cpu_state(unsigned int logical_id)
 {
-    c0003e7c:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
-    c0003e80:	910003fd 	mov	x29, sp
-	unsigned int i;
-	const struct cpu_topology_descriptor *boot_cpu = topology_boot_cpu();
-    c0003e84:	94000206 	bl	c000469c <topology_boot_cpu>
-    c0003e88:	f9000be0 	str	x0, [sp, #16]
-
-	(void)smp_smc_call(PSCI_VERSION, 0U, 0U, 0U);
-    c0003e8c:	d2800003 	mov	x3, #0x0                   	// #0
-    c0003e90:	d2800002 	mov	x2, #0x0                   	// #0
-    c0003e94:	d2800001 	mov	x1, #0x0                   	// #0
-    c0003e98:	d2b08000 	mov	x0, #0x84000000            	// #2214592512
-    c0003e9c:	97ffffd5 	bl	c0003df0 <smp_smc_call>
-
-	for (i = 0U; i < PLAT_MAX_CPUS; ++i) {
-    c0003ea0:	b9001fff 	str	wzr, [sp, #28]
-    c0003ea4:	1400003b 	b	c0003f90 <smp_init+0x114>
-		cpu_states[i].logical_id = i;
-    c0003ea8:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003eac:	912ec002 	add	x2, x0, #0xbb0
-    c0003eb0:	b9401fe1 	ldr	w1, [sp, #28]
-    c0003eb4:	aa0103e0 	mov	x0, x1
-    c0003eb8:	d37ff800 	lsl	x0, x0, #1
-    c0003ebc:	8b010000 	add	x0, x0, x1
-    c0003ec0:	d37df000 	lsl	x0, x0, #3
-    c0003ec4:	8b000040 	add	x0, x2, x0
-    c0003ec8:	b9401fe1 	ldr	w1, [sp, #28]
-    c0003ecc:	b9000001 	str	w1, [x0]
-		cpu_states[i].mpidr = 0U;
-    c0003ed0:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003ed4:	912ec002 	add	x2, x0, #0xbb0
-    c0003ed8:	b9401fe1 	ldr	w1, [sp, #28]
-    c0003edc:	aa0103e0 	mov	x0, x1
-    c0003ee0:	d37ff800 	lsl	x0, x0, #1
-    c0003ee4:	8b010000 	add	x0, x0, x1
-    c0003ee8:	d37df000 	lsl	x0, x0, #3
-    c0003eec:	8b000040 	add	x0, x2, x0
-    c0003ef0:	f900041f 	str	xzr, [x0, #8]
-		cpu_states[i].online = false;
-    c0003ef4:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003ef8:	912ec002 	add	x2, x0, #0xbb0
-    c0003efc:	b9401fe1 	ldr	w1, [sp, #28]
-    c0003f00:	aa0103e0 	mov	x0, x1
-    c0003f04:	d37ff800 	lsl	x0, x0, #1
-    c0003f08:	8b010000 	add	x0, x0, x1
-    c0003f0c:	d37df000 	lsl	x0, x0, #3
-    c0003f10:	8b000040 	add	x0, x2, x0
-    c0003f14:	3900401f 	strb	wzr, [x0, #16]
-		cpu_states[i].scheduled = false;
-    c0003f18:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003f1c:	912ec002 	add	x2, x0, #0xbb0
-    c0003f20:	b9401fe1 	ldr	w1, [sp, #28]
-    c0003f24:	aa0103e0 	mov	x0, x1
-    c0003f28:	d37ff800 	lsl	x0, x0, #1
-    c0003f2c:	8b010000 	add	x0, x0, x1
-    c0003f30:	d37df000 	lsl	x0, x0, #3
-    c0003f34:	8b000040 	add	x0, x2, x0
-    c0003f38:	3900441f 	strb	wzr, [x0, #17]
-		cpu_states[i].pending = false;
-    c0003f3c:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003f40:	912ec002 	add	x2, x0, #0xbb0
-    c0003f44:	b9401fe1 	ldr	w1, [sp, #28]
-    c0003f48:	aa0103e0 	mov	x0, x1
-    c0003f4c:	d37ff800 	lsl	x0, x0, #1
-    c0003f50:	8b010000 	add	x0, x0, x1
-    c0003f54:	d37df000 	lsl	x0, x0, #3
-    c0003f58:	8b000040 	add	x0, x2, x0
-    c0003f5c:	3900481f 	strb	wzr, [x0, #18]
-		cpu_states[i].boot_cpu = false;
-    c0003f60:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003f64:	912ec002 	add	x2, x0, #0xbb0
-    c0003f68:	b9401fe1 	ldr	w1, [sp, #28]
-    c0003f6c:	aa0103e0 	mov	x0, x1
-    c0003f70:	d37ff800 	lsl	x0, x0, #1
-    c0003f74:	8b010000 	add	x0, x0, x1
-    c0003f78:	d37df000 	lsl	x0, x0, #3
-    c0003f7c:	8b000040 	add	x0, x2, x0
-    c0003f80:	39004c1f 	strb	wzr, [x0, #19]
-	for (i = 0U; i < PLAT_MAX_CPUS; ++i) {
-    c0003f84:	b9401fe0 	ldr	w0, [sp, #28]
-    c0003f88:	11000400 	add	w0, w0, #0x1
-    c0003f8c:	b9001fe0 	str	w0, [sp, #28]
-    c0003f90:	b9401fe0 	ldr	w0, [sp, #28]
-    c0003f94:	71001c1f 	cmp	w0, #0x7
-    c0003f98:	54fff889 	b.ls	c0003ea8 <smp_init+0x2c>  // b.plast
+    c0004094:	d10043ff 	sub	sp, sp, #0x10
+    c0004098:	b9000fe0 	str	w0, [sp, #12]
+	if (logical_id >= PLAT_MAX_CPUS) {
+    c000409c:	b9400fe0 	ldr	w0, [sp, #12]
+    c00040a0:	71001c1f 	cmp	w0, #0x7
+    c00040a4:	54000728 	b.hi	c0004188 <smp_reset_cpu_state+0xf4>  // b.pmore
+		return;
 	}
 
-	cpu_states[0].logical_id = 0U;
-    c0003f9c:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003fa0:	912ec000 	add	x0, x0, #0xbb0
-    c0003fa4:	b900001f 	str	wzr, [x0]
-	cpu_states[0].mpidr = boot_cpu->mpidr;
-    c0003fa8:	f9400be0 	ldr	x0, [sp, #16]
-    c0003fac:	f9400001 	ldr	x1, [x0]
-    c0003fb0:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003fb4:	912ec000 	add	x0, x0, #0xbb0
-    c0003fb8:	f9000401 	str	x1, [x0, #8]
-	cpu_states[0].boot_cpu = true;
-    c0003fbc:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003fc0:	912ec000 	add	x0, x0, #0xbb0
-    c0003fc4:	52800021 	mov	w1, #0x1                   	// #1
-    c0003fc8:	39004c01 	strb	w1, [x0, #19]
-	cpu_states[0].online = true;
-    c0003fcc:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003fd0:	912ec000 	add	x0, x0, #0xbb0
-    c0003fd4:	52800021 	mov	w1, #0x1                   	// #1
-    c0003fd8:	39004001 	strb	w1, [x0, #16]
-	cpu_states[0].scheduled = true;
-    c0003fdc:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003fe0:	912ec000 	add	x0, x0, #0xbb0
-    c0003fe4:	52800021 	mov	w1, #0x1                   	// #1
-    c0003fe8:	39004401 	strb	w1, [x0, #17]
-	online_cpu_count = 1U;
-    c0003fec:	d0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0003ff0:	9131c000 	add	x0, x0, #0xc70
-    c0003ff4:	52800021 	mov	w1, #0x1                   	// #1
-    c0003ff8:	b9000001 	str	w1, [x0]
+	cpu_states[logical_id].logical_id = logical_id;
+    c00040a8:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00040ac:	911c8002 	add	x2, x0, #0x720
+    c00040b0:	b9400fe1 	ldr	w1, [sp, #12]
+    c00040b4:	aa0103e0 	mov	x0, x1
+    c00040b8:	d37ff800 	lsl	x0, x0, #1
+    c00040bc:	8b010000 	add	x0, x0, x1
+    c00040c0:	d37df000 	lsl	x0, x0, #3
+    c00040c4:	8b000040 	add	x0, x2, x0
+    c00040c8:	b9400fe1 	ldr	w1, [sp, #12]
+    c00040cc:	b9000001 	str	w1, [x0]
+	cpu_states[logical_id].mpidr = 0U;
+    c00040d0:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00040d4:	911c8002 	add	x2, x0, #0x720
+    c00040d8:	b9400fe1 	ldr	w1, [sp, #12]
+    c00040dc:	aa0103e0 	mov	x0, x1
+    c00040e0:	d37ff800 	lsl	x0, x0, #1
+    c00040e4:	8b010000 	add	x0, x0, x1
+    c00040e8:	d37df000 	lsl	x0, x0, #3
+    c00040ec:	8b000040 	add	x0, x2, x0
+    c00040f0:	f900041f 	str	xzr, [x0, #8]
+	cpu_states[logical_id].online = false;
+    c00040f4:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00040f8:	911c8002 	add	x2, x0, #0x720
+    c00040fc:	b9400fe1 	ldr	w1, [sp, #12]
+    c0004100:	aa0103e0 	mov	x0, x1
+    c0004104:	d37ff800 	lsl	x0, x0, #1
+    c0004108:	8b010000 	add	x0, x0, x1
+    c000410c:	d37df000 	lsl	x0, x0, #3
+    c0004110:	8b000040 	add	x0, x2, x0
+    c0004114:	3900401f 	strb	wzr, [x0, #16]
+	cpu_states[logical_id].scheduled = false;
+    c0004118:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000411c:	911c8002 	add	x2, x0, #0x720
+    c0004120:	b9400fe1 	ldr	w1, [sp, #12]
+    c0004124:	aa0103e0 	mov	x0, x1
+    c0004128:	d37ff800 	lsl	x0, x0, #1
+    c000412c:	8b010000 	add	x0, x0, x1
+    c0004130:	d37df000 	lsl	x0, x0, #3
+    c0004134:	8b000040 	add	x0, x2, x0
+    c0004138:	3900441f 	strb	wzr, [x0, #17]
+	cpu_states[logical_id].pending = false;
+    c000413c:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004140:	911c8002 	add	x2, x0, #0x720
+    c0004144:	b9400fe1 	ldr	w1, [sp, #12]
+    c0004148:	aa0103e0 	mov	x0, x1
+    c000414c:	d37ff800 	lsl	x0, x0, #1
+    c0004150:	8b010000 	add	x0, x0, x1
+    c0004154:	d37df000 	lsl	x0, x0, #3
+    c0004158:	8b000040 	add	x0, x2, x0
+    c000415c:	3900481f 	strb	wzr, [x0, #18]
+	cpu_states[logical_id].boot_cpu = false;
+    c0004160:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004164:	911c8002 	add	x2, x0, #0x720
+    c0004168:	b9400fe1 	ldr	w1, [sp, #12]
+    c000416c:	aa0103e0 	mov	x0, x1
+    c0004170:	d37ff800 	lsl	x0, x0, #1
+    c0004174:	8b010000 	add	x0, x0, x1
+    c0004178:	d37df000 	lsl	x0, x0, #3
+    c000417c:	8b000040 	add	x0, x2, x0
+    c0004180:	39004c1f 	strb	wzr, [x0, #19]
+    c0004184:	14000002 	b	c000418c <smp_reset_cpu_state+0xf8>
+		return;
+    c0004188:	d503201f 	nop
 }
-    c0003ffc:	d503201f 	nop
-    c0004000:	a8c27bfd 	ldp	x29, x30, [sp], #32
-    c0004004:	d65f03c0 	ret
+    c000418c:	910043ff 	add	sp, sp, #0x10
+    c0004190:	d65f03c0 	ret
 
-00000000c0004008 <smp_start_cpu>:
+00000000c0004194 <smp_wait_for_online>:
 
-int smp_start_cpu(uint64_t mpidr, unsigned int *logical_id)
+static bool smp_wait_for_online(unsigned int logical_id, uint32_t timeout_us)
 {
-    c0004008:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
-    c000400c:	910003fd 	mov	x29, sp
-    c0004010:	f9000fe0 	str	x0, [sp, #24]
-    c0004014:	f9000be1 	str	x1, [sp, #16]
-	const struct cpu_topology_descriptor *cpu;
-	int slot;
-	int32_t ret;
+    c0004194:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+    c0004198:	910003fd 	mov	x29, sp
+    c000419c:	b9001fe0 	str	w0, [sp, #28]
+    c00041a0:	b9001be1 	str	w1, [sp, #24]
+	uint64_t freq;
+	uint64_t start;
+	uint64_t ticks;
 
-	cpu = topology_find_cpu_by_mpidr(mpidr);
-    c0004018:	f9400fe0 	ldr	x0, [sp, #24]
-    c000401c:	940001b1 	bl	c00046e0 <topology_find_cpu_by_mpidr>
-    c0004020:	f90017e0 	str	x0, [sp, #40]
-	if (cpu != (const struct cpu_topology_descriptor *)0) {
-    c0004024:	f94017e0 	ldr	x0, [sp, #40]
-    c0004028:	f100001f 	cmp	x0, #0x0
-    c000402c:	540002a0 	b.eq	c0004080 <smp_start_cpu+0x78>  // b.none
-		*logical_id = cpu->logical_id;
-    c0004030:	f94017e0 	ldr	x0, [sp, #40]
-    c0004034:	b9400801 	ldr	w1, [x0, #8]
-    c0004038:	f9400be0 	ldr	x0, [sp, #16]
-    c000403c:	b9000001 	str	w1, [x0]
-		if (cpu_states[cpu->logical_id].online) {
-    c0004040:	f94017e0 	ldr	x0, [sp, #40]
-    c0004044:	b9400801 	ldr	w1, [x0, #8]
-    c0004048:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c000404c:	912ec002 	add	x2, x0, #0xbb0
-    c0004050:	2a0103e1 	mov	w1, w1
-    c0004054:	aa0103e0 	mov	x0, x1
-    c0004058:	d37ff800 	lsl	x0, x0, #1
-    c000405c:	8b010000 	add	x0, x0, x1
-    c0004060:	d37df000 	lsl	x0, x0, #3
-    c0004064:	8b000040 	add	x0, x2, x0
-    c0004068:	39404000 	ldrb	w0, [x0, #16]
-    c000406c:	12000000 	and	w0, w0, #0x1
-    c0004070:	7100001f 	cmp	w0, #0x0
-    c0004074:	54000560 	b.eq	c0004120 <smp_start_cpu+0x118>  // b.none
-			return SMP_START_ALREADY_ONLINE;
-    c0004078:	52800020 	mov	w0, #0x1                   	// #1
-    c000407c:	1400008d 	b	c00042b0 <smp_start_cpu+0x2a8>
-		}
-	} else {
-		slot = smp_find_free_logical_slot();
-    c0004080:	97ffff68 	bl	c0003e20 <smp_find_free_logical_slot>
-    c0004084:	b90027e0 	str	w0, [sp, #36]
-		if (slot < 0) {
-    c0004088:	b94027e0 	ldr	w0, [sp, #36]
-    c000408c:	7100001f 	cmp	w0, #0x0
-    c0004090:	5400006a 	b.ge	c000409c <smp_start_cpu+0x94>  // b.tcont
-			return SMP_START_INVALID_CPU;
-    c0004094:	12800000 	mov	w0, #0xffffffff            	// #-1
-    c0004098:	14000086 	b	c00042b0 <smp_start_cpu+0x2a8>
-		}
-		*logical_id = (unsigned int)slot;
-    c000409c:	b94027e1 	ldr	w1, [sp, #36]
-    c00040a0:	f9400be0 	ldr	x0, [sp, #16]
-    c00040a4:	b9000001 	str	w1, [x0]
-		topology_register_cpu(*logical_id, mpidr, false);
-    c00040a8:	f9400be0 	ldr	x0, [sp, #16]
-    c00040ac:	b9400000 	ldr	w0, [x0]
-    c00040b0:	52800002 	mov	w2, #0x0                   	// #0
-    c00040b4:	f9400fe1 	ldr	x1, [sp, #24]
-    c00040b8:	9400021b 	bl	c0004924 <topology_register_cpu>
-		cpu_states[*logical_id].logical_id = *logical_id;
-    c00040bc:	f9400be0 	ldr	x0, [sp, #16]
-    c00040c0:	b9400001 	ldr	w1, [x0]
-    c00040c4:	f9400be0 	ldr	x0, [sp, #16]
-    c00040c8:	b9400002 	ldr	w2, [x0]
-    c00040cc:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00040d0:	912ec003 	add	x3, x0, #0xbb0
-    c00040d4:	2a0103e1 	mov	w1, w1
-    c00040d8:	aa0103e0 	mov	x0, x1
-    c00040dc:	d37ff800 	lsl	x0, x0, #1
-    c00040e0:	8b010000 	add	x0, x0, x1
-    c00040e4:	d37df000 	lsl	x0, x0, #3
-    c00040e8:	8b000060 	add	x0, x3, x0
-    c00040ec:	b9000002 	str	w2, [x0]
-		cpu_states[*logical_id].mpidr = mpidr;
-    c00040f0:	f9400be0 	ldr	x0, [sp, #16]
-    c00040f4:	b9400001 	ldr	w1, [x0]
-    c00040f8:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00040fc:	912ec002 	add	x2, x0, #0xbb0
-    c0004100:	2a0103e1 	mov	w1, w1
-    c0004104:	aa0103e0 	mov	x0, x1
-    c0004108:	d37ff800 	lsl	x0, x0, #1
-    c000410c:	8b010000 	add	x0, x0, x1
-    c0004110:	d37df000 	lsl	x0, x0, #3
-    c0004114:	8b000040 	add	x0, x2, x0
-    c0004118:	f9400fe1 	ldr	x1, [sp, #24]
-    c000411c:	f9000401 	str	x1, [x0, #8]
+	if (logical_id >= PLAT_MAX_CPUS) {
+    c00041a4:	b9401fe0 	ldr	w0, [sp, #28]
+    c00041a8:	71001c1f 	cmp	w0, #0x7
+    c00041ac:	54000069 	b.ls	c00041b8 <smp_wait_for_online+0x24>  // b.plast
+		return false;
+    c00041b0:	52800000 	mov	w0, #0x0                   	// #0
+    c00041b4:	14000054 	b	c0004304 <smp_wait_for_online+0x170>
 	}
 
-	cpu_states[*logical_id].pending = true;
-    c0004120:	f9400be0 	ldr	x0, [sp, #16]
-    c0004124:	b9400001 	ldr	w1, [x0]
-    c0004128:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c000412c:	912ec002 	add	x2, x0, #0xbb0
-    c0004130:	2a0103e1 	mov	w1, w1
-    c0004134:	aa0103e0 	mov	x0, x1
-    c0004138:	d37ff800 	lsl	x0, x0, #1
-    c000413c:	8b010000 	add	x0, x0, x1
-    c0004140:	d37df000 	lsl	x0, x0, #3
-    c0004144:	8b000040 	add	x0, x2, x0
-    c0004148:	52800021 	mov	w1, #0x1                   	// #1
-    c000414c:	39004801 	strb	w1, [x0, #18]
-	ret = smp_smc_call(PSCI_CPU_ON_64, mpidr,
-    c0004150:	90ffffe0 	adrp	x0, c0000000 <_start>
-    c0004154:	91008001 	add	x1, x0, #0x20
-			   (uintptr_t)secondary_cpu_entrypoint,
-			   *logical_id);
-    c0004158:	f9400be0 	ldr	x0, [sp, #16]
-    c000415c:	b9400000 	ldr	w0, [x0]
-	ret = smp_smc_call(PSCI_CPU_ON_64, mpidr,
-    c0004160:	2a0003e0 	mov	w0, w0
-    c0004164:	aa0003e3 	mov	x3, x0
-    c0004168:	aa0103e2 	mov	x2, x1
-    c000416c:	f9400fe1 	ldr	x1, [sp, #24]
-    c0004170:	d2800060 	mov	x0, #0x3                   	// #3
-    c0004174:	f2b88000 	movk	x0, #0xc400, lsl #16
-    c0004178:	97ffff1e 	bl	c0003df0 <smp_smc_call>
-    c000417c:	b90023e0 	str	w0, [sp, #32]
-	if (ret == PSCI_RET_SUCCESS) {
-    c0004180:	b94023e0 	ldr	w0, [sp, #32]
-    c0004184:	7100001f 	cmp	w0, #0x0
-    c0004188:	54000061 	b.ne	c0004194 <smp_start_cpu+0x18c>  // b.any
-		return SMP_START_OK;
-    c000418c:	52800000 	mov	w0, #0x0                   	// #0
-    c0004190:	14000048 	b	c00042b0 <smp_start_cpu+0x2a8>
+	if (cpu_states[logical_id].online) {
+    c00041b8:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00041bc:	911c8002 	add	x2, x0, #0x720
+    c00041c0:	b9401fe1 	ldr	w1, [sp, #28]
+    c00041c4:	aa0103e0 	mov	x0, x1
+    c00041c8:	d37ff800 	lsl	x0, x0, #1
+    c00041cc:	8b010000 	add	x0, x0, x1
+    c00041d0:	d37df000 	lsl	x0, x0, #3
+    c00041d4:	8b000040 	add	x0, x2, x0
+    c00041d8:	39404000 	ldrb	w0, [x0, #16]
+    c00041dc:	12000000 	and	w0, w0, #0x1
+    c00041e0:	7100001f 	cmp	w0, #0x0
+    c00041e4:	54000060 	b.eq	c00041f0 <smp_wait_for_online+0x5c>  // b.none
+		return true;
+    c00041e8:	52800020 	mov	w0, #0x1                   	// #1
+    c00041ec:	14000046 	b	c0004304 <smp_wait_for_online+0x170>
 	}
-	if (ret == PSCI_RET_ALREADY_ON) {
-    c0004194:	b94023e0 	ldr	w0, [sp, #32]
-    c0004198:	3100101f 	cmn	w0, #0x4
-    c000419c:	540004c1 	b.ne	c0004234 <smp_start_cpu+0x22c>  // b.any
-		cpu_states[*logical_id].pending = false;
-    c00041a0:	f9400be0 	ldr	x0, [sp, #16]
-    c00041a4:	b9400001 	ldr	w1, [x0]
-    c00041a8:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00041ac:	912ec002 	add	x2, x0, #0xbb0
-    c00041b0:	2a0103e1 	mov	w1, w1
-    c00041b4:	aa0103e0 	mov	x0, x1
-    c00041b8:	d37ff800 	lsl	x0, x0, #1
-    c00041bc:	8b010000 	add	x0, x0, x1
-    c00041c0:	d37df000 	lsl	x0, x0, #3
-    c00041c4:	8b000040 	add	x0, x2, x0
-    c00041c8:	3900481f 	strb	wzr, [x0, #18]
-		cpu_states[*logical_id].online = true;
-    c00041cc:	f9400be0 	ldr	x0, [sp, #16]
-    c00041d0:	b9400001 	ldr	w1, [x0]
-    c00041d4:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00041d8:	912ec002 	add	x2, x0, #0xbb0
-    c00041dc:	2a0103e1 	mov	w1, w1
-    c00041e0:	aa0103e0 	mov	x0, x1
-    c00041e4:	d37ff800 	lsl	x0, x0, #1
-    c00041e8:	8b010000 	add	x0, x0, x1
-    c00041ec:	d37df000 	lsl	x0, x0, #3
-    c00041f0:	8b000040 	add	x0, x2, x0
-    c00041f4:	52800021 	mov	w1, #0x1                   	// #1
-    c00041f8:	39004001 	strb	w1, [x0, #16]
-		cpu_states[*logical_id].scheduled = true;
-    c00041fc:	f9400be0 	ldr	x0, [sp, #16]
-    c0004200:	b9400001 	ldr	w1, [x0]
-    c0004204:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004208:	912ec002 	add	x2, x0, #0xbb0
-    c000420c:	2a0103e1 	mov	w1, w1
+
+	freq = smp_read_cntfrq();
+    c00041f0:	97ffff77 	bl	c0003fcc <smp_read_cntfrq>
+    c00041f4:	f9001be0 	str	x0, [sp, #48]
+	if (freq == 0U) {
+    c00041f8:	f9401be0 	ldr	x0, [sp, #48]
+    c00041fc:	f100001f 	cmp	x0, #0x0
+    c0004200:	54000161 	b.ne	c000422c <smp_wait_for_online+0x98>  // b.any
+		return cpu_states[logical_id].online;
+    c0004204:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004208:	911c8002 	add	x2, x0, #0x720
+    c000420c:	b9401fe1 	ldr	w1, [sp, #28]
     c0004210:	aa0103e0 	mov	x0, x1
     c0004214:	d37ff800 	lsl	x0, x0, #1
     c0004218:	8b010000 	add	x0, x0, x1
     c000421c:	d37df000 	lsl	x0, x0, #3
     c0004220:	8b000040 	add	x0, x2, x0
-    c0004224:	52800021 	mov	w1, #0x1                   	// #1
-    c0004228:	39004401 	strb	w1, [x0, #17]
-		return SMP_START_ALREADY_ONLINE;
-    c000422c:	52800020 	mov	w0, #0x1                   	// #1
-    c0004230:	14000020 	b	c00042b0 <smp_start_cpu+0x2a8>
+    c0004224:	39404000 	ldrb	w0, [x0, #16]
+    c0004228:	14000037 	b	c0004304 <smp_wait_for_online+0x170>
 	}
-	if ((ret == PSCI_RET_INVALID_PARAMS) || (ret == PSCI_RET_DENIED)) {
-    c0004234:	b94023e0 	ldr	w0, [sp, #32]
-    c0004238:	3100081f 	cmn	w0, #0x2
-    c000423c:	54000080 	b.eq	c000424c <smp_start_cpu+0x244>  // b.none
-    c0004240:	b94023e0 	ldr	w0, [sp, #32]
-    c0004244:	31000c1f 	cmn	w0, #0x3
-    c0004248:	540001c1 	b.ne	c0004280 <smp_start_cpu+0x278>  // b.any
-		cpu_states[*logical_id].pending = false;
-    c000424c:	f9400be0 	ldr	x0, [sp, #16]
-    c0004250:	b9400001 	ldr	w1, [x0]
-    c0004254:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004258:	912ec002 	add	x2, x0, #0xbb0
-    c000425c:	2a0103e1 	mov	w1, w1
-    c0004260:	aa0103e0 	mov	x0, x1
-    c0004264:	d37ff800 	lsl	x0, x0, #1
-    c0004268:	8b010000 	add	x0, x0, x1
-    c000426c:	d37df000 	lsl	x0, x0, #3
-    c0004270:	8b000040 	add	x0, x2, x0
-    c0004274:	3900481f 	strb	wzr, [x0, #18]
+
+	ticks = ((uint64_t)freq * timeout_us + 999999ULL) / 1000000ULL;
+    c000422c:	b9401be1 	ldr	w1, [sp, #24]
+    c0004230:	f9401be0 	ldr	x0, [sp, #48]
+    c0004234:	9b007c21 	mul	x1, x1, x0
+    c0004238:	d28847e0 	mov	x0, #0x423f                	// #16959
+    c000423c:	f2a001e0 	movk	x0, #0xf, lsl #16
+    c0004240:	8b000021 	add	x1, x1, x0
+    c0004244:	d2869b60 	mov	x0, #0x34db                	// #13531
+    c0004248:	f2baf6c0 	movk	x0, #0xd7b6, lsl #16
+    c000424c:	f2dbd040 	movk	x0, #0xde82, lsl #32
+    c0004250:	f2e86360 	movk	x0, #0x431b, lsl #48
+    c0004254:	9bc07c20 	umulh	x0, x1, x0
+    c0004258:	d352fc00 	lsr	x0, x0, #18
+    c000425c:	f9001fe0 	str	x0, [sp, #56]
+	if (ticks == 0U) {
+    c0004260:	f9401fe0 	ldr	x0, [sp, #56]
+    c0004264:	f100001f 	cmp	x0, #0x0
+    c0004268:	54000061 	b.ne	c0004274 <smp_wait_for_online+0xe0>  // b.any
+		ticks = 1U;
+    c000426c:	d2800020 	mov	x0, #0x1                   	// #1
+    c0004270:	f9001fe0 	str	x0, [sp, #56]
+	}
+
+	start = smp_read_cntpct();
+    c0004274:	97ffff5c 	bl	c0003fe4 <smp_read_cntpct>
+    c0004278:	f90017e0 	str	x0, [sp, #40]
+	while (!cpu_states[logical_id].online) {
+    c000427c:	14000009 	b	c00042a0 <smp_wait_for_online+0x10c>
+		if ((smp_read_cntpct() - start) >= ticks) {
+    c0004280:	97ffff59 	bl	c0003fe4 <smp_read_cntpct>
+    c0004284:	aa0003e1 	mov	x1, x0
+    c0004288:	f94017e0 	ldr	x0, [sp, #40]
+    c000428c:	cb000020 	sub	x0, x1, x0
+    c0004290:	f9401fe1 	ldr	x1, [sp, #56]
+    c0004294:	eb00003f 	cmp	x1, x0
+    c0004298:	54000229 	b.ls	c00042dc <smp_wait_for_online+0x148>  // b.plast
+			break;
+		}
+		smp_relax();
+    c000429c:	97ffff58 	bl	c0003ffc <smp_relax>
+	while (!cpu_states[logical_id].online) {
+    c00042a0:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00042a4:	911c8002 	add	x2, x0, #0x720
+    c00042a8:	b9401fe1 	ldr	w1, [sp, #28]
+    c00042ac:	aa0103e0 	mov	x0, x1
+    c00042b0:	d37ff800 	lsl	x0, x0, #1
+    c00042b4:	8b010000 	add	x0, x0, x1
+    c00042b8:	d37df000 	lsl	x0, x0, #3
+    c00042bc:	8b000040 	add	x0, x2, x0
+    c00042c0:	39404000 	ldrb	w0, [x0, #16]
+    c00042c4:	52000000 	eor	w0, w0, #0x1
+    c00042c8:	12001c00 	and	w0, w0, #0xff
+    c00042cc:	12000000 	and	w0, w0, #0x1
+    c00042d0:	7100001f 	cmp	w0, #0x0
+    c00042d4:	54fffd61 	b.ne	c0004280 <smp_wait_for_online+0xec>  // b.any
+    c00042d8:	14000002 	b	c00042e0 <smp_wait_for_online+0x14c>
+			break;
+    c00042dc:	d503201f 	nop
+	}
+
+	return cpu_states[logical_id].online;
+    c00042e0:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00042e4:	911c8002 	add	x2, x0, #0x720
+    c00042e8:	b9401fe1 	ldr	w1, [sp, #28]
+    c00042ec:	aa0103e0 	mov	x0, x1
+    c00042f0:	d37ff800 	lsl	x0, x0, #1
+    c00042f4:	8b010000 	add	x0, x0, x1
+    c00042f8:	d37df000 	lsl	x0, x0, #3
+    c00042fc:	8b000040 	add	x0, x2, x0
+    c0004300:	39404000 	ldrb	w0, [x0, #16]
+}
+    c0004304:	a8c47bfd 	ldp	x29, x30, [sp], #64
+    c0004308:	d65f03c0 	ret
+
+00000000c000430c <smp_map_psci_result>:
+
+static int smp_map_psci_result(int32_t ret)
+{
+    c000430c:	d10043ff 	sub	sp, sp, #0x10
+    c0004310:	b9000fe0 	str	w0, [sp, #12]
+	if (ret == PSCI_RET_SUCCESS) {
+    c0004314:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004318:	7100001f 	cmp	w0, #0x0
+    c000431c:	54000061 	b.ne	c0004328 <smp_map_psci_result+0x1c>  // b.any
+		return SMP_START_OK;
+    c0004320:	52800000 	mov	w0, #0x0                   	// #0
+    c0004324:	14000016 	b	c000437c <smp_map_psci_result+0x70>
+	}
+	if (ret == PSCI_RET_ALREADY_ON) {
+    c0004328:	b9400fe0 	ldr	w0, [sp, #12]
+    c000432c:	3100101f 	cmn	w0, #0x4
+    c0004330:	54000061 	b.ne	c000433c <smp_map_psci_result+0x30>  // b.any
+		return SMP_START_ALREADY_ONLINE;
+    c0004334:	52800020 	mov	w0, #0x1                   	// #1
+    c0004338:	14000011 	b	c000437c <smp_map_psci_result+0x70>
+	}
+	if (ret == PSCI_RET_INVALID_PARAMS) {
+    c000433c:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004340:	3100081f 	cmn	w0, #0x2
+    c0004344:	54000061 	b.ne	c0004350 <smp_map_psci_result+0x44>  // b.any
+		return SMP_START_INVALID_CPU;
+    c0004348:	12800000 	mov	w0, #0xffffffff            	// #-1
+    c000434c:	1400000c 	b	c000437c <smp_map_psci_result+0x70>
+	}
+	if (ret == PSCI_RET_DENIED) {
+    c0004350:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004354:	31000c1f 	cmn	w0, #0x3
+    c0004358:	54000061 	b.ne	c0004364 <smp_map_psci_result+0x58>  // b.any
 		return SMP_START_DENIED;
-    c0004278:	12800040 	mov	w0, #0xfffffffd            	// #-3
-    c000427c:	1400000d 	b	c00042b0 <smp_start_cpu+0x2a8>
+    c000435c:	12800040 	mov	w0, #0xfffffffd            	// #-3
+    c0004360:	14000007 	b	c000437c <smp_map_psci_result+0x70>
+	}
+	if (ret == PSCI_RET_NOT_SUPPORTED) {
+    c0004364:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004368:	3100041f 	cmn	w0, #0x1
+    c000436c:	54000061 	b.ne	c0004378 <smp_map_psci_result+0x6c>  // b.any
+		return SMP_START_UNSUPPORTED;
+    c0004370:	12800020 	mov	w0, #0xfffffffe            	// #-2
+    c0004374:	14000002 	b	c000437c <smp_map_psci_result+0x70>
+	}
+
+	return SMP_START_FAILED;
+    c0004378:	12800080 	mov	w0, #0xfffffffb            	// #-5
+}
+    c000437c:	910043ff 	add	sp, sp, #0x10
+    c0004380:	d65f03c0 	ret
+
+00000000c0004384 <smp_start_result_name>:
+
+const char *smp_start_result_name(int result)
+{
+    c0004384:	d10043ff 	sub	sp, sp, #0x10
+    c0004388:	b9000fe0 	str	w0, [sp, #12]
+	if (result == SMP_START_OK) {
+    c000438c:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004390:	7100001f 	cmp	w0, #0x0
+    c0004394:	54000081 	b.ne	c00043a4 <smp_start_result_name+0x20>  // b.any
+		return "ok";
+    c0004398:	d0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c000439c:	91198000 	add	x0, x0, #0x660
+    c00043a0:	14000021 	b	c0004424 <smp_start_result_name+0xa0>
+	}
+	if (result == SMP_START_ALREADY_ONLINE) {
+    c00043a4:	b9400fe0 	ldr	w0, [sp, #12]
+    c00043a8:	7100041f 	cmp	w0, #0x1
+    c00043ac:	54000081 	b.ne	c00043bc <smp_start_result_name+0x38>  // b.any
+		return "already-on";
+    c00043b0:	d0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00043b4:	9119a000 	add	x0, x0, #0x668
+    c00043b8:	1400001b 	b	c0004424 <smp_start_result_name+0xa0>
+	}
+	if (result == SMP_START_INVALID_CPU) {
+    c00043bc:	b9400fe0 	ldr	w0, [sp, #12]
+    c00043c0:	3100041f 	cmn	w0, #0x1
+    c00043c4:	54000081 	b.ne	c00043d4 <smp_start_result_name+0x50>  // b.any
+		return "invalid-params";
+    c00043c8:	d0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00043cc:	9119e000 	add	x0, x0, #0x678
+    c00043d0:	14000015 	b	c0004424 <smp_start_result_name+0xa0>
+	}
+	if (result == SMP_START_UNSUPPORTED) {
+    c00043d4:	b9400fe0 	ldr	w0, [sp, #12]
+    c00043d8:	3100081f 	cmn	w0, #0x2
+    c00043dc:	54000081 	b.ne	c00043ec <smp_start_result_name+0x68>  // b.any
+		return "not-supported";
+    c00043e0:	d0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00043e4:	911a2000 	add	x0, x0, #0x688
+    c00043e8:	1400000f 	b	c0004424 <smp_start_result_name+0xa0>
+	}
+	if (result == SMP_START_DENIED) {
+    c00043ec:	b9400fe0 	ldr	w0, [sp, #12]
+    c00043f0:	31000c1f 	cmn	w0, #0x3
+    c00043f4:	54000081 	b.ne	c0004404 <smp_start_result_name+0x80>  // b.any
+		return "denied";
+    c00043f8:	d0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c00043fc:	911a6000 	add	x0, x0, #0x698
+    c0004400:	14000009 	b	c0004424 <smp_start_result_name+0xa0>
+	}
+	if (result == SMP_START_TIMEOUT) {
+    c0004404:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004408:	3100101f 	cmn	w0, #0x4
+    c000440c:	54000081 	b.ne	c000441c <smp_start_result_name+0x98>  // b.any
+		return "timeout";
+    c0004410:	d0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0004414:	911a8000 	add	x0, x0, #0x6a0
+    c0004418:	14000003 	b	c0004424 <smp_start_result_name+0xa0>
+	}
+
+	return "failed";
+    c000441c:	d0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0004420:	911aa000 	add	x0, x0, #0x6a8
+}
+    c0004424:	910043ff 	add	sp, sp, #0x10
+    c0004428:	d65f03c0 	ret
+
+00000000c000442c <smp_init>:
+
+void smp_init(void)
+{
+    c000442c:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    c0004430:	910003fd 	mov	x29, sp
+	unsigned int i;
+	const struct cpu_topology_descriptor *boot_cpu = topology_boot_cpu();
+    c0004434:	94000280 	bl	c0004e34 <topology_boot_cpu>
+    c0004438:	f9000be0 	str	x0, [sp, #16]
+
+	for (i = 0U; i < PLAT_MAX_CPUS; ++i) {
+    c000443c:	b9001fff 	str	wzr, [sp, #28]
+    c0004440:	1400003b 	b	c000452c <smp_init+0x100>
+		cpu_states[i].logical_id = i;
+    c0004444:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004448:	911c8002 	add	x2, x0, #0x720
+    c000444c:	b9401fe1 	ldr	w1, [sp, #28]
+    c0004450:	aa0103e0 	mov	x0, x1
+    c0004454:	d37ff800 	lsl	x0, x0, #1
+    c0004458:	8b010000 	add	x0, x0, x1
+    c000445c:	d37df000 	lsl	x0, x0, #3
+    c0004460:	8b000040 	add	x0, x2, x0
+    c0004464:	b9401fe1 	ldr	w1, [sp, #28]
+    c0004468:	b9000001 	str	w1, [x0]
+		cpu_states[i].mpidr = 0U;
+    c000446c:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004470:	911c8002 	add	x2, x0, #0x720
+    c0004474:	b9401fe1 	ldr	w1, [sp, #28]
+    c0004478:	aa0103e0 	mov	x0, x1
+    c000447c:	d37ff800 	lsl	x0, x0, #1
+    c0004480:	8b010000 	add	x0, x0, x1
+    c0004484:	d37df000 	lsl	x0, x0, #3
+    c0004488:	8b000040 	add	x0, x2, x0
+    c000448c:	f900041f 	str	xzr, [x0, #8]
+		cpu_states[i].online = false;
+    c0004490:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004494:	911c8002 	add	x2, x0, #0x720
+    c0004498:	b9401fe1 	ldr	w1, [sp, #28]
+    c000449c:	aa0103e0 	mov	x0, x1
+    c00044a0:	d37ff800 	lsl	x0, x0, #1
+    c00044a4:	8b010000 	add	x0, x0, x1
+    c00044a8:	d37df000 	lsl	x0, x0, #3
+    c00044ac:	8b000040 	add	x0, x2, x0
+    c00044b0:	3900401f 	strb	wzr, [x0, #16]
+		cpu_states[i].scheduled = false;
+    c00044b4:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00044b8:	911c8002 	add	x2, x0, #0x720
+    c00044bc:	b9401fe1 	ldr	w1, [sp, #28]
+    c00044c0:	aa0103e0 	mov	x0, x1
+    c00044c4:	d37ff800 	lsl	x0, x0, #1
+    c00044c8:	8b010000 	add	x0, x0, x1
+    c00044cc:	d37df000 	lsl	x0, x0, #3
+    c00044d0:	8b000040 	add	x0, x2, x0
+    c00044d4:	3900441f 	strb	wzr, [x0, #17]
+		cpu_states[i].pending = false;
+    c00044d8:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00044dc:	911c8002 	add	x2, x0, #0x720
+    c00044e0:	b9401fe1 	ldr	w1, [sp, #28]
+    c00044e4:	aa0103e0 	mov	x0, x1
+    c00044e8:	d37ff800 	lsl	x0, x0, #1
+    c00044ec:	8b010000 	add	x0, x0, x1
+    c00044f0:	d37df000 	lsl	x0, x0, #3
+    c00044f4:	8b000040 	add	x0, x2, x0
+    c00044f8:	3900481f 	strb	wzr, [x0, #18]
+		cpu_states[i].boot_cpu = false;
+    c00044fc:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004500:	911c8002 	add	x2, x0, #0x720
+    c0004504:	b9401fe1 	ldr	w1, [sp, #28]
+    c0004508:	aa0103e0 	mov	x0, x1
+    c000450c:	d37ff800 	lsl	x0, x0, #1
+    c0004510:	8b010000 	add	x0, x0, x1
+    c0004514:	d37df000 	lsl	x0, x0, #3
+    c0004518:	8b000040 	add	x0, x2, x0
+    c000451c:	39004c1f 	strb	wzr, [x0, #19]
+	for (i = 0U; i < PLAT_MAX_CPUS; ++i) {
+    c0004520:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004524:	11000400 	add	w0, w0, #0x1
+    c0004528:	b9001fe0 	str	w0, [sp, #28]
+    c000452c:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004530:	71001c1f 	cmp	w0, #0x7
+    c0004534:	54fff889 	b.ls	c0004444 <smp_init+0x18>  // b.plast
+	}
+
+	cpu_states[0].logical_id = 0U;
+    c0004538:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000453c:	911c8000 	add	x0, x0, #0x720
+    c0004540:	b900001f 	str	wzr, [x0]
+	cpu_states[0].mpidr = boot_cpu->mpidr;
+    c0004544:	f9400be0 	ldr	x0, [sp, #16]
+    c0004548:	f9400001 	ldr	x1, [x0]
+    c000454c:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004550:	911c8000 	add	x0, x0, #0x720
+    c0004554:	f9000401 	str	x1, [x0, #8]
+	cpu_states[0].boot_cpu = true;
+    c0004558:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000455c:	911c8000 	add	x0, x0, #0x720
+    c0004560:	52800021 	mov	w1, #0x1                   	// #1
+    c0004564:	39004c01 	strb	w1, [x0, #19]
+	cpu_states[0].online = true;
+    c0004568:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000456c:	911c8000 	add	x0, x0, #0x720
+    c0004570:	52800021 	mov	w1, #0x1                   	// #1
+    c0004574:	39004001 	strb	w1, [x0, #16]
+	cpu_states[0].scheduled = true;
+    c0004578:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000457c:	911c8000 	add	x0, x0, #0x720
+    c0004580:	52800021 	mov	w1, #0x1                   	// #1
+    c0004584:	39004401 	strb	w1, [x0, #17]
+	online_cpu_count = 1U;
+    c0004588:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000458c:	911f8000 	add	x0, x0, #0x7e0
+    c0004590:	52800021 	mov	w1, #0x1                   	// #1
+    c0004594:	b9000001 	str	w1, [x0]
+}
+    c0004598:	d503201f 	nop
+    c000459c:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    c00045a0:	d65f03c0 	ret
+
+00000000c00045a4 <smp_start_cpu>:
+
+int smp_start_cpu(uint64_t mpidr, unsigned int *logical_id, int32_t *smc_ret)
+{
+    c00045a4:	a9bb7bfd 	stp	x29, x30, [sp, #-80]!
+    c00045a8:	910003fd 	mov	x29, sp
+    c00045ac:	f90017e0 	str	x0, [sp, #40]
+    c00045b0:	f90013e1 	str	x1, [sp, #32]
+    c00045b4:	f9000fe2 	str	x2, [sp, #24]
+	const struct cpu_topology_descriptor *cpu;
+	int slot;
+	int32_t ret;
+	int result;
+	bool new_cpu = false;
+    c00045b8:	39013fff 	strb	wzr, [sp, #79]
+
+	if ((logical_id == (unsigned int *)0) || (smc_ret == (int32_t *)0)) {
+    c00045bc:	f94013e0 	ldr	x0, [sp, #32]
+    c00045c0:	f100001f 	cmp	x0, #0x0
+    c00045c4:	54000080 	b.eq	c00045d4 <smp_start_cpu+0x30>  // b.none
+    c00045c8:	f9400fe0 	ldr	x0, [sp, #24]
+    c00045cc:	f100001f 	cmp	x0, #0x0
+    c00045d0:	54000061 	b.ne	c00045dc <smp_start_cpu+0x38>  // b.any
+		return SMP_START_FAILED;
+    c00045d4:	12800080 	mov	w0, #0xfffffffb            	// #-5
+    c00045d8:	1400011c 	b	c0004a48 <smp_start_cpu+0x4a4>
+	}
+
+	*smc_ret = 0;
+    c00045dc:	f9400fe0 	ldr	x0, [sp, #24]
+    c00045e0:	b900001f 	str	wzr, [x0]
+	cpu = topology_find_cpu_by_mpidr(mpidr);
+    c00045e4:	f94017e0 	ldr	x0, [sp, #40]
+    c00045e8:	94000224 	bl	c0004e78 <topology_find_cpu_by_mpidr>
+    c00045ec:	f90023e0 	str	x0, [sp, #64]
+	if (cpu != (const struct cpu_topology_descriptor *)0) {
+    c00045f0:	f94023e0 	ldr	x0, [sp, #64]
+    c00045f4:	f100001f 	cmp	x0, #0x0
+    c00045f8:	54000300 	b.eq	c0004658 <smp_start_cpu+0xb4>  // b.none
+		*logical_id = cpu->logical_id;
+    c00045fc:	f94023e0 	ldr	x0, [sp, #64]
+    c0004600:	b9400801 	ldr	w1, [x0, #8]
+    c0004604:	f94013e0 	ldr	x0, [sp, #32]
+    c0004608:	b9000001 	str	w1, [x0]
+		if (cpu_states[cpu->logical_id].online) {
+    c000460c:	f94023e0 	ldr	x0, [sp, #64]
+    c0004610:	b9400801 	ldr	w1, [x0, #8]
+    c0004614:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004618:	911c8002 	add	x2, x0, #0x720
+    c000461c:	2a0103e1 	mov	w1, w1
+    c0004620:	aa0103e0 	mov	x0, x1
+    c0004624:	d37ff800 	lsl	x0, x0, #1
+    c0004628:	8b010000 	add	x0, x0, x1
+    c000462c:	d37df000 	lsl	x0, x0, #3
+    c0004630:	8b000040 	add	x0, x2, x0
+    c0004634:	39404000 	ldrb	w0, [x0, #16]
+    c0004638:	12000000 	and	w0, w0, #0x1
+    c000463c:	7100001f 	cmp	w0, #0x0
+    c0004640:	54000760 	b.eq	c000472c <smp_start_cpu+0x188>  // b.none
+			*smc_ret = PSCI_RET_ALREADY_ON;
+    c0004644:	f9400fe0 	ldr	x0, [sp, #24]
+    c0004648:	12800061 	mov	w1, #0xfffffffc            	// #-4
+    c000464c:	b9000001 	str	w1, [x0]
+			return SMP_START_ALREADY_ONLINE;
+    c0004650:	52800020 	mov	w0, #0x1                   	// #1
+    c0004654:	140000fd 	b	c0004a48 <smp_start_cpu+0x4a4>
+		}
+	} else {
+		slot = smp_find_free_logical_slot();
+    c0004658:	97fffe78 	bl	c0004038 <smp_find_free_logical_slot>
+    c000465c:	b9003fe0 	str	w0, [sp, #60]
+		if (slot < 0) {
+    c0004660:	b9403fe0 	ldr	w0, [sp, #60]
+    c0004664:	7100001f 	cmp	w0, #0x0
+    c0004668:	5400006a 	b.ge	c0004674 <smp_start_cpu+0xd0>  // b.tcont
+			return SMP_START_INVALID_CPU;
+    c000466c:	12800000 	mov	w0, #0xffffffff            	// #-1
+    c0004670:	140000f6 	b	c0004a48 <smp_start_cpu+0x4a4>
+		}
+		*logical_id = (unsigned int)slot;
+    c0004674:	b9403fe1 	ldr	w1, [sp, #60]
+    c0004678:	f94013e0 	ldr	x0, [sp, #32]
+    c000467c:	b9000001 	str	w1, [x0]
+		new_cpu = true;
+    c0004680:	52800020 	mov	w0, #0x1                   	// #1
+    c0004684:	39013fe0 	strb	w0, [sp, #79]
+
+		topology_register_cpu(*logical_id, mpidr, false);
+    c0004688:	f94013e0 	ldr	x0, [sp, #32]
+    c000468c:	b9400000 	ldr	w0, [x0]
+    c0004690:	52800002 	mov	w2, #0x0                   	// #0
+    c0004694:	f94017e1 	ldr	x1, [sp, #40]
+    c0004698:	94000289 	bl	c00050bc <topology_register_cpu>
+		cpu_states[*logical_id].logical_id = *logical_id;
+    c000469c:	f94013e0 	ldr	x0, [sp, #32]
+    c00046a0:	b9400001 	ldr	w1, [x0]
+    c00046a4:	f94013e0 	ldr	x0, [sp, #32]
+    c00046a8:	b9400002 	ldr	w2, [x0]
+    c00046ac:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00046b0:	911c8003 	add	x3, x0, #0x720
+    c00046b4:	2a0103e1 	mov	w1, w1
+    c00046b8:	aa0103e0 	mov	x0, x1
+    c00046bc:	d37ff800 	lsl	x0, x0, #1
+    c00046c0:	8b010000 	add	x0, x0, x1
+    c00046c4:	d37df000 	lsl	x0, x0, #3
+    c00046c8:	8b000060 	add	x0, x3, x0
+    c00046cc:	b9000002 	str	w2, [x0]
+		cpu_states[*logical_id].mpidr = mpidr;
+    c00046d0:	f94013e0 	ldr	x0, [sp, #32]
+    c00046d4:	b9400001 	ldr	w1, [x0]
+    c00046d8:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00046dc:	911c8002 	add	x2, x0, #0x720
+    c00046e0:	2a0103e1 	mov	w1, w1
+    c00046e4:	aa0103e0 	mov	x0, x1
+    c00046e8:	d37ff800 	lsl	x0, x0, #1
+    c00046ec:	8b010000 	add	x0, x0, x1
+    c00046f0:	d37df000 	lsl	x0, x0, #3
+    c00046f4:	8b000040 	add	x0, x2, x0
+    c00046f8:	f94017e1 	ldr	x1, [sp, #40]
+    c00046fc:	f9000401 	str	x1, [x0, #8]
+		cpu_states[*logical_id].boot_cpu = false;
+    c0004700:	f94013e0 	ldr	x0, [sp, #32]
+    c0004704:	b9400001 	ldr	w1, [x0]
+    c0004708:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000470c:	911c8002 	add	x2, x0, #0x720
+    c0004710:	2a0103e1 	mov	w1, w1
+    c0004714:	aa0103e0 	mov	x0, x1
+    c0004718:	d37ff800 	lsl	x0, x0, #1
+    c000471c:	8b010000 	add	x0, x0, x1
+    c0004720:	d37df000 	lsl	x0, x0, #3
+    c0004724:	8b000040 	add	x0, x2, x0
+    c0004728:	39004c1f 	strb	wzr, [x0, #19]
+	}
+
+	cpu_states[*logical_id].pending = true;
+    c000472c:	f94013e0 	ldr	x0, [sp, #32]
+    c0004730:	b9400001 	ldr	w1, [x0]
+    c0004734:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004738:	911c8002 	add	x2, x0, #0x720
+    c000473c:	2a0103e1 	mov	w1, w1
+    c0004740:	aa0103e0 	mov	x0, x1
+    c0004744:	d37ff800 	lsl	x0, x0, #1
+    c0004748:	8b010000 	add	x0, x0, x1
+    c000474c:	d37df000 	lsl	x0, x0, #3
+    c0004750:	8b000040 	add	x0, x2, x0
+    c0004754:	52800021 	mov	w1, #0x1                   	// #1
+    c0004758:	39004801 	strb	w1, [x0, #18]
+	cpu_states[*logical_id].online = false;
+    c000475c:	f94013e0 	ldr	x0, [sp, #32]
+    c0004760:	b9400001 	ldr	w1, [x0]
+    c0004764:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004768:	911c8002 	add	x2, x0, #0x720
+    c000476c:	2a0103e1 	mov	w1, w1
+    c0004770:	aa0103e0 	mov	x0, x1
+    c0004774:	d37ff800 	lsl	x0, x0, #1
+    c0004778:	8b010000 	add	x0, x0, x1
+    c000477c:	d37df000 	lsl	x0, x0, #3
+    c0004780:	8b000040 	add	x0, x2, x0
+    c0004784:	3900401f 	strb	wzr, [x0, #16]
+	cpu_states[*logical_id].scheduled = false;
+    c0004788:	f94013e0 	ldr	x0, [sp, #32]
+    c000478c:	b9400001 	ldr	w1, [x0]
+    c0004790:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004794:	911c8002 	add	x2, x0, #0x720
+    c0004798:	2a0103e1 	mov	w1, w1
+    c000479c:	aa0103e0 	mov	x0, x1
+    c00047a0:	d37ff800 	lsl	x0, x0, #1
+    c00047a4:	8b010000 	add	x0, x0, x1
+    c00047a8:	d37df000 	lsl	x0, x0, #3
+    c00047ac:	8b000040 	add	x0, x2, x0
+    c00047b0:	3900441f 	strb	wzr, [x0, #17]
+
+	ret = smp_smc_call(PSCI_CPU_ON_64, mpidr,
+    c00047b4:	90ffffe0 	adrp	x0, c0000000 <_start>
+    c00047b8:	91008001 	add	x1, x0, #0x20
+			   (uintptr_t)secondary_cpu_entrypoint,
+			   *logical_id);
+    c00047bc:	f94013e0 	ldr	x0, [sp, #32]
+    c00047c0:	b9400000 	ldr	w0, [x0]
+	ret = smp_smc_call(PSCI_CPU_ON_64, mpidr,
+    c00047c4:	2a0003e0 	mov	w0, w0
+    c00047c8:	aa0003e3 	mov	x3, x0
+    c00047cc:	aa0103e2 	mov	x2, x1
+    c00047d0:	f94017e1 	ldr	x1, [sp, #40]
+    c00047d4:	d2800060 	mov	x0, #0x3                   	// #3
+    c00047d8:	f2b88000 	movk	x0, #0xc400, lsl #16
+    c00047dc:	97fffe0b 	bl	c0004008 <smp_smc_call>
+    c00047e0:	b9003be0 	str	w0, [sp, #56]
+	*smc_ret = ret;
+    c00047e4:	f9400fe0 	ldr	x0, [sp, #24]
+    c00047e8:	b9403be1 	ldr	w1, [sp, #56]
+    c00047ec:	b9000001 	str	w1, [x0]
+	result = smp_map_psci_result(ret);
+    c00047f0:	b9403be0 	ldr	w0, [sp, #56]
+    c00047f4:	97fffec6 	bl	c000430c <smp_map_psci_result>
+    c00047f8:	b90037e0 	str	w0, [sp, #52]
+
+	if (result == SMP_START_OK) {
+    c00047fc:	b94037e0 	ldr	w0, [sp, #52]
+    c0004800:	7100001f 	cmp	w0, #0x0
+    c0004804:	540004a1 	b.ne	c0004898 <smp_start_cpu+0x2f4>  // b.any
+		if (!smp_wait_for_online(*logical_id, SMP_CPU_ON_TIMEOUT_US)) {
+    c0004808:	f94013e0 	ldr	x0, [sp, #32]
+    c000480c:	b9400000 	ldr	w0, [x0]
+    c0004810:	5290d401 	mov	w1, #0x86a0                	// #34464
+    c0004814:	72a00021 	movk	w1, #0x1, lsl #16
+    c0004818:	97fffe5f 	bl	c0004194 <smp_wait_for_online>
+    c000481c:	12001c00 	and	w0, w0, #0xff
+    c0004820:	52000000 	eor	w0, w0, #0x1
+    c0004824:	12001c00 	and	w0, w0, #0xff
+    c0004828:	12000000 	and	w0, w0, #0x1
+    c000482c:	7100001f 	cmp	w0, #0x0
+    c0004830:	54000300 	b.eq	c0004890 <smp_start_cpu+0x2ec>  // b.none
+			cpu_states[*logical_id].pending = false;
+    c0004834:	f94013e0 	ldr	x0, [sp, #32]
+    c0004838:	b9400001 	ldr	w1, [x0]
+    c000483c:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004840:	911c8002 	add	x2, x0, #0x720
+    c0004844:	2a0103e1 	mov	w1, w1
+    c0004848:	aa0103e0 	mov	x0, x1
+    c000484c:	d37ff800 	lsl	x0, x0, #1
+    c0004850:	8b010000 	add	x0, x0, x1
+    c0004854:	d37df000 	lsl	x0, x0, #3
+    c0004858:	8b000040 	add	x0, x2, x0
+    c000485c:	3900481f 	strb	wzr, [x0, #18]
+			if (new_cpu) {
+    c0004860:	39413fe0 	ldrb	w0, [sp, #79]
+    c0004864:	12000000 	and	w0, w0, #0x1
+    c0004868:	7100001f 	cmp	w0, #0x0
+    c000486c:	540000e0 	b.eq	c0004888 <smp_start_cpu+0x2e4>  // b.none
+				topology_unregister_cpu(*logical_id);
+    c0004870:	f94013e0 	ldr	x0, [sp, #32]
+    c0004874:	b9400000 	ldr	w0, [x0]
+    c0004878:	94000245 	bl	c000518c <topology_unregister_cpu>
+				smp_reset_cpu_state(*logical_id);
+    c000487c:	f94013e0 	ldr	x0, [sp, #32]
+    c0004880:	b9400000 	ldr	w0, [x0]
+    c0004884:	97fffe04 	bl	c0004094 <smp_reset_cpu_state>
+			}
+			return SMP_START_TIMEOUT;
+    c0004888:	12800060 	mov	w0, #0xfffffffc            	// #-4
+    c000488c:	1400006f 	b	c0004a48 <smp_start_cpu+0x4a4>
+		}
+		return SMP_START_OK;
+    c0004890:	52800000 	mov	w0, #0x0                   	// #0
+    c0004894:	1400006d 	b	c0004a48 <smp_start_cpu+0x4a4>
+	}
+
+	if (result == SMP_START_ALREADY_ONLINE) {
+    c0004898:	b94037e0 	ldr	w0, [sp, #52]
+    c000489c:	7100041f 	cmp	w0, #0x1
+    c00048a0:	54000a81 	b.ne	c00049f0 <smp_start_cpu+0x44c>  // b.any
+		cpu_states[*logical_id].pending = false;
+    c00048a4:	f94013e0 	ldr	x0, [sp, #32]
+    c00048a8:	b9400001 	ldr	w1, [x0]
+    c00048ac:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00048b0:	911c8002 	add	x2, x0, #0x720
+    c00048b4:	2a0103e1 	mov	w1, w1
+    c00048b8:	aa0103e0 	mov	x0, x1
+    c00048bc:	d37ff800 	lsl	x0, x0, #1
+    c00048c0:	8b010000 	add	x0, x0, x1
+    c00048c4:	d37df000 	lsl	x0, x0, #3
+    c00048c8:	8b000040 	add	x0, x2, x0
+    c00048cc:	3900481f 	strb	wzr, [x0, #18]
+
+		/*
+		 * 不能单凭 TF-A 返回 already-on 就认定 secondary 已经真正进入 mini-os。
+		 * 只有 boot cpu 才天然成立；对于新注册但没观察到 online 的核，必须回滚。
+		 */
+		if (cpu_states[*logical_id].boot_cpu) {
+    c00048d0:	f94013e0 	ldr	x0, [sp, #32]
+    c00048d4:	b9400001 	ldr	w1, [x0]
+    c00048d8:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00048dc:	911c8002 	add	x2, x0, #0x720
+    c00048e0:	2a0103e1 	mov	w1, w1
+    c00048e4:	aa0103e0 	mov	x0, x1
+    c00048e8:	d37ff800 	lsl	x0, x0, #1
+    c00048ec:	8b010000 	add	x0, x0, x1
+    c00048f0:	d37df000 	lsl	x0, x0, #3
+    c00048f4:	8b000040 	add	x0, x2, x0
+    c00048f8:	39404c00 	ldrb	w0, [x0, #19]
+    c00048fc:	12000000 	and	w0, w0, #0x1
+    c0004900:	7100001f 	cmp	w0, #0x0
+    c0004904:	540003e0 	b.eq	c0004980 <smp_start_cpu+0x3dc>  // b.none
+			cpu_states[*logical_id].online = true;
+    c0004908:	f94013e0 	ldr	x0, [sp, #32]
+    c000490c:	b9400001 	ldr	w1, [x0]
+    c0004910:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004914:	911c8002 	add	x2, x0, #0x720
+    c0004918:	2a0103e1 	mov	w1, w1
+    c000491c:	aa0103e0 	mov	x0, x1
+    c0004920:	d37ff800 	lsl	x0, x0, #1
+    c0004924:	8b010000 	add	x0, x0, x1
+    c0004928:	d37df000 	lsl	x0, x0, #3
+    c000492c:	8b000040 	add	x0, x2, x0
+    c0004930:	52800021 	mov	w1, #0x1                   	// #1
+    c0004934:	39004001 	strb	w1, [x0, #16]
+			cpu_states[*logical_id].scheduled = true;
+    c0004938:	f94013e0 	ldr	x0, [sp, #32]
+    c000493c:	b9400001 	ldr	w1, [x0]
+    c0004940:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004944:	911c8002 	add	x2, x0, #0x720
+    c0004948:	2a0103e1 	mov	w1, w1
+    c000494c:	aa0103e0 	mov	x0, x1
+    c0004950:	d37ff800 	lsl	x0, x0, #1
+    c0004954:	8b010000 	add	x0, x0, x1
+    c0004958:	d37df000 	lsl	x0, x0, #3
+    c000495c:	8b000040 	add	x0, x2, x0
+    c0004960:	52800021 	mov	w1, #0x1                   	// #1
+    c0004964:	39004401 	strb	w1, [x0, #17]
+			topology_mark_cpu_online(*logical_id, true);
+    c0004968:	f94013e0 	ldr	x0, [sp, #32]
+    c000496c:	b9400000 	ldr	w0, [x0]
+    c0004970:	52800021 	mov	w1, #0x1                   	// #1
+    c0004974:	94000170 	bl	c0004f34 <topology_mark_cpu_online>
+			return SMP_START_ALREADY_ONLINE;
+    c0004978:	52800020 	mov	w0, #0x1                   	// #1
+    c000497c:	14000033 	b	c0004a48 <smp_start_cpu+0x4a4>
+		}
+
+		if (!cpu_states[*logical_id].online && new_cpu) {
+    c0004980:	f94013e0 	ldr	x0, [sp, #32]
+    c0004984:	b9400001 	ldr	w1, [x0]
+    c0004988:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000498c:	911c8002 	add	x2, x0, #0x720
+    c0004990:	2a0103e1 	mov	w1, w1
+    c0004994:	aa0103e0 	mov	x0, x1
+    c0004998:	d37ff800 	lsl	x0, x0, #1
+    c000499c:	8b010000 	add	x0, x0, x1
+    c00049a0:	d37df000 	lsl	x0, x0, #3
+    c00049a4:	8b000040 	add	x0, x2, x0
+    c00049a8:	39404000 	ldrb	w0, [x0, #16]
+    c00049ac:	52000000 	eor	w0, w0, #0x1
+    c00049b0:	12001c00 	and	w0, w0, #0xff
+    c00049b4:	12000000 	and	w0, w0, #0x1
+    c00049b8:	7100001f 	cmp	w0, #0x0
+    c00049bc:	54000160 	b.eq	c00049e8 <smp_start_cpu+0x444>  // b.none
+    c00049c0:	39413fe0 	ldrb	w0, [sp, #79]
+    c00049c4:	12000000 	and	w0, w0, #0x1
+    c00049c8:	7100001f 	cmp	w0, #0x0
+    c00049cc:	540000e0 	b.eq	c00049e8 <smp_start_cpu+0x444>  // b.none
+			topology_unregister_cpu(*logical_id);
+    c00049d0:	f94013e0 	ldr	x0, [sp, #32]
+    c00049d4:	b9400000 	ldr	w0, [x0]
+    c00049d8:	940001ed 	bl	c000518c <topology_unregister_cpu>
+			smp_reset_cpu_state(*logical_id);
+    c00049dc:	f94013e0 	ldr	x0, [sp, #32]
+    c00049e0:	b9400000 	ldr	w0, [x0]
+    c00049e4:	97fffdac 	bl	c0004094 <smp_reset_cpu_state>
+		}
+
+		return SMP_START_ALREADY_ONLINE;
+    c00049e8:	52800020 	mov	w0, #0x1                   	// #1
+    c00049ec:	14000017 	b	c0004a48 <smp_start_cpu+0x4a4>
 	}
 
 	cpu_states[*logical_id].pending = false;
-    c0004280:	f9400be0 	ldr	x0, [sp, #16]
-    c0004284:	b9400001 	ldr	w1, [x0]
-    c0004288:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c000428c:	912ec002 	add	x2, x0, #0xbb0
-    c0004290:	2a0103e1 	mov	w1, w1
-    c0004294:	aa0103e0 	mov	x0, x1
-    c0004298:	d37ff800 	lsl	x0, x0, #1
-    c000429c:	8b010000 	add	x0, x0, x1
-    c00042a0:	d37df000 	lsl	x0, x0, #3
-    c00042a4:	8b000040 	add	x0, x2, x0
-    c00042a8:	3900481f 	strb	wzr, [x0, #18]
-	return SMP_START_UNSUPPORTED;
-    c00042ac:	12800020 	mov	w0, #0xfffffffe            	// #-2
-}
-    c00042b0:	a8c37bfd 	ldp	x29, x30, [sp], #48
-    c00042b4:	d65f03c0 	ret
+    c00049f0:	f94013e0 	ldr	x0, [sp, #32]
+    c00049f4:	b9400001 	ldr	w1, [x0]
+    c00049f8:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00049fc:	911c8002 	add	x2, x0, #0x720
+    c0004a00:	2a0103e1 	mov	w1, w1
+    c0004a04:	aa0103e0 	mov	x0, x1
+    c0004a08:	d37ff800 	lsl	x0, x0, #1
+    c0004a0c:	8b010000 	add	x0, x0, x1
+    c0004a10:	d37df000 	lsl	x0, x0, #3
+    c0004a14:	8b000040 	add	x0, x2, x0
+    c0004a18:	3900481f 	strb	wzr, [x0, #18]
 
-00000000c00042b8 <smp_cpu_state>:
+	if (new_cpu) {
+    c0004a1c:	39413fe0 	ldrb	w0, [sp, #79]
+    c0004a20:	12000000 	and	w0, w0, #0x1
+    c0004a24:	7100001f 	cmp	w0, #0x0
+    c0004a28:	540000e0 	b.eq	c0004a44 <smp_start_cpu+0x4a0>  // b.none
+		topology_unregister_cpu(*logical_id);
+    c0004a2c:	f94013e0 	ldr	x0, [sp, #32]
+    c0004a30:	b9400000 	ldr	w0, [x0]
+    c0004a34:	940001d6 	bl	c000518c <topology_unregister_cpu>
+		smp_reset_cpu_state(*logical_id);
+    c0004a38:	f94013e0 	ldr	x0, [sp, #32]
+    c0004a3c:	b9400000 	ldr	w0, [x0]
+    c0004a40:	97fffd95 	bl	c0004094 <smp_reset_cpu_state>
+	}
+
+	return result;
+    c0004a44:	b94037e0 	ldr	w0, [sp, #52]
+}
+    c0004a48:	a8c57bfd 	ldp	x29, x30, [sp], #80
+    c0004a4c:	d65f03c0 	ret
+
+00000000c0004a50 <smp_cpu_state>:
 
 const struct smp_cpu_state *smp_cpu_state(unsigned int logical_id)
 {
-    c00042b8:	d10043ff 	sub	sp, sp, #0x10
-    c00042bc:	b9000fe0 	str	w0, [sp, #12]
+    c0004a50:	d10043ff 	sub	sp, sp, #0x10
+    c0004a54:	b9000fe0 	str	w0, [sp, #12]
 	if (logical_id >= PLAT_MAX_CPUS) {
-    c00042c0:	b9400fe0 	ldr	w0, [sp, #12]
-    c00042c4:	71001c1f 	cmp	w0, #0x7
-    c00042c8:	54000069 	b.ls	c00042d4 <smp_cpu_state+0x1c>  // b.plast
+    c0004a58:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004a5c:	71001c1f 	cmp	w0, #0x7
+    c0004a60:	54000069 	b.ls	c0004a6c <smp_cpu_state+0x1c>  // b.plast
 		return (const struct smp_cpu_state *)0;
-    c00042cc:	d2800000 	mov	x0, #0x0                   	// #0
-    c00042d0:	14000009 	b	c00042f4 <smp_cpu_state+0x3c>
+    c0004a64:	d2800000 	mov	x0, #0x0                   	// #0
+    c0004a68:	14000009 	b	c0004a8c <smp_cpu_state+0x3c>
 	}
 
 	return &cpu_states[logical_id];
-    c00042d4:	b9400fe1 	ldr	w1, [sp, #12]
-    c00042d8:	aa0103e0 	mov	x0, x1
-    c00042dc:	d37ff800 	lsl	x0, x0, #1
-    c00042e0:	8b010000 	add	x0, x0, x1
-    c00042e4:	d37df000 	lsl	x0, x0, #3
-    c00042e8:	b0000041 	adrp	x1, c000d000 <secondary_stacks+0x7450>
-    c00042ec:	912ec021 	add	x1, x1, #0xbb0
-    c00042f0:	8b010000 	add	x0, x0, x1
+    c0004a6c:	b9400fe1 	ldr	w1, [sp, #12]
+    c0004a70:	aa0103e0 	mov	x0, x1
+    c0004a74:	d37ff800 	lsl	x0, x0, #1
+    c0004a78:	8b010000 	add	x0, x0, x1
+    c0004a7c:	d37df000 	lsl	x0, x0, #3
+    c0004a80:	d0000041 	adrp	x1, c000e000 <secondary_stacks+0x78e0>
+    c0004a84:	911c8021 	add	x1, x1, #0x720
+    c0004a88:	8b010000 	add	x0, x0, x1
 }
-    c00042f4:	910043ff 	add	sp, sp, #0x10
-    c00042f8:	d65f03c0 	ret
+    c0004a8c:	910043ff 	add	sp, sp, #0x10
+    c0004a90:	d65f03c0 	ret
 
-00000000c00042fc <smp_online_cpu_count>:
+00000000c0004a94 <smp_online_cpu_count>:
 
 unsigned int smp_online_cpu_count(void)
 {
 	return online_cpu_count;
-    c00042fc:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004300:	9131c000 	add	x0, x0, #0xc70
-    c0004304:	b9400000 	ldr	w0, [x0]
+    c0004a94:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004a98:	911f8000 	add	x0, x0, #0x7e0
+    c0004a9c:	b9400000 	ldr	w0, [x0]
 }
-    c0004308:	d65f03c0 	ret
+    c0004aa0:	d65f03c0 	ret
 
-00000000c000430c <smp_secondary_cpu_online>:
+00000000c0004aa4 <smp_secondary_cpu_online>:
 
 void smp_secondary_cpu_online(unsigned int logical_id)
 {
-    c000430c:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
-    c0004310:	910003fd 	mov	x29, sp
-    c0004314:	b9001fe0 	str	w0, [sp, #28]
+    c0004aa4:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    c0004aa8:	910003fd 	mov	x29, sp
+    c0004aac:	b9001fe0 	str	w0, [sp, #28]
 	if ((logical_id >= PLAT_MAX_CPUS) || cpu_states[logical_id].online) {
-    c0004318:	b9401fe0 	ldr	w0, [sp, #28]
-    c000431c:	71001c1f 	cmp	w0, #0x7
-    c0004320:	540006e8 	b.hi	c00043fc <smp_secondary_cpu_online+0xf0>  // b.pmore
-    c0004324:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004328:	912ec002 	add	x2, x0, #0xbb0
-    c000432c:	b9401fe1 	ldr	w1, [sp, #28]
-    c0004330:	aa0103e0 	mov	x0, x1
-    c0004334:	d37ff800 	lsl	x0, x0, #1
-    c0004338:	8b010000 	add	x0, x0, x1
-    c000433c:	d37df000 	lsl	x0, x0, #3
-    c0004340:	8b000040 	add	x0, x2, x0
-    c0004344:	39404000 	ldrb	w0, [x0, #16]
-    c0004348:	12000000 	and	w0, w0, #0x1
-    c000434c:	7100001f 	cmp	w0, #0x0
-    c0004350:	54000561 	b.ne	c00043fc <smp_secondary_cpu_online+0xf0>  // b.any
+    c0004ab0:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004ab4:	71001c1f 	cmp	w0, #0x7
+    c0004ab8:	540006e8 	b.hi	c0004b94 <smp_secondary_cpu_online+0xf0>  // b.pmore
+    c0004abc:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004ac0:	911c8002 	add	x2, x0, #0x720
+    c0004ac4:	b9401fe1 	ldr	w1, [sp, #28]
+    c0004ac8:	aa0103e0 	mov	x0, x1
+    c0004acc:	d37ff800 	lsl	x0, x0, #1
+    c0004ad0:	8b010000 	add	x0, x0, x1
+    c0004ad4:	d37df000 	lsl	x0, x0, #3
+    c0004ad8:	8b000040 	add	x0, x2, x0
+    c0004adc:	39404000 	ldrb	w0, [x0, #16]
+    c0004ae0:	12000000 	and	w0, w0, #0x1
+    c0004ae4:	7100001f 	cmp	w0, #0x0
+    c0004ae8:	54000561 	b.ne	c0004b94 <smp_secondary_cpu_online+0xf0>  // b.any
 		return;
 	}
 
 	cpu_states[logical_id].pending = false;
-    c0004354:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004358:	912ec002 	add	x2, x0, #0xbb0
-    c000435c:	b9401fe1 	ldr	w1, [sp, #28]
-    c0004360:	aa0103e0 	mov	x0, x1
-    c0004364:	d37ff800 	lsl	x0, x0, #1
-    c0004368:	8b010000 	add	x0, x0, x1
-    c000436c:	d37df000 	lsl	x0, x0, #3
-    c0004370:	8b000040 	add	x0, x2, x0
-    c0004374:	3900481f 	strb	wzr, [x0, #18]
+    c0004aec:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004af0:	911c8002 	add	x2, x0, #0x720
+    c0004af4:	b9401fe1 	ldr	w1, [sp, #28]
+    c0004af8:	aa0103e0 	mov	x0, x1
+    c0004afc:	d37ff800 	lsl	x0, x0, #1
+    c0004b00:	8b010000 	add	x0, x0, x1
+    c0004b04:	d37df000 	lsl	x0, x0, #3
+    c0004b08:	8b000040 	add	x0, x2, x0
+    c0004b0c:	3900481f 	strb	wzr, [x0, #18]
 	cpu_states[logical_id].online = true;
-    c0004378:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c000437c:	912ec002 	add	x2, x0, #0xbb0
-    c0004380:	b9401fe1 	ldr	w1, [sp, #28]
-    c0004384:	aa0103e0 	mov	x0, x1
-    c0004388:	d37ff800 	lsl	x0, x0, #1
-    c000438c:	8b010000 	add	x0, x0, x1
-    c0004390:	d37df000 	lsl	x0, x0, #3
-    c0004394:	8b000040 	add	x0, x2, x0
-    c0004398:	52800021 	mov	w1, #0x1                   	// #1
-    c000439c:	39004001 	strb	w1, [x0, #16]
+    c0004b10:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004b14:	911c8002 	add	x2, x0, #0x720
+    c0004b18:	b9401fe1 	ldr	w1, [sp, #28]
+    c0004b1c:	aa0103e0 	mov	x0, x1
+    c0004b20:	d37ff800 	lsl	x0, x0, #1
+    c0004b24:	8b010000 	add	x0, x0, x1
+    c0004b28:	d37df000 	lsl	x0, x0, #3
+    c0004b2c:	8b000040 	add	x0, x2, x0
+    c0004b30:	52800021 	mov	w1, #0x1                   	// #1
+    c0004b34:	39004001 	strb	w1, [x0, #16]
 	cpu_states[logical_id].scheduled = true;
-    c00043a0:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00043a4:	912ec002 	add	x2, x0, #0xbb0
-    c00043a8:	b9401fe1 	ldr	w1, [sp, #28]
-    c00043ac:	aa0103e0 	mov	x0, x1
-    c00043b0:	d37ff800 	lsl	x0, x0, #1
-    c00043b4:	8b010000 	add	x0, x0, x1
-    c00043b8:	d37df000 	lsl	x0, x0, #3
-    c00043bc:	8b000040 	add	x0, x2, x0
-    c00043c0:	52800021 	mov	w1, #0x1                   	// #1
-    c00043c4:	39004401 	strb	w1, [x0, #17]
+    c0004b38:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004b3c:	911c8002 	add	x2, x0, #0x720
+    c0004b40:	b9401fe1 	ldr	w1, [sp, #28]
+    c0004b44:	aa0103e0 	mov	x0, x1
+    c0004b48:	d37ff800 	lsl	x0, x0, #1
+    c0004b4c:	8b010000 	add	x0, x0, x1
+    c0004b50:	d37df000 	lsl	x0, x0, #3
+    c0004b54:	8b000040 	add	x0, x2, x0
+    c0004b58:	52800021 	mov	w1, #0x1                   	// #1
+    c0004b5c:	39004401 	strb	w1, [x0, #17]
 	online_cpu_count++;
-    c00043c8:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00043cc:	9131c000 	add	x0, x0, #0xc70
-    c00043d0:	b9400000 	ldr	w0, [x0]
-    c00043d4:	11000401 	add	w1, w0, #0x1
-    c00043d8:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00043dc:	9131c000 	add	x0, x0, #0xc70
-    c00043e0:	b9000001 	str	w1, [x0]
+    c0004b60:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004b64:	911f8000 	add	x0, x0, #0x7e0
+    c0004b68:	b9400000 	ldr	w0, [x0]
+    c0004b6c:	11000401 	add	w1, w0, #0x1
+    c0004b70:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004b74:	911f8000 	add	x0, x0, #0x7e0
+    c0004b78:	b9000001 	str	w1, [x0]
 	topology_mark_cpu_online(logical_id, true);
-    c00043e4:	52800021 	mov	w1, #0x1                   	// #1
-    c00043e8:	b9401fe0 	ldr	w0, [sp, #28]
-    c00043ec:	940000ec 	bl	c000479c <topology_mark_cpu_online>
+    c0004b7c:	52800021 	mov	w1, #0x1                   	// #1
+    c0004b80:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004b84:	940000ec 	bl	c0004f34 <topology_mark_cpu_online>
 	scheduler_join_cpu(logical_id);
-    c00043f0:	b9401fe0 	ldr	w0, [sp, #28]
-    c00043f4:	97fff946 	bl	c000290c <scheduler_join_cpu>
-    c00043f8:	14000002 	b	c0004400 <smp_secondary_cpu_online+0xf4>
+    c0004b88:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004b8c:	97fff760 	bl	c000290c <scheduler_join_cpu>
+    c0004b90:	14000002 	b	c0004b98 <smp_secondary_cpu_online+0xf4>
 		return;
-    c00043fc:	d503201f 	nop
+    c0004b94:	d503201f 	nop
 }
-    c0004400:	a8c27bfd 	ldp	x29, x30, [sp], #32
-    c0004404:	d65f03c0 	ret
+    c0004b98:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    c0004b9c:	d65f03c0 	ret
 
-00000000c0004408 <smp_secondary_entry>:
+00000000c0004ba0 <smp_secondary_entry>:
 
 void smp_secondary_entry(uint64_t logical_id)
 {
-    c0004408:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
-    c000440c:	910003fd 	mov	x29, sp
-    c0004410:	a90153f3 	stp	x19, x20, [sp, #16]
-    c0004414:	f90017e0 	str	x0, [sp, #40]
+    c0004ba0:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    c0004ba4:	910003fd 	mov	x29, sp
+    c0004ba8:	a90153f3 	stp	x19, x20, [sp, #16]
+    c0004bac:	f90017e0 	str	x0, [sp, #40]
 	smp_secondary_cpu_online((unsigned int)logical_id);
-    c0004418:	f94017e0 	ldr	x0, [sp, #40]
-    c000441c:	97ffffbc 	bl	c000430c <smp_secondary_cpu_online>
+    c0004bb0:	f94017e0 	ldr	x0, [sp, #40]
+    c0004bb4:	97ffffbc 	bl	c0004aa4 <smp_secondary_cpu_online>
 	mini_os_printf("secondary cpu%u online (mpidr=0x%llx), scheduler runnable=%u\n",
-    c0004420:	f94017e0 	ldr	x0, [sp, #40]
-    c0004424:	2a0003f4 	mov	w20, w0
+    c0004bb8:	f94017e0 	ldr	x0, [sp, #40]
+    c0004bbc:	2a0003f4 	mov	w20, w0
 		       (unsigned int)logical_id,
 		       (unsigned long long)cpu_states[logical_id].mpidr,
-    c0004428:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c000442c:	912ec002 	add	x2, x0, #0xbb0
-    c0004430:	f94017e1 	ldr	x1, [sp, #40]
-    c0004434:	aa0103e0 	mov	x0, x1
-    c0004438:	d37ff800 	lsl	x0, x0, #1
-    c000443c:	8b010000 	add	x0, x0, x1
-    c0004440:	d37df000 	lsl	x0, x0, #3
-    c0004444:	8b000040 	add	x0, x2, x0
-    c0004448:	f9400413 	ldr	x19, [x0, #8]
+    c0004bc0:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004bc4:	911c8002 	add	x2, x0, #0x720
+    c0004bc8:	f94017e1 	ldr	x1, [sp, #40]
+    c0004bcc:	aa0103e0 	mov	x0, x1
+    c0004bd0:	d37ff800 	lsl	x0, x0, #1
+    c0004bd4:	8b010000 	add	x0, x0, x1
+    c0004bd8:	d37df000 	lsl	x0, x0, #3
+    c0004bdc:	8b000040 	add	x0, x2, x0
+    c0004be0:	f9400413 	ldr	x19, [x0, #8]
 	mini_os_printf("secondary cpu%u online (mpidr=0x%llx), scheduler runnable=%u\n",
-    c000444c:	97fff958 	bl	c00029ac <scheduler_runnable_cpu_count>
-    c0004450:	2a0003e3 	mov	w3, w0
-    c0004454:	aa1303e2 	mov	x2, x19
-    c0004458:	2a1403e1 	mov	w1, w20
-    c000445c:	b0000000 	adrp	x0, c0005000 <hex.0+0x5c8>
-    c0004460:	912ce000 	add	x0, x0, #0xb38
-    c0004464:	97fff616 	bl	c0001cbc <mini_os_printf>
+    c0004be4:	97fff772 	bl	c00029ac <scheduler_runnable_cpu_count>
+    c0004be8:	2a0003e3 	mov	w3, w0
+    c0004bec:	aa1303e2 	mov	x2, x19
+    c0004bf0:	2a1403e1 	mov	w1, w20
+    c0004bf4:	d0000000 	adrp	x0, c0006000 <hex.0+0xc88>
+    c0004bf8:	911ac000 	add	x0, x0, #0x6b0
+    c0004bfc:	97fff430 	bl	c0001cbc <mini_os_printf>
 		       scheduler_runnable_cpu_count());
 
 	for (;;) {
 		__asm__ volatile ("wfe");
-    c0004468:	d503205f 	wfe
-    c000446c:	17ffffff 	b	c0004468 <smp_secondary_entry+0x60>
+    c0004c00:	d503205f 	wfe
+    c0004c04:	17ffffff 	b	c0004c00 <smp_secondary_entry+0x60>
 
-00000000c0004470 <smp_secondary_entrypoint>:
+00000000c0004c08 <smp_secondary_entrypoint>:
 	}
 }
 
 uintptr_t smp_secondary_entrypoint(void)
 {
 	return (uintptr_t)secondary_cpu_entrypoint;
-    c0004470:	90ffffe0 	adrp	x0, c0000000 <_start>
-    c0004474:	91008000 	add	x0, x0, #0x20
-    c0004478:	d65f03c0 	ret
+    c0004c08:	90ffffe0 	adrp	x0, c0000000 <_start>
+    c0004c0c:	91008000 	add	x0, x0, #0x20
+    c0004c10:	d65f03c0 	ret
 
-00000000c000447c <test_framework_init>:
+00000000c0004c14 <test_framework_init>:
 #include <kernel/test.h>
 
 void test_framework_init(void)
 {
-    c000447c:	d503201f 	nop
-    c0004480:	d65f03c0 	ret
+    c0004c14:	d503201f 	nop
+    c0004c18:	d65f03c0 	ret
 
-00000000c0004484 <topology_read_mpidr>:
+00000000c0004c1c <topology_read_mpidr>:
 static struct cpu_topology_descriptor cpu_descs[PLAT_MAX_CPUS];
 static unsigned int present_cpu_count;
 static unsigned int online_cpu_count;
 
 static inline uint64_t topology_read_mpidr(void)
 {
-    c0004484:	d10043ff 	sub	sp, sp, #0x10
+    c0004c1c:	d10043ff 	sub	sp, sp, #0x10
 	uint64_t mpidr;
 
 	__asm__ volatile ("mrs %0, mpidr_el1" : "=r" (mpidr));
-    c0004488:	d53800a0 	mrs	x0, mpidr_el1
-    c000448c:	f90007e0 	str	x0, [sp, #8]
+    c0004c20:	d53800a0 	mrs	x0, mpidr_el1
+    c0004c24:	f90007e0 	str	x0, [sp, #8]
 	return mpidr;
-    c0004490:	f94007e0 	ldr	x0, [sp, #8]
+    c0004c28:	f94007e0 	ldr	x0, [sp, #8]
 }
-    c0004494:	910043ff 	add	sp, sp, #0x10
-    c0004498:	d65f03c0 	ret
+    c0004c2c:	910043ff 	add	sp, sp, #0x10
+    c0004c30:	d65f03c0 	ret
 
-00000000c000449c <topology_fill_descriptor>:
+00000000c0004c34 <topology_fill_descriptor>:
 
 static void topology_fill_descriptor(struct cpu_topology_descriptor *cpu,
 				     unsigned int logical_id,
 				     uint64_t mpidr,
 				     bool boot_cpu)
 {
-    c000449c:	d10083ff 	sub	sp, sp, #0x20
-    c00044a0:	f9000fe0 	str	x0, [sp, #24]
-    c00044a4:	b90017e1 	str	w1, [sp, #20]
-    c00044a8:	f90007e2 	str	x2, [sp, #8]
-    c00044ac:	39004fe3 	strb	w3, [sp, #19]
+    c0004c34:	d10083ff 	sub	sp, sp, #0x20
+    c0004c38:	f9000fe0 	str	x0, [sp, #24]
+    c0004c3c:	b90017e1 	str	w1, [sp, #20]
+    c0004c40:	f90007e2 	str	x2, [sp, #8]
+    c0004c44:	39004fe3 	strb	w3, [sp, #19]
 	cpu->logical_id = logical_id;
-    c00044b0:	f9400fe0 	ldr	x0, [sp, #24]
-    c00044b4:	b94017e1 	ldr	w1, [sp, #20]
-    c00044b8:	b9000801 	str	w1, [x0, #8]
+    c0004c48:	f9400fe0 	ldr	x0, [sp, #24]
+    c0004c4c:	b94017e1 	ldr	w1, [sp, #20]
+    c0004c50:	b9000801 	str	w1, [x0, #8]
 	cpu->mpidr = mpidr;
-    c00044bc:	f9400fe0 	ldr	x0, [sp, #24]
-    c00044c0:	f94007e1 	ldr	x1, [sp, #8]
-    c00044c4:	f9000001 	str	x1, [x0]
+    c0004c54:	f9400fe0 	ldr	x0, [sp, #24]
+    c0004c58:	f94007e1 	ldr	x1, [sp, #8]
+    c0004c5c:	f9000001 	str	x1, [x0]
 	cpu->chip_id = (unsigned int)((mpidr & MPIDR_AFF3_MASK) >> MPIDR_AFF3_SHIFT);
-    c00044c8:	f94007e0 	ldr	x0, [sp, #8]
-    c00044cc:	d358fc00 	lsr	x0, x0, #24
-    c00044d0:	12001c01 	and	w1, w0, #0xff
-    c00044d4:	f9400fe0 	ldr	x0, [sp, #24]
-    c00044d8:	b9000c01 	str	w1, [x0, #12]
+    c0004c60:	f94007e0 	ldr	x0, [sp, #8]
+    c0004c64:	d358fc00 	lsr	x0, x0, #24
+    c0004c68:	12001c01 	and	w1, w0, #0xff
+    c0004c6c:	f9400fe0 	ldr	x0, [sp, #24]
+    c0004c70:	b9000c01 	str	w1, [x0, #12]
 	cpu->die_id = (unsigned int)((mpidr & MPIDR_AFF2_MASK) >> MPIDR_AFF2_SHIFT);
-    c00044dc:	f94007e0 	ldr	x0, [sp, #8]
-    c00044e0:	d350fc00 	lsr	x0, x0, #16
-    c00044e4:	12001c01 	and	w1, w0, #0xff
-    c00044e8:	f9400fe0 	ldr	x0, [sp, #24]
-    c00044ec:	b9001001 	str	w1, [x0, #16]
+    c0004c74:	f94007e0 	ldr	x0, [sp, #8]
+    c0004c78:	d350fc00 	lsr	x0, x0, #16
+    c0004c7c:	12001c01 	and	w1, w0, #0xff
+    c0004c80:	f9400fe0 	ldr	x0, [sp, #24]
+    c0004c84:	b9001001 	str	w1, [x0, #16]
 	cpu->cluster_id = (unsigned int)((mpidr & MPIDR_AFF1_MASK) >> MPIDR_AFF1_SHIFT);
-    c00044f0:	f94007e0 	ldr	x0, [sp, #8]
-    c00044f4:	d348fc00 	lsr	x0, x0, #8
-    c00044f8:	12001c01 	and	w1, w0, #0xff
-    c00044fc:	f9400fe0 	ldr	x0, [sp, #24]
-    c0004500:	b9001401 	str	w1, [x0, #20]
+    c0004c88:	f94007e0 	ldr	x0, [sp, #8]
+    c0004c8c:	d348fc00 	lsr	x0, x0, #8
+    c0004c90:	12001c01 	and	w1, w0, #0xff
+    c0004c94:	f9400fe0 	ldr	x0, [sp, #24]
+    c0004c98:	b9001401 	str	w1, [x0, #20]
 	cpu->core_id = (unsigned int)(mpidr & MPIDR_AFF0_MASK);
-    c0004504:	f94007e0 	ldr	x0, [sp, #8]
-    c0004508:	12001c01 	and	w1, w0, #0xff
-    c000450c:	f9400fe0 	ldr	x0, [sp, #24]
-    c0004510:	b9001801 	str	w1, [x0, #24]
+    c0004c9c:	f94007e0 	ldr	x0, [sp, #8]
+    c0004ca0:	12001c01 	and	w1, w0, #0xff
+    c0004ca4:	f9400fe0 	ldr	x0, [sp, #24]
+    c0004ca8:	b9001801 	str	w1, [x0, #24]
 	cpu->boot_cpu = boot_cpu;
-    c0004514:	f9400fe0 	ldr	x0, [sp, #24]
-    c0004518:	39404fe1 	ldrb	w1, [sp, #19]
-    c000451c:	39007001 	strb	w1, [x0, #28]
+    c0004cac:	f9400fe0 	ldr	x0, [sp, #24]
+    c0004cb0:	39404fe1 	ldrb	w1, [sp, #19]
+    c0004cb4:	39007001 	strb	w1, [x0, #28]
 }
-    c0004520:	d503201f 	nop
-    c0004524:	910083ff 	add	sp, sp, #0x20
-    c0004528:	d65f03c0 	ret
+    c0004cb8:	d503201f 	nop
+    c0004cbc:	910083ff 	add	sp, sp, #0x20
+    c0004cc0:	d65f03c0 	ret
 
-00000000c000452c <topology_init>:
+00000000c0004cc4 <topology_init>:
 
 void topology_init(void)
 {
-    c000452c:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
-    c0004530:	910003fd 	mov	x29, sp
+    c0004cc4:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    c0004cc8:	910003fd 	mov	x29, sp
 	unsigned int i;
 	uint64_t mpidr = topology_read_mpidr();
-    c0004534:	97ffffd4 	bl	c0004484 <topology_read_mpidr>
-    c0004538:	f9000be0 	str	x0, [sp, #16]
+    c0004ccc:	97ffffd4 	bl	c0004c1c <topology_read_mpidr>
+    c0004cd0:	f9000be0 	str	x0, [sp, #16]
 
 	for (i = 0U; i < PLAT_MAX_CPUS; ++i) {
-    c000453c:	b9001fff 	str	wzr, [sp, #28]
-    c0004540:	1400003b 	b	c000462c <topology_init+0x100>
+    c0004cd4:	b9001fff 	str	wzr, [sp, #28]
+    c0004cd8:	1400003b 	b	c0004dc4 <topology_init+0x100>
 		cpu_descs[i].logical_id = i;
-    c0004544:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004548:	9131e001 	add	x1, x0, #0xc78
-    c000454c:	b9401fe0 	ldr	w0, [sp, #28]
-    c0004550:	d37be800 	lsl	x0, x0, #5
-    c0004554:	8b000020 	add	x0, x1, x0
-    c0004558:	b9401fe1 	ldr	w1, [sp, #28]
-    c000455c:	b9000801 	str	w1, [x0, #8]
+    c0004cdc:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004ce0:	911fa001 	add	x1, x0, #0x7e8
+    c0004ce4:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004ce8:	d37be800 	lsl	x0, x0, #5
+    c0004cec:	8b000020 	add	x0, x1, x0
+    c0004cf0:	b9401fe1 	ldr	w1, [sp, #28]
+    c0004cf4:	b9000801 	str	w1, [x0, #8]
 		cpu_descs[i].present = false;
-    c0004560:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004564:	9131e001 	add	x1, x0, #0xc78
-    c0004568:	b9401fe0 	ldr	w0, [sp, #28]
-    c000456c:	d37be800 	lsl	x0, x0, #5
-    c0004570:	8b000020 	add	x0, x1, x0
-    c0004574:	3900741f 	strb	wzr, [x0, #29]
+    c0004cf8:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004cfc:	911fa001 	add	x1, x0, #0x7e8
+    c0004d00:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004d04:	d37be800 	lsl	x0, x0, #5
+    c0004d08:	8b000020 	add	x0, x1, x0
+    c0004d0c:	3900741f 	strb	wzr, [x0, #29]
 		cpu_descs[i].online = false;
-    c0004578:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c000457c:	9131e001 	add	x1, x0, #0xc78
-    c0004580:	b9401fe0 	ldr	w0, [sp, #28]
-    c0004584:	d37be800 	lsl	x0, x0, #5
-    c0004588:	8b000020 	add	x0, x1, x0
-    c000458c:	3900781f 	strb	wzr, [x0, #30]
+    c0004d10:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004d14:	911fa001 	add	x1, x0, #0x7e8
+    c0004d18:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004d1c:	d37be800 	lsl	x0, x0, #5
+    c0004d20:	8b000020 	add	x0, x1, x0
+    c0004d24:	3900781f 	strb	wzr, [x0, #30]
 		cpu_descs[i].boot_cpu = false;
-    c0004590:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004594:	9131e001 	add	x1, x0, #0xc78
-    c0004598:	b9401fe0 	ldr	w0, [sp, #28]
-    c000459c:	d37be800 	lsl	x0, x0, #5
-    c00045a0:	8b000020 	add	x0, x1, x0
-    c00045a4:	3900701f 	strb	wzr, [x0, #28]
+    c0004d28:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004d2c:	911fa001 	add	x1, x0, #0x7e8
+    c0004d30:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004d34:	d37be800 	lsl	x0, x0, #5
+    c0004d38:	8b000020 	add	x0, x1, x0
+    c0004d3c:	3900701f 	strb	wzr, [x0, #28]
 		cpu_descs[i].mpidr = 0U;
-    c00045a8:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00045ac:	9131e001 	add	x1, x0, #0xc78
-    c00045b0:	b9401fe0 	ldr	w0, [sp, #28]
-    c00045b4:	d37be800 	lsl	x0, x0, #5
-    c00045b8:	8b000020 	add	x0, x1, x0
-    c00045bc:	f900001f 	str	xzr, [x0]
+    c0004d40:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004d44:	911fa001 	add	x1, x0, #0x7e8
+    c0004d48:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004d4c:	d37be800 	lsl	x0, x0, #5
+    c0004d50:	8b000020 	add	x0, x1, x0
+    c0004d54:	f900001f 	str	xzr, [x0]
 		cpu_descs[i].chip_id = 0U;
-    c00045c0:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00045c4:	9131e001 	add	x1, x0, #0xc78
-    c00045c8:	b9401fe0 	ldr	w0, [sp, #28]
-    c00045cc:	d37be800 	lsl	x0, x0, #5
-    c00045d0:	8b000020 	add	x0, x1, x0
-    c00045d4:	b9000c1f 	str	wzr, [x0, #12]
+    c0004d58:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004d5c:	911fa001 	add	x1, x0, #0x7e8
+    c0004d60:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004d64:	d37be800 	lsl	x0, x0, #5
+    c0004d68:	8b000020 	add	x0, x1, x0
+    c0004d6c:	b9000c1f 	str	wzr, [x0, #12]
 		cpu_descs[i].die_id = 0U;
-    c00045d8:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00045dc:	9131e001 	add	x1, x0, #0xc78
-    c00045e0:	b9401fe0 	ldr	w0, [sp, #28]
-    c00045e4:	d37be800 	lsl	x0, x0, #5
-    c00045e8:	8b000020 	add	x0, x1, x0
-    c00045ec:	b900101f 	str	wzr, [x0, #16]
+    c0004d70:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004d74:	911fa001 	add	x1, x0, #0x7e8
+    c0004d78:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004d7c:	d37be800 	lsl	x0, x0, #5
+    c0004d80:	8b000020 	add	x0, x1, x0
+    c0004d84:	b900101f 	str	wzr, [x0, #16]
 		cpu_descs[i].cluster_id = 0U;
-    c00045f0:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00045f4:	9131e001 	add	x1, x0, #0xc78
-    c00045f8:	b9401fe0 	ldr	w0, [sp, #28]
-    c00045fc:	d37be800 	lsl	x0, x0, #5
-    c0004600:	8b000020 	add	x0, x1, x0
-    c0004604:	b900141f 	str	wzr, [x0, #20]
+    c0004d88:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004d8c:	911fa001 	add	x1, x0, #0x7e8
+    c0004d90:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004d94:	d37be800 	lsl	x0, x0, #5
+    c0004d98:	8b000020 	add	x0, x1, x0
+    c0004d9c:	b900141f 	str	wzr, [x0, #20]
 		cpu_descs[i].core_id = 0U;
-    c0004608:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c000460c:	9131e001 	add	x1, x0, #0xc78
-    c0004610:	b9401fe0 	ldr	w0, [sp, #28]
-    c0004614:	d37be800 	lsl	x0, x0, #5
-    c0004618:	8b000020 	add	x0, x1, x0
-    c000461c:	b900181f 	str	wzr, [x0, #24]
+    c0004da0:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004da4:	911fa001 	add	x1, x0, #0x7e8
+    c0004da8:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004dac:	d37be800 	lsl	x0, x0, #5
+    c0004db0:	8b000020 	add	x0, x1, x0
+    c0004db4:	b900181f 	str	wzr, [x0, #24]
 	for (i = 0U; i < PLAT_MAX_CPUS; ++i) {
-    c0004620:	b9401fe0 	ldr	w0, [sp, #28]
-    c0004624:	11000400 	add	w0, w0, #0x1
-    c0004628:	b9001fe0 	str	w0, [sp, #28]
-    c000462c:	b9401fe0 	ldr	w0, [sp, #28]
-    c0004630:	71001c1f 	cmp	w0, #0x7
-    c0004634:	54fff889 	b.ls	c0004544 <topology_init+0x18>  // b.plast
+    c0004db8:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004dbc:	11000400 	add	w0, w0, #0x1
+    c0004dc0:	b9001fe0 	str	w0, [sp, #28]
+    c0004dc4:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004dc8:	71001c1f 	cmp	w0, #0x7
+    c0004dcc:	54fff889 	b.ls	c0004cdc <topology_init+0x18>  // b.plast
 	}
 
 	topology_fill_descriptor(&cpu_descs[0], 0U, mpidr, true);
-    c0004638:	52800023 	mov	w3, #0x1                   	// #1
-    c000463c:	f9400be2 	ldr	x2, [sp, #16]
-    c0004640:	52800001 	mov	w1, #0x0                   	// #0
-    c0004644:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004648:	9131e000 	add	x0, x0, #0xc78
-    c000464c:	97ffff94 	bl	c000449c <topology_fill_descriptor>
+    c0004dd0:	52800023 	mov	w3, #0x1                   	// #1
+    c0004dd4:	f9400be2 	ldr	x2, [sp, #16]
+    c0004dd8:	52800001 	mov	w1, #0x0                   	// #0
+    c0004ddc:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004de0:	911fa000 	add	x0, x0, #0x7e8
+    c0004de4:	97ffff94 	bl	c0004c34 <topology_fill_descriptor>
 	cpu_descs[0].present = true;
-    c0004650:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004654:	9131e000 	add	x0, x0, #0xc78
-    c0004658:	52800021 	mov	w1, #0x1                   	// #1
-    c000465c:	39007401 	strb	w1, [x0, #29]
+    c0004de8:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004dec:	911fa000 	add	x0, x0, #0x7e8
+    c0004df0:	52800021 	mov	w1, #0x1                   	// #1
+    c0004df4:	39007401 	strb	w1, [x0, #29]
 	cpu_descs[0].online = true;
-    c0004660:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004664:	9131e000 	add	x0, x0, #0xc78
-    c0004668:	52800021 	mov	w1, #0x1                   	// #1
-    c000466c:	39007801 	strb	w1, [x0, #30]
+    c0004df8:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004dfc:	911fa000 	add	x0, x0, #0x7e8
+    c0004e00:	52800021 	mov	w1, #0x1                   	// #1
+    c0004e04:	39007801 	strb	w1, [x0, #30]
 	present_cpu_count = 1U;
-    c0004670:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004674:	9135e000 	add	x0, x0, #0xd78
-    c0004678:	52800021 	mov	w1, #0x1                   	// #1
-    c000467c:	b9000001 	str	w1, [x0]
+    c0004e08:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004e0c:	9123a000 	add	x0, x0, #0x8e8
+    c0004e10:	52800021 	mov	w1, #0x1                   	// #1
+    c0004e14:	b9000001 	str	w1, [x0]
 	online_cpu_count = 1U;
-    c0004680:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004684:	9135f000 	add	x0, x0, #0xd7c
-    c0004688:	52800021 	mov	w1, #0x1                   	// #1
-    c000468c:	b9000001 	str	w1, [x0]
+    c0004e18:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004e1c:	9123b000 	add	x0, x0, #0x8ec
+    c0004e20:	52800021 	mov	w1, #0x1                   	// #1
+    c0004e24:	b9000001 	str	w1, [x0]
 }
-    c0004690:	d503201f 	nop
-    c0004694:	a8c27bfd 	ldp	x29, x30, [sp], #32
-    c0004698:	d65f03c0 	ret
+    c0004e28:	d503201f 	nop
+    c0004e2c:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    c0004e30:	d65f03c0 	ret
 
-00000000c000469c <topology_boot_cpu>:
+00000000c0004e34 <topology_boot_cpu>:
 
 const struct cpu_topology_descriptor *topology_boot_cpu(void)
 {
 	return &cpu_descs[0];
-    c000469c:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00046a0:	9131e000 	add	x0, x0, #0xc78
+    c0004e34:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004e38:	911fa000 	add	x0, x0, #0x7e8
 }
-    c00046a4:	d65f03c0 	ret
+    c0004e3c:	d65f03c0 	ret
 
-00000000c00046a8 <topology_cpu>:
+00000000c0004e40 <topology_cpu>:
 
 const struct cpu_topology_descriptor *topology_cpu(unsigned int logical_id)
 {
-    c00046a8:	d10043ff 	sub	sp, sp, #0x10
-    c00046ac:	b9000fe0 	str	w0, [sp, #12]
+    c0004e40:	d10043ff 	sub	sp, sp, #0x10
+    c0004e44:	b9000fe0 	str	w0, [sp, #12]
 	if (logical_id >= PLAT_MAX_CPUS) {
-    c00046b0:	b9400fe0 	ldr	w0, [sp, #12]
-    c00046b4:	71001c1f 	cmp	w0, #0x7
-    c00046b8:	54000069 	b.ls	c00046c4 <topology_cpu+0x1c>  // b.plast
+    c0004e48:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004e4c:	71001c1f 	cmp	w0, #0x7
+    c0004e50:	54000069 	b.ls	c0004e5c <topology_cpu+0x1c>  // b.plast
 		return (const struct cpu_topology_descriptor *)0;
-    c00046bc:	d2800000 	mov	x0, #0x0                   	// #0
-    c00046c0:	14000006 	b	c00046d8 <topology_cpu+0x30>
+    c0004e54:	d2800000 	mov	x0, #0x0                   	// #0
+    c0004e58:	14000006 	b	c0004e70 <topology_cpu+0x30>
 	}
 
 	return &cpu_descs[logical_id];
-    c00046c4:	b9400fe0 	ldr	w0, [sp, #12]
-    c00046c8:	d37be801 	lsl	x1, x0, #5
-    c00046cc:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00046d0:	9131e000 	add	x0, x0, #0xc78
-    c00046d4:	8b000020 	add	x0, x1, x0
+    c0004e5c:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004e60:	d37be801 	lsl	x1, x0, #5
+    c0004e64:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004e68:	911fa000 	add	x0, x0, #0x7e8
+    c0004e6c:	8b000020 	add	x0, x1, x0
 }
-    c00046d8:	910043ff 	add	sp, sp, #0x10
-    c00046dc:	d65f03c0 	ret
+    c0004e70:	910043ff 	add	sp, sp, #0x10
+    c0004e74:	d65f03c0 	ret
 
-00000000c00046e0 <topology_find_cpu_by_mpidr>:
+00000000c0004e78 <topology_find_cpu_by_mpidr>:
 
 const struct cpu_topology_descriptor *topology_find_cpu_by_mpidr(uint64_t mpidr)
 {
-    c00046e0:	d10083ff 	sub	sp, sp, #0x20
-    c00046e4:	f90007e0 	str	x0, [sp, #8]
+    c0004e78:	d10083ff 	sub	sp, sp, #0x20
+    c0004e7c:	f90007e0 	str	x0, [sp, #8]
 	unsigned int i;
 
 	for (i = 0U; i < PLAT_MAX_CPUS; ++i) {
-    c00046e8:	b9001fff 	str	wzr, [sp, #28]
-    c00046ec:	1400001c 	b	c000475c <topology_find_cpu_by_mpidr+0x7c>
+    c0004e80:	b9001fff 	str	wzr, [sp, #28]
+    c0004e84:	1400001c 	b	c0004ef4 <topology_find_cpu_by_mpidr+0x7c>
 		if (cpu_descs[i].present && (cpu_descs[i].mpidr == mpidr)) {
-    c00046f0:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00046f4:	9131e001 	add	x1, x0, #0xc78
-    c00046f8:	b9401fe0 	ldr	w0, [sp, #28]
-    c00046fc:	d37be800 	lsl	x0, x0, #5
-    c0004700:	8b000020 	add	x0, x1, x0
-    c0004704:	39407400 	ldrb	w0, [x0, #29]
-    c0004708:	12000000 	and	w0, w0, #0x1
-    c000470c:	7100001f 	cmp	w0, #0x0
-    c0004710:	54000200 	b.eq	c0004750 <topology_find_cpu_by_mpidr+0x70>  // b.none
-    c0004714:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004718:	9131e001 	add	x1, x0, #0xc78
-    c000471c:	b9401fe0 	ldr	w0, [sp, #28]
-    c0004720:	d37be800 	lsl	x0, x0, #5
-    c0004724:	8b000020 	add	x0, x1, x0
-    c0004728:	f9400000 	ldr	x0, [x0]
-    c000472c:	f94007e1 	ldr	x1, [sp, #8]
-    c0004730:	eb00003f 	cmp	x1, x0
-    c0004734:	540000e1 	b.ne	c0004750 <topology_find_cpu_by_mpidr+0x70>  // b.any
+    c0004e88:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004e8c:	911fa001 	add	x1, x0, #0x7e8
+    c0004e90:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004e94:	d37be800 	lsl	x0, x0, #5
+    c0004e98:	8b000020 	add	x0, x1, x0
+    c0004e9c:	39407400 	ldrb	w0, [x0, #29]
+    c0004ea0:	12000000 	and	w0, w0, #0x1
+    c0004ea4:	7100001f 	cmp	w0, #0x0
+    c0004ea8:	54000200 	b.eq	c0004ee8 <topology_find_cpu_by_mpidr+0x70>  // b.none
+    c0004eac:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004eb0:	911fa001 	add	x1, x0, #0x7e8
+    c0004eb4:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004eb8:	d37be800 	lsl	x0, x0, #5
+    c0004ebc:	8b000020 	add	x0, x1, x0
+    c0004ec0:	f9400000 	ldr	x0, [x0]
+    c0004ec4:	f94007e1 	ldr	x1, [sp, #8]
+    c0004ec8:	eb00003f 	cmp	x1, x0
+    c0004ecc:	540000e1 	b.ne	c0004ee8 <topology_find_cpu_by_mpidr+0x70>  // b.any
 			return &cpu_descs[i];
-    c0004738:	b9401fe0 	ldr	w0, [sp, #28]
-    c000473c:	d37be801 	lsl	x1, x0, #5
-    c0004740:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004744:	9131e000 	add	x0, x0, #0xc78
-    c0004748:	8b000020 	add	x0, x1, x0
-    c000474c:	14000008 	b	c000476c <topology_find_cpu_by_mpidr+0x8c>
+    c0004ed0:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004ed4:	d37be801 	lsl	x1, x0, #5
+    c0004ed8:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004edc:	911fa000 	add	x0, x0, #0x7e8
+    c0004ee0:	8b000020 	add	x0, x1, x0
+    c0004ee4:	14000008 	b	c0004f04 <topology_find_cpu_by_mpidr+0x8c>
 	for (i = 0U; i < PLAT_MAX_CPUS; ++i) {
-    c0004750:	b9401fe0 	ldr	w0, [sp, #28]
-    c0004754:	11000400 	add	w0, w0, #0x1
-    c0004758:	b9001fe0 	str	w0, [sp, #28]
-    c000475c:	b9401fe0 	ldr	w0, [sp, #28]
-    c0004760:	71001c1f 	cmp	w0, #0x7
-    c0004764:	54fffc69 	b.ls	c00046f0 <topology_find_cpu_by_mpidr+0x10>  // b.plast
+    c0004ee8:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004eec:	11000400 	add	w0, w0, #0x1
+    c0004ef0:	b9001fe0 	str	w0, [sp, #28]
+    c0004ef4:	b9401fe0 	ldr	w0, [sp, #28]
+    c0004ef8:	71001c1f 	cmp	w0, #0x7
+    c0004efc:	54fffc69 	b.ls	c0004e88 <topology_find_cpu_by_mpidr+0x10>  // b.plast
 		}
 	}
 
 	return (const struct cpu_topology_descriptor *)0;
-    c0004768:	d2800000 	mov	x0, #0x0                   	// #0
+    c0004f00:	d2800000 	mov	x0, #0x0                   	// #0
 }
-    c000476c:	910083ff 	add	sp, sp, #0x20
-    c0004770:	d65f03c0 	ret
+    c0004f04:	910083ff 	add	sp, sp, #0x20
+    c0004f08:	d65f03c0 	ret
 
-00000000c0004774 <topology_cpu_capacity>:
+00000000c0004f0c <topology_cpu_capacity>:
 
 unsigned int topology_cpu_capacity(void)
 {
 	return PLAT_MAX_CPUS;
-    c0004774:	52800100 	mov	w0, #0x8                   	// #8
+    c0004f0c:	52800100 	mov	w0, #0x8                   	// #8
 }
-    c0004778:	d65f03c0 	ret
+    c0004f10:	d65f03c0 	ret
 
-00000000c000477c <topology_present_cpu_count>:
+00000000c0004f14 <topology_present_cpu_count>:
 
 unsigned int topology_present_cpu_count(void)
 {
 	return present_cpu_count;
-    c000477c:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004780:	9135e000 	add	x0, x0, #0xd78
-    c0004784:	b9400000 	ldr	w0, [x0]
+    c0004f14:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004f18:	9123a000 	add	x0, x0, #0x8e8
+    c0004f1c:	b9400000 	ldr	w0, [x0]
 }
-    c0004788:	d65f03c0 	ret
+    c0004f20:	d65f03c0 	ret
 
-00000000c000478c <topology_online_cpu_count>:
+00000000c0004f24 <topology_online_cpu_count>:
 
 unsigned int topology_online_cpu_count(void)
 {
 	return online_cpu_count;
-    c000478c:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004790:	9135f000 	add	x0, x0, #0xd7c
-    c0004794:	b9400000 	ldr	w0, [x0]
+    c0004f24:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004f28:	9123b000 	add	x0, x0, #0x8ec
+    c0004f2c:	b9400000 	ldr	w0, [x0]
 }
-    c0004798:	d65f03c0 	ret
+    c0004f30:	d65f03c0 	ret
 
-00000000c000479c <topology_mark_cpu_online>:
+00000000c0004f34 <topology_mark_cpu_online>:
 
 void topology_mark_cpu_online(unsigned int logical_id, bool online)
 {
-    c000479c:	d10043ff 	sub	sp, sp, #0x10
-    c00047a0:	b9000fe0 	str	w0, [sp, #12]
-    c00047a4:	39002fe1 	strb	w1, [sp, #11]
+    c0004f34:	d10043ff 	sub	sp, sp, #0x10
+    c0004f38:	b9000fe0 	str	w0, [sp, #12]
+    c0004f3c:	39002fe1 	strb	w1, [sp, #11]
 	if (logical_id >= PLAT_MAX_CPUS) {
-    c00047a8:	b9400fe0 	ldr	w0, [sp, #12]
-    c00047ac:	71001c1f 	cmp	w0, #0x7
-    c00047b0:	54000b48 	b.hi	c0004918 <topology_mark_cpu_online+0x17c>  // b.pmore
+    c0004f40:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004f44:	71001c1f 	cmp	w0, #0x7
+    c0004f48:	54000b48 	b.hi	c00050b0 <topology_mark_cpu_online+0x17c>  // b.pmore
 		return;
 	}
 
 	if (!cpu_descs[logical_id].present) {
-    c00047b4:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00047b8:	9131e001 	add	x1, x0, #0xc78
-    c00047bc:	b9400fe0 	ldr	w0, [sp, #12]
-    c00047c0:	d37be800 	lsl	x0, x0, #5
-    c00047c4:	8b000020 	add	x0, x1, x0
-    c00047c8:	39407400 	ldrb	w0, [x0, #29]
-    c00047cc:	52000000 	eor	w0, w0, #0x1
-    c00047d0:	12001c00 	and	w0, w0, #0xff
-    c00047d4:	12000000 	and	w0, w0, #0x1
-    c00047d8:	7100001f 	cmp	w0, #0x0
-    c00047dc:	540001e0 	b.eq	c0004818 <topology_mark_cpu_online+0x7c>  // b.none
+    c0004f4c:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004f50:	911fa001 	add	x1, x0, #0x7e8
+    c0004f54:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004f58:	d37be800 	lsl	x0, x0, #5
+    c0004f5c:	8b000020 	add	x0, x1, x0
+    c0004f60:	39407400 	ldrb	w0, [x0, #29]
+    c0004f64:	52000000 	eor	w0, w0, #0x1
+    c0004f68:	12001c00 	and	w0, w0, #0xff
+    c0004f6c:	12000000 	and	w0, w0, #0x1
+    c0004f70:	7100001f 	cmp	w0, #0x0
+    c0004f74:	540001e0 	b.eq	c0004fb0 <topology_mark_cpu_online+0x7c>  // b.none
 		cpu_descs[logical_id].present = true;
-    c00047e0:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00047e4:	9131e001 	add	x1, x0, #0xc78
-    c00047e8:	b9400fe0 	ldr	w0, [sp, #12]
-    c00047ec:	d37be800 	lsl	x0, x0, #5
-    c00047f0:	8b000020 	add	x0, x1, x0
-    c00047f4:	52800021 	mov	w1, #0x1                   	// #1
-    c00047f8:	39007401 	strb	w1, [x0, #29]
+    c0004f78:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004f7c:	911fa001 	add	x1, x0, #0x7e8
+    c0004f80:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004f84:	d37be800 	lsl	x0, x0, #5
+    c0004f88:	8b000020 	add	x0, x1, x0
+    c0004f8c:	52800021 	mov	w1, #0x1                   	// #1
+    c0004f90:	39007401 	strb	w1, [x0, #29]
 		present_cpu_count++;
-    c00047fc:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004800:	9135e000 	add	x0, x0, #0xd78
-    c0004804:	b9400000 	ldr	w0, [x0]
-    c0004808:	11000401 	add	w1, w0, #0x1
-    c000480c:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004810:	9135e000 	add	x0, x0, #0xd78
-    c0004814:	b9000001 	str	w1, [x0]
+    c0004f94:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004f98:	9123a000 	add	x0, x0, #0x8e8
+    c0004f9c:	b9400000 	ldr	w0, [x0]
+    c0004fa0:	11000401 	add	w1, w0, #0x1
+    c0004fa4:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004fa8:	9123a000 	add	x0, x0, #0x8e8
+    c0004fac:	b9000001 	str	w1, [x0]
 	}
 
 	if (online && !cpu_descs[logical_id].online) {
-    c0004818:	39402fe0 	ldrb	w0, [sp, #11]
-    c000481c:	12000000 	and	w0, w0, #0x1
-    c0004820:	7100001f 	cmp	w0, #0x0
-    c0004824:	54000360 	b.eq	c0004890 <topology_mark_cpu_online+0xf4>  // b.none
-    c0004828:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c000482c:	9131e001 	add	x1, x0, #0xc78
-    c0004830:	b9400fe0 	ldr	w0, [sp, #12]
-    c0004834:	d37be800 	lsl	x0, x0, #5
-    c0004838:	8b000020 	add	x0, x1, x0
-    c000483c:	39407800 	ldrb	w0, [x0, #30]
-    c0004840:	52000000 	eor	w0, w0, #0x1
-    c0004844:	12001c00 	and	w0, w0, #0xff
-    c0004848:	12000000 	and	w0, w0, #0x1
-    c000484c:	7100001f 	cmp	w0, #0x0
-    c0004850:	54000200 	b.eq	c0004890 <topology_mark_cpu_online+0xf4>  // b.none
+    c0004fb0:	39402fe0 	ldrb	w0, [sp, #11]
+    c0004fb4:	12000000 	and	w0, w0, #0x1
+    c0004fb8:	7100001f 	cmp	w0, #0x0
+    c0004fbc:	54000360 	b.eq	c0005028 <topology_mark_cpu_online+0xf4>  // b.none
+    c0004fc0:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004fc4:	911fa001 	add	x1, x0, #0x7e8
+    c0004fc8:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004fcc:	d37be800 	lsl	x0, x0, #5
+    c0004fd0:	8b000020 	add	x0, x1, x0
+    c0004fd4:	39407800 	ldrb	w0, [x0, #30]
+    c0004fd8:	52000000 	eor	w0, w0, #0x1
+    c0004fdc:	12001c00 	and	w0, w0, #0xff
+    c0004fe0:	12000000 	and	w0, w0, #0x1
+    c0004fe4:	7100001f 	cmp	w0, #0x0
+    c0004fe8:	54000200 	b.eq	c0005028 <topology_mark_cpu_online+0xf4>  // b.none
 		cpu_descs[logical_id].online = true;
-    c0004854:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004858:	9131e001 	add	x1, x0, #0xc78
-    c000485c:	b9400fe0 	ldr	w0, [sp, #12]
-    c0004860:	d37be800 	lsl	x0, x0, #5
-    c0004864:	8b000020 	add	x0, x1, x0
-    c0004868:	52800021 	mov	w1, #0x1                   	// #1
-    c000486c:	39007801 	strb	w1, [x0, #30]
+    c0004fec:	d0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0004ff0:	911fa001 	add	x1, x0, #0x7e8
+    c0004ff4:	b9400fe0 	ldr	w0, [sp, #12]
+    c0004ff8:	d37be800 	lsl	x0, x0, #5
+    c0004ffc:	8b000020 	add	x0, x1, x0
+    c0005000:	52800021 	mov	w1, #0x1                   	// #1
+    c0005004:	39007801 	strb	w1, [x0, #30]
 		online_cpu_count++;
-    c0004870:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004874:	9135f000 	add	x0, x0, #0xd7c
-    c0004878:	b9400000 	ldr	w0, [x0]
-    c000487c:	11000401 	add	w1, w0, #0x1
-    c0004880:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004884:	9135f000 	add	x0, x0, #0xd7c
-    c0004888:	b9000001 	str	w1, [x0]
-    c000488c:	14000024 	b	c000491c <topology_mark_cpu_online+0x180>
+    c0005008:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000500c:	9123b000 	add	x0, x0, #0x8ec
+    c0005010:	b9400000 	ldr	w0, [x0]
+    c0005014:	11000401 	add	w1, w0, #0x1
+    c0005018:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000501c:	9123b000 	add	x0, x0, #0x8ec
+    c0005020:	b9000001 	str	w1, [x0]
+    c0005024:	14000024 	b	c00050b4 <topology_mark_cpu_online+0x180>
 	} else if (!online && cpu_descs[logical_id].online) {
-    c0004890:	39402fe0 	ldrb	w0, [sp, #11]
-    c0004894:	52000000 	eor	w0, w0, #0x1
-    c0004898:	12001c00 	and	w0, w0, #0xff
-    c000489c:	12000000 	and	w0, w0, #0x1
-    c00048a0:	7100001f 	cmp	w0, #0x0
-    c00048a4:	540003c0 	b.eq	c000491c <topology_mark_cpu_online+0x180>  // b.none
-    c00048a8:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00048ac:	9131e001 	add	x1, x0, #0xc78
-    c00048b0:	b9400fe0 	ldr	w0, [sp, #12]
-    c00048b4:	d37be800 	lsl	x0, x0, #5
-    c00048b8:	8b000020 	add	x0, x1, x0
-    c00048bc:	39407800 	ldrb	w0, [x0, #30]
-    c00048c0:	12000000 	and	w0, w0, #0x1
-    c00048c4:	7100001f 	cmp	w0, #0x0
-    c00048c8:	540002a0 	b.eq	c000491c <topology_mark_cpu_online+0x180>  // b.none
+    c0005028:	39402fe0 	ldrb	w0, [sp, #11]
+    c000502c:	52000000 	eor	w0, w0, #0x1
+    c0005030:	12001c00 	and	w0, w0, #0xff
+    c0005034:	12000000 	and	w0, w0, #0x1
+    c0005038:	7100001f 	cmp	w0, #0x0
+    c000503c:	540003c0 	b.eq	c00050b4 <topology_mark_cpu_online+0x180>  // b.none
+    c0005040:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005044:	911fa001 	add	x1, x0, #0x7e8
+    c0005048:	b9400fe0 	ldr	w0, [sp, #12]
+    c000504c:	d37be800 	lsl	x0, x0, #5
+    c0005050:	8b000020 	add	x0, x1, x0
+    c0005054:	39407800 	ldrb	w0, [x0, #30]
+    c0005058:	12000000 	and	w0, w0, #0x1
+    c000505c:	7100001f 	cmp	w0, #0x0
+    c0005060:	540002a0 	b.eq	c00050b4 <topology_mark_cpu_online+0x180>  // b.none
 		cpu_descs[logical_id].online = false;
-    c00048cc:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00048d0:	9131e001 	add	x1, x0, #0xc78
-    c00048d4:	b9400fe0 	ldr	w0, [sp, #12]
-    c00048d8:	d37be800 	lsl	x0, x0, #5
-    c00048dc:	8b000020 	add	x0, x1, x0
-    c00048e0:	3900781f 	strb	wzr, [x0, #30]
+    c0005064:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005068:	911fa001 	add	x1, x0, #0x7e8
+    c000506c:	b9400fe0 	ldr	w0, [sp, #12]
+    c0005070:	d37be800 	lsl	x0, x0, #5
+    c0005074:	8b000020 	add	x0, x1, x0
+    c0005078:	3900781f 	strb	wzr, [x0, #30]
 		if (online_cpu_count > 0U) {
-    c00048e4:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00048e8:	9135f000 	add	x0, x0, #0xd7c
-    c00048ec:	b9400000 	ldr	w0, [x0]
-    c00048f0:	7100001f 	cmp	w0, #0x0
-    c00048f4:	54000140 	b.eq	c000491c <topology_mark_cpu_online+0x180>  // b.none
+    c000507c:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005080:	9123b000 	add	x0, x0, #0x8ec
+    c0005084:	b9400000 	ldr	w0, [x0]
+    c0005088:	7100001f 	cmp	w0, #0x0
+    c000508c:	54000140 	b.eq	c00050b4 <topology_mark_cpu_online+0x180>  // b.none
 			online_cpu_count--;
-    c00048f8:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00048fc:	9135f000 	add	x0, x0, #0xd7c
-    c0004900:	b9400000 	ldr	w0, [x0]
-    c0004904:	51000401 	sub	w1, w0, #0x1
-    c0004908:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c000490c:	9135f000 	add	x0, x0, #0xd7c
-    c0004910:	b9000001 	str	w1, [x0]
-    c0004914:	14000002 	b	c000491c <topology_mark_cpu_online+0x180>
+    c0005090:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005094:	9123b000 	add	x0, x0, #0x8ec
+    c0005098:	b9400000 	ldr	w0, [x0]
+    c000509c:	51000401 	sub	w1, w0, #0x1
+    c00050a0:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00050a4:	9123b000 	add	x0, x0, #0x8ec
+    c00050a8:	b9000001 	str	w1, [x0]
+    c00050ac:	14000002 	b	c00050b4 <topology_mark_cpu_online+0x180>
 		return;
-    c0004918:	d503201f 	nop
+    c00050b0:	d503201f 	nop
 		}
 	}
 }
-    c000491c:	910043ff 	add	sp, sp, #0x10
-    c0004920:	d65f03c0 	ret
+    c00050b4:	910043ff 	add	sp, sp, #0x10
+    c00050b8:	d65f03c0 	ret
 
-00000000c0004924 <topology_register_cpu>:
+00000000c00050bc <topology_register_cpu>:
 
 void topology_register_cpu(unsigned int logical_id, uint64_t mpidr, bool boot_cpu)
 {
-    c0004924:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
-    c0004928:	910003fd 	mov	x29, sp
-    c000492c:	b9001fe0 	str	w0, [sp, #28]
-    c0004930:	f9000be1 	str	x1, [sp, #16]
-    c0004934:	39006fe2 	strb	w2, [sp, #27]
+    c00050bc:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    c00050c0:	910003fd 	mov	x29, sp
+    c00050c4:	b9001fe0 	str	w0, [sp, #28]
+    c00050c8:	f9000be1 	str	x1, [sp, #16]
+    c00050cc:	39006fe2 	strb	w2, [sp, #27]
 	if (logical_id >= PLAT_MAX_CPUS) {
-    c0004938:	b9401fe0 	ldr	w0, [sp, #28]
-    c000493c:	71001c1f 	cmp	w0, #0x7
-    c0004940:	54000548 	b.hi	c00049e8 <topology_register_cpu+0xc4>  // b.pmore
+    c00050d0:	b9401fe0 	ldr	w0, [sp, #28]
+    c00050d4:	71001c1f 	cmp	w0, #0x7
+    c00050d8:	54000548 	b.hi	c0005180 <topology_register_cpu+0xc4>  // b.pmore
 		return;
 	}
 
 	if (!cpu_descs[logical_id].present) {
-    c0004944:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004948:	9131e001 	add	x1, x0, #0xc78
-    c000494c:	b9401fe0 	ldr	w0, [sp, #28]
-    c0004950:	d37be800 	lsl	x0, x0, #5
-    c0004954:	8b000020 	add	x0, x1, x0
-    c0004958:	39407400 	ldrb	w0, [x0, #29]
-    c000495c:	52000000 	eor	w0, w0, #0x1
-    c0004960:	12001c00 	and	w0, w0, #0xff
-    c0004964:	12000000 	and	w0, w0, #0x1
-    c0004968:	7100001f 	cmp	w0, #0x0
-    c000496c:	54000100 	b.eq	c000498c <topology_register_cpu+0x68>  // b.none
+    c00050dc:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00050e0:	911fa001 	add	x1, x0, #0x7e8
+    c00050e4:	b9401fe0 	ldr	w0, [sp, #28]
+    c00050e8:	d37be800 	lsl	x0, x0, #5
+    c00050ec:	8b000020 	add	x0, x1, x0
+    c00050f0:	39407400 	ldrb	w0, [x0, #29]
+    c00050f4:	52000000 	eor	w0, w0, #0x1
+    c00050f8:	12001c00 	and	w0, w0, #0xff
+    c00050fc:	12000000 	and	w0, w0, #0x1
+    c0005100:	7100001f 	cmp	w0, #0x0
+    c0005104:	54000100 	b.eq	c0005124 <topology_register_cpu+0x68>  // b.none
 		present_cpu_count++;
-    c0004970:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004974:	9135e000 	add	x0, x0, #0xd78
-    c0004978:	b9400000 	ldr	w0, [x0]
-    c000497c:	11000401 	add	w1, w0, #0x1
-    c0004980:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004984:	9135e000 	add	x0, x0, #0xd78
-    c0004988:	b9000001 	str	w1, [x0]
+    c0005108:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000510c:	9123a000 	add	x0, x0, #0x8e8
+    c0005110:	b9400000 	ldr	w0, [x0]
+    c0005114:	11000401 	add	w1, w0, #0x1
+    c0005118:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000511c:	9123a000 	add	x0, x0, #0x8e8
+    c0005120:	b9000001 	str	w1, [x0]
 	}
 
 	topology_fill_descriptor(&cpu_descs[logical_id], logical_id, mpidr, boot_cpu);
-    c000498c:	b9401fe0 	ldr	w0, [sp, #28]
-    c0004990:	d37be801 	lsl	x1, x0, #5
-    c0004994:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c0004998:	9131e000 	add	x0, x0, #0xc78
-    c000499c:	8b000020 	add	x0, x1, x0
-    c00049a0:	39406fe3 	ldrb	w3, [sp, #27]
-    c00049a4:	f9400be2 	ldr	x2, [sp, #16]
-    c00049a8:	b9401fe1 	ldr	w1, [sp, #28]
-    c00049ac:	97fffebc 	bl	c000449c <topology_fill_descriptor>
+    c0005124:	b9401fe0 	ldr	w0, [sp, #28]
+    c0005128:	d37be801 	lsl	x1, x0, #5
+    c000512c:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005130:	911fa000 	add	x0, x0, #0x7e8
+    c0005134:	8b000020 	add	x0, x1, x0
+    c0005138:	39406fe3 	ldrb	w3, [sp, #27]
+    c000513c:	f9400be2 	ldr	x2, [sp, #16]
+    c0005140:	b9401fe1 	ldr	w1, [sp, #28]
+    c0005144:	97fffebc 	bl	c0004c34 <topology_fill_descriptor>
 	cpu_descs[logical_id].present = true;
-    c00049b0:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00049b4:	9131e001 	add	x1, x0, #0xc78
-    c00049b8:	b9401fe0 	ldr	w0, [sp, #28]
-    c00049bc:	d37be800 	lsl	x0, x0, #5
-    c00049c0:	8b000020 	add	x0, x1, x0
-    c00049c4:	52800021 	mov	w1, #0x1                   	// #1
-    c00049c8:	39007401 	strb	w1, [x0, #29]
+    c0005148:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000514c:	911fa001 	add	x1, x0, #0x7e8
+    c0005150:	b9401fe0 	ldr	w0, [sp, #28]
+    c0005154:	d37be800 	lsl	x0, x0, #5
+    c0005158:	8b000020 	add	x0, x1, x0
+    c000515c:	52800021 	mov	w1, #0x1                   	// #1
+    c0005160:	39007401 	strb	w1, [x0, #29]
 	cpu_descs[logical_id].online = false;
-    c00049cc:	b0000040 	adrp	x0, c000d000 <secondary_stacks+0x7450>
-    c00049d0:	9131e001 	add	x1, x0, #0xc78
-    c00049d4:	b9401fe0 	ldr	w0, [sp, #28]
-    c00049d8:	d37be800 	lsl	x0, x0, #5
-    c00049dc:	8b000020 	add	x0, x1, x0
-    c00049e0:	3900781f 	strb	wzr, [x0, #30]
-    c00049e4:	14000002 	b	c00049ec <topology_register_cpu+0xc8>
+    c0005164:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005168:	911fa001 	add	x1, x0, #0x7e8
+    c000516c:	b9401fe0 	ldr	w0, [sp, #28]
+    c0005170:	d37be800 	lsl	x0, x0, #5
+    c0005174:	8b000020 	add	x0, x1, x0
+    c0005178:	3900781f 	strb	wzr, [x0, #30]
+    c000517c:	14000002 	b	c0005184 <topology_register_cpu+0xc8>
 		return;
-    c00049e8:	d503201f 	nop
-    c00049ec:	a8c27bfd 	ldp	x29, x30, [sp], #32
-    c00049f0:	d65f03c0 	ret
+    c0005180:	d503201f 	nop
+}
+    c0005184:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    c0005188:	d65f03c0 	ret
+
+00000000c000518c <topology_unregister_cpu>:
+
+void topology_unregister_cpu(unsigned int logical_id)
+{
+    c000518c:	d10043ff 	sub	sp, sp, #0x10
+    c0005190:	b9000fe0 	str	w0, [sp, #12]
+	if (logical_id >= PLAT_MAX_CPUS) {
+    c0005194:	b9400fe0 	ldr	w0, [sp, #12]
+    c0005198:	71001c1f 	cmp	w0, #0x7
+    c000519c:	54000c68 	b.hi	c0005328 <topology_unregister_cpu+0x19c>  // b.pmore
+		return;
+	}
+
+	if (cpu_descs[logical_id].online) {
+    c00051a0:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00051a4:	911fa001 	add	x1, x0, #0x7e8
+    c00051a8:	b9400fe0 	ldr	w0, [sp, #12]
+    c00051ac:	d37be800 	lsl	x0, x0, #5
+    c00051b0:	8b000020 	add	x0, x1, x0
+    c00051b4:	39407800 	ldrb	w0, [x0, #30]
+    c00051b8:	12000000 	and	w0, w0, #0x1
+    c00051bc:	7100001f 	cmp	w0, #0x0
+    c00051c0:	54000260 	b.eq	c000520c <topology_unregister_cpu+0x80>  // b.none
+		cpu_descs[logical_id].online = false;
+    c00051c4:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00051c8:	911fa001 	add	x1, x0, #0x7e8
+    c00051cc:	b9400fe0 	ldr	w0, [sp, #12]
+    c00051d0:	d37be800 	lsl	x0, x0, #5
+    c00051d4:	8b000020 	add	x0, x1, x0
+    c00051d8:	3900781f 	strb	wzr, [x0, #30]
+		if (online_cpu_count > 0U) {
+    c00051dc:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00051e0:	9123b000 	add	x0, x0, #0x8ec
+    c00051e4:	b9400000 	ldr	w0, [x0]
+    c00051e8:	7100001f 	cmp	w0, #0x0
+    c00051ec:	54000100 	b.eq	c000520c <topology_unregister_cpu+0x80>  // b.none
+			online_cpu_count--;
+    c00051f0:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00051f4:	9123b000 	add	x0, x0, #0x8ec
+    c00051f8:	b9400000 	ldr	w0, [x0]
+    c00051fc:	51000401 	sub	w1, w0, #0x1
+    c0005200:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005204:	9123b000 	add	x0, x0, #0x8ec
+    c0005208:	b9000001 	str	w1, [x0]
+		}
+	}
+
+	if (cpu_descs[logical_id].present) {
+    c000520c:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005210:	911fa001 	add	x1, x0, #0x7e8
+    c0005214:	b9400fe0 	ldr	w0, [sp, #12]
+    c0005218:	d37be800 	lsl	x0, x0, #5
+    c000521c:	8b000020 	add	x0, x1, x0
+    c0005220:	39407400 	ldrb	w0, [x0, #29]
+    c0005224:	12000000 	and	w0, w0, #0x1
+    c0005228:	7100001f 	cmp	w0, #0x0
+    c000522c:	54000260 	b.eq	c0005278 <topology_unregister_cpu+0xec>  // b.none
+		cpu_descs[logical_id].present = false;
+    c0005230:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005234:	911fa001 	add	x1, x0, #0x7e8
+    c0005238:	b9400fe0 	ldr	w0, [sp, #12]
+    c000523c:	d37be800 	lsl	x0, x0, #5
+    c0005240:	8b000020 	add	x0, x1, x0
+    c0005244:	3900741f 	strb	wzr, [x0, #29]
+		if (present_cpu_count > 0U) {
+    c0005248:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000524c:	9123a000 	add	x0, x0, #0x8e8
+    c0005250:	b9400000 	ldr	w0, [x0]
+    c0005254:	7100001f 	cmp	w0, #0x0
+    c0005258:	54000100 	b.eq	c0005278 <topology_unregister_cpu+0xec>  // b.none
+			present_cpu_count--;
+    c000525c:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005260:	9123a000 	add	x0, x0, #0x8e8
+    c0005264:	b9400000 	ldr	w0, [x0]
+    c0005268:	51000401 	sub	w1, w0, #0x1
+    c000526c:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005270:	9123a000 	add	x0, x0, #0x8e8
+    c0005274:	b9000001 	str	w1, [x0]
+		}
+	}
+
+	cpu_descs[logical_id].logical_id = logical_id;
+    c0005278:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c000527c:	911fa001 	add	x1, x0, #0x7e8
+    c0005280:	b9400fe0 	ldr	w0, [sp, #12]
+    c0005284:	d37be800 	lsl	x0, x0, #5
+    c0005288:	8b000020 	add	x0, x1, x0
+    c000528c:	b9400fe1 	ldr	w1, [sp, #12]
+    c0005290:	b9000801 	str	w1, [x0, #8]
+	cpu_descs[logical_id].boot_cpu = false;
+    c0005294:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005298:	911fa001 	add	x1, x0, #0x7e8
+    c000529c:	b9400fe0 	ldr	w0, [sp, #12]
+    c00052a0:	d37be800 	lsl	x0, x0, #5
+    c00052a4:	8b000020 	add	x0, x1, x0
+    c00052a8:	3900701f 	strb	wzr, [x0, #28]
+	cpu_descs[logical_id].mpidr = 0U;
+    c00052ac:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00052b0:	911fa001 	add	x1, x0, #0x7e8
+    c00052b4:	b9400fe0 	ldr	w0, [sp, #12]
+    c00052b8:	d37be800 	lsl	x0, x0, #5
+    c00052bc:	8b000020 	add	x0, x1, x0
+    c00052c0:	f900001f 	str	xzr, [x0]
+	cpu_descs[logical_id].chip_id = 0U;
+    c00052c4:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00052c8:	911fa001 	add	x1, x0, #0x7e8
+    c00052cc:	b9400fe0 	ldr	w0, [sp, #12]
+    c00052d0:	d37be800 	lsl	x0, x0, #5
+    c00052d4:	8b000020 	add	x0, x1, x0
+    c00052d8:	b9000c1f 	str	wzr, [x0, #12]
+	cpu_descs[logical_id].die_id = 0U;
+    c00052dc:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00052e0:	911fa001 	add	x1, x0, #0x7e8
+    c00052e4:	b9400fe0 	ldr	w0, [sp, #12]
+    c00052e8:	d37be800 	lsl	x0, x0, #5
+    c00052ec:	8b000020 	add	x0, x1, x0
+    c00052f0:	b900101f 	str	wzr, [x0, #16]
+	cpu_descs[logical_id].cluster_id = 0U;
+    c00052f4:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c00052f8:	911fa001 	add	x1, x0, #0x7e8
+    c00052fc:	b9400fe0 	ldr	w0, [sp, #12]
+    c0005300:	d37be800 	lsl	x0, x0, #5
+    c0005304:	8b000020 	add	x0, x1, x0
+    c0005308:	b900141f 	str	wzr, [x0, #20]
+	cpu_descs[logical_id].core_id = 0U;
+    c000530c:	b0000040 	adrp	x0, c000e000 <secondary_stacks+0x78e0>
+    c0005310:	911fa001 	add	x1, x0, #0x7e8
+    c0005314:	b9400fe0 	ldr	w0, [sp, #12]
+    c0005318:	d37be800 	lsl	x0, x0, #5
+    c000531c:	8b000020 	add	x0, x1, x0
+    c0005320:	b900181f 	str	wzr, [x0, #24]
+    c0005324:	14000002 	b	c000532c <topology_unregister_cpu+0x1a0>
+		return;
+    c0005328:	d503201f 	nop
+    c000532c:	910043ff 	add	sp, sp, #0x10
+    c0005330:	d65f03c0 	ret

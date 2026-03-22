@@ -370,11 +370,35 @@ static void shell_halt(void)
 	}
 }
 
+static void shell_print_smp_already_online(uint64_t mpidr,
+					   unsigned int logical_id,
+					   const struct smp_cpu_state *state)
+{
+	if ((state != (const struct smp_cpu_state *)0) && state->boot_cpu) {
+		mini_os_printf("cpu%u (mpidr=0x%llx) is the boot CPU, already online by default\n",
+			       logical_id,
+			       (unsigned long long)mpidr);
+		return;
+	}
+
+	if ((state != (const struct smp_cpu_state *)0) && state->online) {
+		mini_os_printf("cpu%u (mpidr=0x%llx) is a secondary CPU that is already online and scheduled\n",
+			       logical_id,
+			       (unsigned long long)mpidr);
+		return;
+	}
+
+	mini_os_printf("TF-A returned already-on for mpidr=0x%llx, but mini-os did not observe this secondary CPU actually boot\n",
+		       (unsigned long long)mpidr);
+}
+
 static void shell_handle_smp(int argc, char *argv[])
 {
 	uint64_t mpidr;
 	unsigned int logical_id = 0U;
+	int32_t smc_ret = 0;
 	int ret;
+	const struct smp_cpu_state *state = (const struct smp_cpu_state *)0;
 
 	if (argc < 2) {
 		mini_os_printf("usage: smp status | smp start <mpidr>\n");
@@ -396,24 +420,42 @@ static void shell_handle_smp(int argc, char *argv[])
 			return;
 		}
 
-		ret = smp_start_cpu(mpidr, &logical_id);
+		ret = smp_start_cpu(mpidr, &logical_id, &smc_ret);
+		state = smp_cpu_state(logical_id);
+
+		mini_os_printf("TF-A cpu_on(mpidr=0x%llx, entry=0x%llx, ctx=cpu%u) -> smc=%d (%s)\n",
+			       (unsigned long long)mpidr,
+			       (unsigned long long)smp_secondary_entrypoint(),
+			       logical_id,
+			       smc_ret,
+			       smp_start_result_name(ret));
+
 		if (ret == SMP_START_OK) {
-			mini_os_printf("cpu%u start request sent to TF-A for mpidr=0x%llx, entry=0x%llx\n",
+			mini_os_printf("cpu%u power-on confirmed: online=%s scheduled=%s pending=%s runnable=%u\n",
 				       logical_id,
-				       (unsigned long long)mpidr,
-				       (unsigned long long)smp_secondary_entrypoint());
+				       ((state != (const struct smp_cpu_state *)0) && state->online) ? "yes" : "no",
+				       ((state != (const struct smp_cpu_state *)0) && state->scheduled) ? "yes" : "no",
+				       ((state != (const struct smp_cpu_state *)0) && state->pending) ? "yes" : "no",
+				       scheduler_runnable_cpu_count());
 		} else if (ret == SMP_START_ALREADY_ONLINE) {
-			mini_os_printf("cpu%u (mpidr=0x%llx) is already online and scheduled\n",
-				       logical_id, (unsigned long long)mpidr);
+			shell_print_smp_already_online(mpidr, logical_id, state);
 		} else if (ret == SMP_START_INVALID_CPU) {
-			mini_os_printf("no free logical cpu slot left for mpidr=0x%llx (capacity=%u)\n",
-				       (unsigned long long)mpidr, topology_cpu_capacity());
+			mini_os_printf("TF-A reported invalid target or no logical slot left for mpidr=0x%llx (capacity=%u)\n",
+				       (unsigned long long)mpidr,
+				       topology_cpu_capacity());
 		} else if (ret == SMP_START_DENIED) {
-			mini_os_printf("TF-A rejected cpu-on for mpidr=0x%llx\n",
+			mini_os_printf("TF-A denied cpu-on for mpidr=0x%llx\n",
 				       (unsigned long long)mpidr);
+		} else if (ret == SMP_START_UNSUPPORTED) {
+			mini_os_printf("TF-A/PSCI does not support cpu-on for mpidr=0x%llx\n",
+				       (unsigned long long)mpidr);
+		} else if (ret == SMP_START_TIMEOUT) {
+			mini_os_printf("cpu%u did not report online before timeout; please inspect TF-A handoff or secondary entry path\n",
+				       logical_id);
 		} else {
-			mini_os_printf("cpu-on failed or unsupported for mpidr=0x%llx\n",
-				       (unsigned long long)mpidr);
+			mini_os_printf("cpu-on failed for mpidr=0x%llx with unexpected smc result %d\n",
+				       (unsigned long long)mpidr,
+				       smc_ret);
 		}
 		return;
 	}
