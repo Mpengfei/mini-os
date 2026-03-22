@@ -36,6 +36,7 @@ static void print_mini_os_banner(void)
 
 static void initialize_phase0_modules(void)
 {
+    debug_console_init();
 	topology_init();
 	scheduler_init();
 	scheduler_join_cpu(0U);
@@ -46,7 +47,7 @@ static void initialize_phase0_modules(void)
 
 void kernel_main(void)
 {
-	print_mini_os_banner();
     initialize_phase0_modules();
+	print_mini_os_banner();
 	shell_run();
 }

@@ -1,5 +1,6 @@
 #include <common/debug/debug.h>
 #include <drivers/console/uart.h>
+#include <kernel/spinlock.h>
 
 #include <stdarg.h>
 #include <stdbool.h>
@@ -34,13 +35,20 @@ struct format_spec {
 	char conv;
 };
 
+static struct spinlock debug_console_lock = SPINLOCK_INIT;
+
+static void debug_raw_putc(int ch)
+{
+	uart_putc(ch);
+}
+
 static void print_char(struct print_ctx *ctx, char ch)
 {
 	if (ch == '\n') {
-		debug_putc('\r');
+		debug_raw_putc('\r');
 	}
 
-	debug_putc((int)ch);
+	debug_raw_putc((int)ch);
 	ctx->count++;
 }
 
@@ -336,7 +344,7 @@ int debug_vprintf(const char *fmt, va_list args)
 	if (fmt == NULL) {
 		return 0;
 	}
-
+	spinlock_lock(&debug_console_lock);
 	va_copy(ap, args);
 	while (*fmt != '\0') {
 		struct format_spec spec;
@@ -411,6 +419,7 @@ int debug_vprintf(const char *fmt, va_list args)
 		}
 	}
 	va_end(ap);
+	spinlock_unlock(&debug_console_lock);
 	return ctx.count;
 }
 
@@ -445,22 +454,29 @@ int mini_os_printf(const char *fmt, ...)
 
 void debug_console_init(void)
 {
+	spinlock_init(&debug_console_lock);
 	uart_init();
 }
 
 void debug_putc(int ch)
 {
+	spinlock_lock(&debug_console_lock);
 	uart_putc(ch);
+	spinlock_unlock(&debug_console_lock);
 }
 
 void debug_puts(const char *str)
 {
+	spinlock_lock(&debug_console_lock);
 	uart_puts(str);
+	spinlock_unlock(&debug_console_lock);
 }
 
 void debug_write(const char *buf, size_t len)
 {
+	spinlock_lock(&debug_console_lock);
 	uart_write(buf, len);
+	spinlock_unlock(&debug_console_lock);
 }
 
 int debug_getc(void)
@@ -475,10 +491,14 @@ int debug_try_getc(void)
 
 void debug_put_hex64(uint64_t value)
 {
+	spinlock_lock(&debug_console_lock);
 	uart_put_hex64(value);
+	spinlock_unlock(&debug_console_lock);
 }
 
 void debug_flush(void)
 {
+	spinlock_lock(&debug_console_lock);
 	uart_flush();
+	spinlock_unlock(&debug_console_lock);
 }

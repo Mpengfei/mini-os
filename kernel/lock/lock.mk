@@ -1,0 +1,1 @@
+C_SRCS += $(ROOT_DIR)/kernel/lock/spinlock.c

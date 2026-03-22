@@ -1,4 +1,5 @@
 include $(ROOT_DIR)/kernel/init/init.mk
+include $(ROOT_DIR)/kernel/lock/lock.mk
 include $(ROOT_DIR)/kernel/lib/lib.mk
 include $(ROOT_DIR)/kernel/topology/topology.mk
 include $(ROOT_DIR)/kernel/smp/smp.mk
