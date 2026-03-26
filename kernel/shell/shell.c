@@ -151,6 +151,8 @@ static void shell_print_help_overview(void)
 	mini_os_printf("  topo              Show topology summary\n");
 	mini_os_printf("  smp status        Show SMP status\n");
 	mini_os_printf("  smp start <mpidr> Ask TF-A via SMC/PSCI to start a secondary CPU\n");
+	mini_os_printf("  smp task add <cpu> <task> [arg] Queue a task to a secondary CPU\n");
+	mini_os_printf("  smp task list [cpu] Show pending task counts\n");
 	mini_os_printf("  echo ...          Print arguments back to the console\n");
 	mini_os_printf("  clear             Clear the terminal screen\n");
 	mini_os_printf("  uname             Print the OS name\n");
@@ -206,10 +208,17 @@ static void shell_print_help_topic(const char *topic)
 		mini_os_printf("smp start <mpidr>\n");
 		mini_os_printf("  Ask TF-A/BL31 through SMC/PSCI CPU_ON to start the target CPU identified by MPIDR.\n");
 		mini_os_printf("  The shell passes TF-A the target MPIDR and the mini-OS secondary entry address.\n");
+		mini_os_printf("smp task add <cpu-id> <task-id> [arg]\n");
+		mini_os_printf("  Dynamically append a task to the target secondary CPU queue.\n");
+		mini_os_printf("  The secondary CPU polls its queue periodically and executes queued tasks.\n");
+		mini_os_printf("smp task list [cpu-id]\n");
+		mini_os_printf("  Show pending queued task count for all CPUs or one CPU.\n");
 		mini_os_printf("Examples:\n");
 		mini_os_printf("  smp status\n");
 		mini_os_printf("  smp start 0x80000001\n");
 		mini_os_printf("  smp start 2147483649\n");
+		mini_os_printf("  smp task add 1 100 42\n");
+		mini_os_printf("  smp task list\n");
 		return;
 	}
 
@@ -409,10 +418,14 @@ static void shell_print_smp_already_online(uint64_t mpidr,
 
 static void shell_handle_smp(int argc, char *argv[])
 {
+	uint64_t cpu_id = 0U;
+	uint64_t task_id = 0U;
+	uint64_t task_arg = 0U;
 	uint64_t mpidr;
 	unsigned int logical_id = 0U;
 	int32_t smc_ret = 0;
 	int ret;
+	unsigned int i;
 	const struct smp_cpu_state *state = (const struct smp_cpu_state *)0;
 
 	if (argc < 2) {
@@ -472,6 +485,87 @@ static void shell_handle_smp(int argc, char *argv[])
 				       (unsigned long long)mpidr,
 				       smc_ret);
 		}
+		return;
+	}
+
+	if (strings_equal(argv[1], "task")) {
+		if (argc < 3) {
+			mini_os_printf("usage: smp task add <cpu> <task> [arg] | smp task list [cpu]\n");
+			return;
+		}
+
+		if (strings_equal(argv[2], "add")) {
+			if (argc < 5) {
+				mini_os_printf("usage: smp task add <cpu> <task> [arg]\n");
+				return;
+			}
+
+			if (!parse_u64(argv[3], &cpu_id)) {
+				mini_os_printf("error: invalid cpu id '%s'\n", argv[3]);
+				return;
+			}
+
+			if (!parse_u64(argv[4], &task_id)) {
+				mini_os_printf("error: invalid task id '%s'\n", argv[4]);
+				return;
+			}
+
+			if ((argc >= 6) && !parse_u64(argv[5], &task_arg)) {
+				mini_os_printf("error: invalid task arg '%s'\n", argv[5]);
+				return;
+			}
+
+			ret = smp_enqueue_task((unsigned int)cpu_id, task_id, task_arg);
+			if (ret == SMP_TASK_ENQUEUE_OK) {
+				mini_os_printf("task queued: cpu=%u task=%llu arg=%llu pending=%u\n",
+					       (unsigned int)cpu_id,
+					       (unsigned long long)task_id,
+					       (unsigned long long)task_arg,
+					       smp_pending_task_count((unsigned int)cpu_id));
+			} else {
+				mini_os_printf("task queue failed: cpu=%u task=%llu arg=%llu (%s)\n",
+					       (unsigned int)cpu_id,
+					       (unsigned long long)task_id,
+					       (unsigned long long)task_arg,
+					       smp_task_enqueue_result_name(ret));
+			}
+			return;
+		}
+
+		if (strings_equal(argv[2], "list")) {
+			if (argc >= 4) {
+				if (!parse_u64(argv[3], &cpu_id)) {
+					mini_os_printf("error: invalid cpu id '%s'\n", argv[3]);
+					return;
+				}
+
+				mini_os_printf("cpu%u pending tasks=%u online=%s\n",
+					       (unsigned int)cpu_id,
+					       smp_pending_task_count((unsigned int)cpu_id),
+					       ((smp_cpu_state((unsigned int)cpu_id) != (const struct smp_cpu_state *)0) &&
+						(smp_cpu_state((unsigned int)cpu_id)->online)) ? "yes" : "no");
+				return;
+			}
+
+			for (i = 0U; i < topology_cpu_capacity(); ++i) {
+				const struct cpu_topology_descriptor *cpu = topology_cpu(i);
+				const struct smp_cpu_state *cpu_state = smp_cpu_state(i);
+
+				if ((cpu == (const struct cpu_topology_descriptor *)0) || !cpu->present ||
+				    (cpu_state == (const struct smp_cpu_state *)0)) {
+					continue;
+				}
+
+				mini_os_printf("cpu%u pending=%u online=%s\n",
+					       i,
+					       smp_pending_task_count(i),
+					       cpu_state->online ? "yes" : "no");
+			}
+			return;
+		}
+
+		mini_os_printf("unknown smp task subcommand: %s\n", argv[2]);
+		mini_os_printf("usage: smp task add <cpu> <task> [arg] | smp task list [cpu]\n");
 		return;
 	}
 

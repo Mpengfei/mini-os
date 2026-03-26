@@ -161,7 +161,7 @@ LOAD /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/secondary
                 0x00000000c0000000                . = 0xc0000000
                 0x00000000c0000000                __image_start = .
 
-.text           0x00000000c0000000     0x5ea0
+.text           0x00000000c0000000     0x6964
  *(.text.boot)
  .text.boot     0x00000000c0000000       0x20 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/boot/entrypoint.o
                 0x00000000c0000000                _start
@@ -229,126 +229,129 @@ LOAD /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/secondary
                 0x00000000c0003460                scheduler_runnable_cpu_count
                 0x00000000c0003470                scheduler_percpu_state
                 0x00000000c00034a4                scheduler_bootstrap_object_count
- .text          0x00000000c00034b4     0x1684 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
-                0x00000000c0003f48                shell_print_help
-                0x00000000c0004a0c                shell_run
- .text          0x00000000c0004b38      0xc48 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
-                0x00000000c0004ef0                smp_start_result_name
-                0x00000000c0004f98                smp_init
-                0x00000000c0005110                smp_start_cpu
-                0x00000000c00055bc                smp_cpu_state
-                0x00000000c0005600                smp_online_cpu_count
-                0x00000000c0005610                smp_secondary_cpu_online
-                0x00000000c000570c                smp_secondary_entry
-                0x00000000c0005774                smp_secondary_entrypoint
- .text          0x00000000c0005780        0x8 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
-                0x00000000c0005780                test_framework_init
- .text          0x00000000c0005788      0x718 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
-                0x00000000c0005830                topology_init
-                0x00000000c00059a0                topology_boot_cpu
-                0x00000000c00059ac                topology_cpu
-                0x00000000c00059e4                topology_find_cpu_by_mpidr
-                0x00000000c0005a78                topology_cpu_capacity
-                0x00000000c0005a80                topology_present_cpu_count
-                0x00000000c0005a90                topology_online_cpu_count
-                0x00000000c0005aa0                topology_mark_cpu_online
-                0x00000000c0005c28                topology_register_cpu
-                0x00000000c0005cf8                topology_unregister_cpu
- .text          0x00000000c0005ea0        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
- .text          0x00000000c0005ea0        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/boot/entrypoint.o
- .text          0x00000000c0005ea0        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/cpu/cpu_helpers.o
- .text          0x00000000c0005ea0        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/secondary_entry.o
+ .text          0x00000000c00034b4     0x1b04 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
+                0x00000000c0003fb4                shell_print_help
+                0x00000000c0004e8c                shell_run
+ .text          0x00000000c0004fb8     0x128c /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
+                0x00000000c00056e4                smp_start_result_name
+                0x00000000c000578c                smp_init
+                0x00000000c000590c                smp_task_enqueue_result_name
+                0x00000000c0005984                smp_enqueue_task
+                0x00000000c0005ad8                smp_pending_task_count
+                0x00000000c0005b50                smp_start_cpu
+                0x00000000c0005ffc                smp_cpu_state
+                0x00000000c0006040                smp_online_cpu_count
+                0x00000000c0006050                smp_secondary_cpu_online
+                0x00000000c000614c                smp_secondary_entry
+                0x00000000c0006238                smp_secondary_entrypoint
+ .text          0x00000000c0006244        0x8 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
+                0x00000000c0006244                test_framework_init
+ .text          0x00000000c000624c      0x718 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
+                0x00000000c00062f4                topology_init
+                0x00000000c0006464                topology_boot_cpu
+                0x00000000c0006470                topology_cpu
+                0x00000000c00064a8                topology_find_cpu_by_mpidr
+                0x00000000c000653c                topology_cpu_capacity
+                0x00000000c0006544                topology_present_cpu_count
+                0x00000000c0006554                topology_online_cpu_count
+                0x00000000c0006564                topology_mark_cpu_online
+                0x00000000c00066ec                topology_register_cpu
+                0x00000000c00067bc                topology_unregister_cpu
+ .text          0x00000000c0006964        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
+ .text          0x00000000c0006964        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/boot/entrypoint.o
+ .text          0x00000000c0006964        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/cpu/cpu_helpers.o
+ .text          0x00000000c0006964        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/secondary_entry.o
 
-.iplt           0x00000000c0005ea0        0x0
- .iplt          0x00000000c0005ea0        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
+.iplt           0x00000000c0006964        0x0
+ .iplt          0x00000000c0006964        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
 
-.rodata         0x00000000c0005ea0     0x1476
+.rodata         0x00000000c0006970     0x1865
  *(.rodata*)
- .rodata        0x00000000c0005ea0       0x31 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
- *fill*         0x00000000c0005ed1        0x7 
- .rodata        0x00000000c0005ed8       0x11 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
- *fill*         0x00000000c0005ee9        0x7 
- .rodata        0x00000000c0005ef0      0x1f2 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/init/main.o
- *fill*         0x00000000c00060e2        0x6 
- .rodata        0x00000000c00060e8       0x17 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
- *fill*         0x00000000c00060ff        0x1 
- .rodata        0x00000000c0006100       0x2d /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
- *fill*         0x00000000c000612d        0x3 
- .rodata        0x00000000c0006130     0x1151 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
- *fill*         0x00000000c0007281        0x7 
- .rodata        0x00000000c0007288       0x8e /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
+ .rodata        0x00000000c0006970       0x31 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
+ *fill*         0x00000000c00069a1        0x7 
+ .rodata        0x00000000c00069a8       0x11 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
+ *fill*         0x00000000c00069b9        0x7 
+ .rodata        0x00000000c00069c0      0x1f2 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/init/main.o
+ *fill*         0x00000000c0006bb2        0x6 
+ .rodata        0x00000000c0006bb8       0x17 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
+ *fill*         0x00000000c0006bcf        0x1 
+ .rodata        0x00000000c0006bd0       0x2d /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
+ *fill*         0x00000000c0006bfd        0x3 
+ .rodata        0x00000000c0006c00     0x14b1 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
+ *fill*         0x00000000c00080b1        0x7 
+ .rodata        0x00000000c00080b8      0x11d /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
 
-.rela.dyn       0x00000000c0007318        0x0
- .rela.iplt     0x00000000c0007318        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
- .rela.text     0x00000000c0007318        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
+.rela.dyn       0x00000000c00081d8        0x0
+ .rela.iplt     0x00000000c00081d8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
+ .rela.text     0x00000000c00081d8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
  .rela.text.boot
-                0x00000000c0007318        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
+                0x00000000c00081d8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
 
-.data           0x00000000c0007320       0x18
+.data           0x00000000c00081e0       0x18
  *(.data*)
- .data          0x00000000c0007320        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
- .data          0x00000000c0007320       0x10 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
- .data          0x00000000c0007330        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/gic/gic.o
- .data          0x00000000c0007330        0x8 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/init/main.o
-                0x00000000c0007330                boot_magic
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/bitmap.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/ringbuffer.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/string.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lock/spinlock.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/boot/entrypoint.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/cpu/cpu_helpers.o
- .data          0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/secondary_entry.o
+ .data          0x00000000c00081e0        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
+ .data          0x00000000c00081e0       0x10 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
+ .data          0x00000000c00081f0        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/gic/gic.o
+ .data          0x00000000c00081f0        0x8 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/init/main.o
+                0x00000000c00081f0                boot_magic
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/bitmap.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/ringbuffer.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/string.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lock/spinlock.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/boot/entrypoint.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/cpu/cpu_helpers.o
+ .data          0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/secondary_entry.o
 
-.igot.plt       0x00000000c0007338        0x0
- .igot.plt      0x00000000c0007338        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
+.igot.plt       0x00000000c00081f8        0x0
+ .igot.plt      0x00000000c00081f8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
 
-.bss            0x00000000c0007340    0x202a0
-                0x00000000c0007340                __bss_start = .
+.bss            0x00000000c0008200    0x20c60
+                0x00000000c0008200                __bss_start = .
  *(.bss*)
- .bss           0x00000000c0007340       0x28 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
- .bss           0x00000000c0007368        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
- .bss           0x00000000c0007368        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/gic/gic.o
- .bss           0x00000000c0007368        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/init/main.o
- .bss           0x00000000c0007368        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/bitmap.o
- .bss           0x00000000c0007368        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/ringbuffer.o
- .bss           0x00000000c0007368        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/string.o
- .bss           0x00000000c0007368        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lock/spinlock.o
- .bss           0x00000000c0007368       0x48 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
- .bss           0x00000000c00073b0       0x58 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
- .bss           0x00000000c0007408        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
- *fill*         0x00000000c0007408        0x8 
- .bss           0x00000000c0007410    0x200c4 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
-                0x00000000c0007410                secondary_stacks
- .bss           0x00000000c00274d4        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
- *fill*         0x00000000c00274d4        0x4 
- .bss           0x00000000c00274d8      0x108 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
- .bss           0x00000000c00275e0        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
- .bss           0x00000000c00275e0        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/boot/entrypoint.o
- .bss           0x00000000c00275e0        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/cpu/cpu_helpers.o
- .bss           0x00000000c00275e0        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/secondary_entry.o
+ .bss           0x00000000c0008200       0x28 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
+ .bss           0x00000000c0008228        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
+ .bss           0x00000000c0008228        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/gic/gic.o
+ .bss           0x00000000c0008228        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/init/main.o
+ .bss           0x00000000c0008228        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/bitmap.o
+ .bss           0x00000000c0008228        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/ringbuffer.o
+ .bss           0x00000000c0008228        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/string.o
+ .bss           0x00000000c0008228        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lock/spinlock.o
+ .bss           0x00000000c0008228       0x48 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
+ .bss           0x00000000c0008270       0x58 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
+ .bss           0x00000000c00082c8        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
+ *fill*         0x00000000c00082c8        0x8 
+ .bss           0x00000000c00082d0    0x20a84 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
+                0x00000000c00082d0                secondary_stacks
+ .bss           0x00000000c0028d54        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
+ *fill*         0x00000000c0028d54        0x4 
+ .bss           0x00000000c0028d58      0x108 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
+ .bss           0x00000000c0028e60        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
+ .bss           0x00000000c0028e60        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/boot/entrypoint.o
+ .bss           0x00000000c0028e60        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/arch/arm/aarch64/cpu/cpu_helpers.o
+ .bss           0x00000000c0028e60        0x0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/secondary_entry.o
  *(COMMON)
-                0x00000000c00275e0                __bss_end = .
-                0x00000000c00275e0                . = ALIGN (0x10)
+                0x00000000c0028e60                __bss_end = .
+                0x00000000c0028e60                . = ALIGN (0x10)
 
-.stack          0x00000000c00275e0     0x4000
-                0x00000000c002b5e0                . = (. + 0x4000)
- *fill*         0x00000000c00275e0     0x4000 
-                0x00000000c002b5e0                __stack_top = .
-                0x00000000c002b600                . = ALIGN (0x40)
+.stack          0x00000000c0028e60     0x4000
+                0x00000000c002ce60                . = (. + 0x4000)
+ *fill*         0x00000000c0028e60     0x4000 
+                0x00000000c002ce60                __stack_top = .
+                0x00000000c002ce80                . = ALIGN (0x40)
 
-.heap           0x00000000c002b600    0x20000
-                0x00000000c002b600                __heap_start = .
-                0x00000000c004b600                . = (. + 0x20000)
- *fill*         0x00000000c002b600    0x20000 
-                0x00000000c004b600                __heap_end = .
-                0x00000000c004b600                __image_end = .
+.heap           0x00000000c002ce80    0x20000
+                0x00000000c002ce80                __heap_start = .
+                0x00000000c004ce80                . = (. + 0x20000)
+ *fill*         0x00000000c002ce80    0x20000 
+                0x00000000c004ce80                __heap_end = .
+                0x00000000c004ce80                __image_end = .
 
 /DISCARD/
  *(.comment)
@@ -356,7 +359,7 @@ LOAD /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/secondary
 OUTPUT(/home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/mini-os.elf elf64-littleaarch64)
 LOAD linker stubs
 
-.debug_info     0x0000000000000000     0x3487
+.debug_info     0x0000000000000000     0x39cf
  .debug_info    0x0000000000000000      0xa62 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
  .debug_info    0x0000000000000a62      0x42d /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
  .debug_info    0x0000000000000e8f       0x4d /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/gic/gic.o
@@ -367,13 +370,13 @@ LOAD linker stubs
  .debug_info    0x00000000000014a0      0x315 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lock/spinlock.o
  .debug_info    0x00000000000017b5      0x4a5 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
  .debug_info    0x0000000000001c5a      0x421 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
- .debug_info    0x000000000000207b      0x931 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
- .debug_info    0x00000000000029ac      0x6c5 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
- .debug_info    0x0000000000003071       0x4d /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
- .debug_info    0x00000000000030be      0x3a7 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
- .debug_info    0x0000000000003465       0x22 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
+ .debug_info    0x000000000000207b      0xa0f /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
+ .debug_info    0x0000000000002a8a      0xb2f /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
+ .debug_info    0x00000000000035b9       0x4d /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
+ .debug_info    0x0000000000003606      0x3a7 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
+ .debug_info    0x00000000000039ad       0x22 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
 
-.debug_abbrev   0x0000000000000000     0x1361
+.debug_abbrev   0x0000000000000000     0x13c8
  .debug_abbrev  0x0000000000000000      0x26e /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
  .debug_abbrev  0x000000000000026e      0x1cc /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
  .debug_abbrev  0x000000000000043a       0x2f /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/gic/gic.o
@@ -384,11 +387,11 @@ LOAD linker stubs
  .debug_abbrev  0x000000000000079e      0x170 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lock/spinlock.o
  .debug_abbrev  0x000000000000090e      0x1b3 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
  .debug_abbrev  0x0000000000000ac1      0x19b /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
- .debug_abbrev  0x0000000000000c5c      0x2a3 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
- .debug_abbrev  0x0000000000000eff      0x2b1 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
- .debug_abbrev  0x00000000000011b0       0x2f /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
- .debug_abbrev  0x00000000000011df      0x170 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
- .debug_abbrev  0x000000000000134f       0x12 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
+ .debug_abbrev  0x0000000000000c5c      0x2a7 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
+ .debug_abbrev  0x0000000000000f03      0x314 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
+ .debug_abbrev  0x0000000000001217       0x2f /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
+ .debug_abbrev  0x0000000000001246      0x170 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
+ .debug_abbrev  0x00000000000013b6       0x12 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
 
 .debug_aranges  0x0000000000000000      0x2c0
  .debug_aranges
@@ -422,7 +425,7 @@ LOAD linker stubs
  .debug_aranges
                 0x00000000000002a0       0x20 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
 
-.debug_macro    0x0000000000000000     0x15d8
+.debug_macro    0x0000000000000000     0x15f4
  .debug_macro   0x0000000000000000       0xc6 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
  .debug_macro   0x00000000000000c6      0xa48 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
  .debug_macro   0x0000000000000b0e       0x58 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
@@ -442,12 +445,12 @@ LOAD linker stubs
  .debug_macro   0x000000000000132f       0x41 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
  .debug_macro   0x0000000000001370       0x71 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
  .debug_macro   0x00000000000013e1       0xba /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
- .debug_macro   0x000000000000149b       0x9e /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
- .debug_macro   0x0000000000001539       0x1b /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
- .debug_macro   0x0000000000001554       0x73 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
- .debug_macro   0x00000000000015c7       0x11 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
+ .debug_macro   0x000000000000149b       0xba /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
+ .debug_macro   0x0000000000001555       0x1b /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
+ .debug_macro   0x0000000000001570       0x73 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
+ .debug_macro   0x00000000000015e3       0x11 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
 
-.debug_line     0x0000000000000000     0x1fe6
+.debug_line     0x0000000000000000     0x22dd
  .debug_line    0x0000000000000000      0x735 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
  .debug_line    0x0000000000000735      0x2f2 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
  .debug_line    0x0000000000000a27       0x57 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/gic/gic.o
@@ -458,29 +461,29 @@ LOAD linker stubs
  .debug_line    0x0000000000000da7      0x169 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lock/spinlock.o
  .debug_line    0x0000000000000f10      0x19d /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
  .debug_line    0x00000000000010ad      0x1ae /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
- .debug_line    0x000000000000125b      0x79c /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
- .debug_line    0x00000000000019f7      0x345 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
- .debug_line    0x0000000000001d3c       0x57 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
- .debug_line    0x0000000000001d93      0x219 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
- .debug_line    0x0000000000001fac       0x3a /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
+ .debug_line    0x000000000000125b      0x90f /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
+ .debug_line    0x0000000000001b6a      0x4c9 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
+ .debug_line    0x0000000000002033       0x57 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
+ .debug_line    0x000000000000208a      0x219 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
+ .debug_line    0x00000000000022a3       0x3a /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
 
-.debug_str      0x0000000000000000     0x5441
- .debug_str     0x0000000000000000     0x5441 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
+.debug_str      0x0000000000000000     0x5602
+ .debug_str     0x0000000000000000     0x5602 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
                                        0x48be (size before relaxing)
- .debug_str     0x0000000000005441     0x442b /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
- .debug_str     0x0000000000005441     0x32cc /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/gic/gic.o
- .debug_str     0x0000000000005441     0x44b5 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/init/main.o
- .debug_str     0x0000000000005441     0x416f /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/bitmap.o
- .debug_str     0x0000000000005441     0x41a6 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/ringbuffer.o
- .debug_str     0x0000000000005441     0x367a /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/string.o
- .debug_str     0x0000000000005441     0x3fcf /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lock/spinlock.o
- .debug_str     0x0000000000005441     0x42bf /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
- .debug_str     0x0000000000005441     0x445f /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
- .debug_str     0x0000000000005441     0x48a6 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
- .debug_str     0x0000000000005441     0x4764 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
- .debug_str     0x0000000000005441     0x32cd /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
- .debug_str     0x0000000000005441     0x4408 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
- .debug_str     0x0000000000005441     0x32aa /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
+ .debug_str     0x0000000000005602     0x442b /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
+ .debug_str     0x0000000000005602     0x32cc /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/gic/gic.o
+ .debug_str     0x0000000000005602     0x44b5 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/init/main.o
+ .debug_str     0x0000000000005602     0x416f /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/bitmap.o
+ .debug_str     0x0000000000005602     0x41a6 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/ringbuffer.o
+ .debug_str     0x0000000000005602     0x367a /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lib/string.o
+ .debug_str     0x0000000000005602     0x3fcf /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/lock/spinlock.o
+ .debug_str     0x0000000000005602     0x42bf /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
+ .debug_str     0x0000000000005602     0x445f /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
+ .debug_str     0x0000000000005602     0x4985 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
+ .debug_str     0x0000000000005602     0x49e9 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
+ .debug_str     0x0000000000005602     0x32cd /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
+ .debug_str     0x0000000000005602     0x4408 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
+ .debug_str     0x0000000000005602     0x32aa /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
 
 .debug_line_str
                 0x0000000000000000      0x802
@@ -508,7 +511,7 @@ LOAD linker stubs
  .debug_line_str
                 0x0000000000000802      0x231 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
  .debug_line_str
-                0x0000000000000802      0x214 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
+                0x0000000000000802      0x21f /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
  .debug_line_str
                 0x0000000000000802       0xef /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
  .debug_line_str
@@ -516,7 +519,7 @@ LOAD linker stubs
  .debug_line_str
                 0x0000000000000802       0xd7 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/plat/arm/Neoverse-N3/boot/plat_setup.o
 
-.debug_frame    0x0000000000000000     0x1360
+.debug_frame    0x0000000000000000     0x14d8
  .debug_frame   0x0000000000000000      0x3d8 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/common/debug/print.o
  .debug_frame   0x00000000000003d8      0x248 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/console/uart.o
  .debug_frame   0x0000000000000620       0x28 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/drivers/gic/gic.o
@@ -528,6 +531,6 @@ LOAD linker stubs
  .debug_frame   0x0000000000000940      0x170 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/mm/early_mm.o
  .debug_frame   0x0000000000000ab0      0x150 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/scheduler/scheduler.o
  .debug_frame   0x0000000000000c00      0x390 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/shell/shell.o
- .debug_frame   0x0000000000000f90      0x228 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
- .debug_frame   0x00000000000011b8       0x28 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
- .debug_frame   0x00000000000011e0      0x180 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
+ .debug_frame   0x0000000000000f90      0x3a0 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/smp/smp.o
+ .debug_frame   0x0000000000001330       0x28 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/tests/test_core.o
+ .debug_frame   0x0000000000001358      0x180 /home/pengfei/felix-os/mini-os/build/Neoverse-N3/debug/kernel/topology/topology.o
